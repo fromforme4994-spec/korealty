@@ -149,6 +149,19 @@ button{ font-family:inherit; cursor:pointer; }
 .section{ padding:120px 0; position:relative; scroll-margin-top:84px; }
 @media (max-width:720px){ .section{ padding:84px 0; } }
 
+/* ---------- Mobile-only section order ---------- */
+@media (max-width:960px){
+  main#top{ display:flex; flex-direction:column; }
+  main#top #overview{ order:1; }
+  main#top #ceo{ order:2; }
+  main#top #history{ order:3; }
+  main#top #portfolio{ order:4; }
+  main#top #business{ order:5; }
+  main#top #organization{ order:6; }
+  main#top .workstyle{ order:7; }
+  main#top #contact{ order:8; }
+}
+
 /* ---------- Ring signature mark ---------- */
 .ring{
   --ring-size: 10px;
