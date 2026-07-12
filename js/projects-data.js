@@ -2,22 +2,22 @@
    Sourced from 회사소개서(지명원) — 28 project records */
 const PROJECTS = [
   {
-    no: 1, name: "포항한신더휴 펜타시티", tags: ["공동주택", "상업시설"],
+    no: 1, name: "경산 하양 제일풍경채", tags: ["공동주택", "상업시설"],
+    img: "assets/images/projects/02-gyeongsan-hayang-jeilpungkyungchae.jpg",
+    client: "(주)블루인디앤씨",
+    location: "경북 경산시 하양읍 서사리 경산하양지구 A7BL",
+    scale: "1개동 5개 점포, 공동주택 614세대",
+    builder: "제일건설",
+    period: "2024년 04월 입주"
+  },
+  {
+    no: 2, name: "포항한신더휴 펜타시티", tags: ["공동주택", "상업시설"],
     img: "assets/images/projects/01-pohang-hanshin-pentacity.jpg",
     client: "(주)가인",
     location: "포항시 북구 흥해읍 대련리 기술융합지구 펜타시티 A2BL",
     scale: "2개동 23개 점포, 공동주택 2,192세대",
     builder: "한신공영",
     period: "2024년 12월 준공예정"
-  },
-  {
-    no: 2, name: "경산 하양 제일풍경채", tags: ["공동주택", "상업시설"],
-    img: "assets/images/projects/02-gyeongsan-hayang-jeilpungkyungchae.jpg",
-    client: "(주)가인",
-    location: "경북 경산시 하양읍 서사리 경산하양지구 A7BL",
-    scale: "1개동 5개 점포, 공동주택 614세대",
-    builder: "제일건설",
-    period: "2024년 04월 입주"
   },
   {
     no: 3, name: "마석 한샘바흐하우스", tags: ["공동주택"],
