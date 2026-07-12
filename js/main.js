@@ -130,7 +130,7 @@
         </div>
         <div class="pf-body">
           <div class="pf-tags">${tags}</div>
-          <h4>${p.name}</h4>
+          <h3>${p.name}</h3>
           <p class="pf-loc">${p.location}</p>
         </div>
       </div>`;

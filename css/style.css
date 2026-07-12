@@ -69,6 +69,12 @@
   --maxw: 1280px;
 }
 
+.sr-only{
+  position:absolute; width:1px; height:1px;
+  padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
 *, *::before, *::after{ box-sizing:border-box; }
 html{ scroll-behavior:smooth; }
 @media (prefers-reduced-motion: reduce){
@@ -215,21 +221,21 @@ button{ font-family:inherit; cursor:pointer; }
 
 .nav-toggle{
   display:none;
-  width:40px; height:40px;
+  width:44px; height:44px;
   border:none; background:transparent;
   position:relative;
   flex:none;
 }
 .nav-toggle span, .nav-toggle::before, .nav-toggle::after{
-  content:""; position:absolute; left:8px; right:8px; height:2px; background:#fff;
+  content:""; position:absolute; left:10px; right:10px; height:2px; background:#fff;
   transition: transform .3s var(--ease), opacity .3s var(--ease), top .3s var(--ease);
 }
-.nav-toggle::before{ top:14px; }
-.nav-toggle span{ top:19px; }
-.nav-toggle::after{ top:24px; }
-.nav-toggle[aria-expanded="true"]::before{ top:19px; transform:rotate(45deg); }
+.nav-toggle::before{ top:16px; }
+.nav-toggle span{ top:21px; }
+.nav-toggle::after{ top:26px; }
+.nav-toggle[aria-expanded="true"]::before{ top:21px; transform:rotate(45deg); }
 .nav-toggle[aria-expanded="true"] span{ opacity:0; }
-.nav-toggle[aria-expanded="true"]::after{ top:19px; transform:rotate(-45deg); }
+.nav-toggle[aria-expanded="true"]::after{ top:21px; transform:rotate(-45deg); }
 
 @media (max-width:960px){
   .nav-desktop{ display:none; }
@@ -647,7 +653,8 @@ button{ font-family:inherit; cursor:pointer; }
   margin-bottom:40px;
 }
 .pf-chip{
-  padding:10px 20px;
+  padding:14px 22px;
+  min-height:44px;
   border-radius:999px;
   border:1px solid transparent;
   background:#fff;
@@ -704,7 +711,7 @@ button{ font-family:inherit; cursor:pointer; }
   color:var(--red-500); background:var(--red-100);
   padding:3px 8px; border-radius:3px;
 }
-.pf-body h4{ font-size:16.5px; font-weight:800; color:var(--navy-700); margin-bottom:4px; }
+.pf-body h3{ font-size:16.5px; font-weight:800; color:var(--navy-700); margin-bottom:4px; }
 .pf-body .pf-loc{ font-size:13px; color:var(--ink-500); }
 
 /* ---------- Modal / Lightbox ---------- */
