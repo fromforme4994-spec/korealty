@@ -440,13 +440,13 @@ button{ font-family:inherit; cursor:pointer; }
   margin-left:auto;
 }
 .ceo-eyebrow{
-  font-size:12.5px; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+  font-size:18px; font-weight:800; letter-spacing:.22em; text-transform:uppercase;
   color:var(--red-500); margin-bottom:16px; display:block;
   text-shadow:0 2px 10px rgba(0,0,0,.6);
 }
 .ceo-quote{
-  font-size:clamp(20px,2.3vw,27px);
-  font-weight:500;
+  font-size:clamp(14px,1.4vw,17px);
+  font-weight:300;
   line-height:1.75;
   color:rgba(255,255,255,.92);
   text-shadow:0 2px 12px rgba(0,0,0,.6);
@@ -611,7 +611,7 @@ button{ font-family:inherit; cursor:pointer; }
   gap:14px;
   font-size:14.5px;
 }
-.tl-event .month{ color:var(--red-500); font-weight:700; }
+.tl-event .month{ color:var(--red-500); font-weight:700; text-align:right; font-variant-numeric:tabular-nums; }
 .tl-event .desc{ color:var(--ink-600); }
 
 /* ---------- Portfolio ---------- */
