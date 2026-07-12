@@ -117,6 +117,68 @@
     });
   });
 
+  /* ---------- History scroll-linked year/dots ---------- */
+  const historyTimeline = document.getElementById("historyTimeline");
+  const historyBigYear = document.getElementById("historyBigYear");
+  const historyDots = document.getElementById("historyDots");
+  if (historyTimeline && historyBigYear && historyDots) {
+    const tlYears = Array.from(historyTimeline.querySelectorAll(".tl-year[data-year]"));
+    tlYears.forEach((el, i) => {
+      const btn = document.createElement("button");
+      btn.className = "history-dot";
+      btn.type = "button";
+      btn.setAttribute("aria-label", el.getAttribute("data-year"));
+      btn.addEventListener("click", () => {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+      historyDots.appendChild(btn);
+      if (i === 0) btn.classList.add("is-active");
+    });
+    const dotEls = Array.from(historyDots.children);
+
+    let activeIndex = -1;
+    function setActiveHistory(index) {
+      if (index === activeIndex) return;
+      activeIndex = index;
+      const year = tlYears[index].getAttribute("data-year");
+      historyBigYear.textContent = year;
+      historyBigYear.classList.toggle("is-long", year.length > 4);
+      dotEls.forEach((d, i) => d.classList.toggle("is-active", i === index));
+    }
+
+    function updateActiveHistory() {
+      const centerY = window.innerHeight / 2;
+      let closest = 0;
+      let closestDist = Infinity;
+      tlYears.forEach((el, i) => {
+        const rect = el.getBoundingClientRect();
+        const dist = Math.abs(rect.top + rect.height / 2 - centerY);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closest = i;
+        }
+      });
+      setActiveHistory(closest);
+    }
+
+    if (window.matchMedia("(min-width:961px)").matches) {
+      let ticking = false;
+      document.addEventListener(
+        "scroll",
+        () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            updateActiveHistory();
+            ticking = false;
+          });
+        },
+        { passive: true }
+      );
+      updateActiveHistory();
+    }
+  }
+
   /* ---------- Portfolio grid render ---------- */
   const pfGrid = document.getElementById("pfGrid");
   function cardTemplate(p) {
