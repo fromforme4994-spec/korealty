@@ -869,3 +869,19 @@ button{ font-family:inherit; cursor:pointer; }
 }
 .to-top.is-visible{ opacity:1; pointer-events:auto; transform:translateY(0); }
 .to-top:hover{ background:var(--red-500); }
+
+/* ---------- Floating mobile contact button ---------- */
+.fab-contact{ display:none; }
+@media (max-width:960px){
+  .fab-contact{
+    display:flex; align-items:center; justify-content:center;
+    position:fixed; left:20px; bottom:22px; z-index:90;
+    width:58px; height:58px; border-radius:50%;
+    background:var(--red-500); color:#fff;
+    font-size:14px; font-weight:800; letter-spacing:-.01em;
+    text-decoration:none;
+    box-shadow:var(--shadow-1);
+    transition: transform .25s var(--ease);
+  }
+  .fab-contact:active{ transform:scale(.92); }
+}
