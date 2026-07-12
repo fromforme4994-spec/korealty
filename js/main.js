@@ -19,15 +19,15 @@
 
   /* ---------- Mobile nav ---------- */
   const navToggle = document.getElementById("navToggle");
-  const navMenu = document.getElementById("navMenu");
+  const navMenuMobile = document.getElementById("navMenuMobile");
   navToggle.addEventListener("click", () => {
-    const open = navMenu.classList.toggle("is-open");
+    const open = navMenuMobile.classList.toggle("is-open");
     navToggle.setAttribute("aria-expanded", String(open));
     document.body.style.overflow = open ? "hidden" : "";
   });
-  navMenu.querySelectorAll("[data-nav]").forEach((link) => {
+  navMenuMobile.querySelectorAll("[data-nav]").forEach((link) => {
     link.addEventListener("click", () => {
-      navMenu.classList.remove("is-open");
+      navMenuMobile.classList.remove("is-open");
       navToggle.setAttribute("aria-expanded", "false");
       document.body.style.overflow = "";
     });

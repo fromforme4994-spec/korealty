@@ -198,6 +198,8 @@ button{ font-family:inherit; cursor:pointer; }
 .nav-desktop a:hover::after,
 .nav-desktop a:focus-visible::after{ transform:scaleX(1); }
 
+.nav-mobile{ display:none; }
+
 .nav-toggle{
   display:none;
   width:40px; height:40px;
@@ -217,7 +219,9 @@ button{ font-family:inherit; cursor:pointer; }
 .nav-toggle[aria-expanded="true"]::after{ top:19px; transform:rotate(-45deg); }
 
 @media (max-width:960px){
-  .nav-desktop{
+  .nav-desktop{ display:none; }
+  .nav-mobile{
+    display:flex;
     position:fixed; inset:0; top:0;
     height:100vh;
     background:var(--ink-900);
@@ -227,8 +231,11 @@ button{ font-family:inherit; cursor:pointer; }
     transition:transform .4s var(--ease);
     padding:32px;
   }
-  .nav-desktop.is-open{ transform:translateX(0); }
-  .nav-desktop a{ font-size:22px; }
+  .nav-mobile.is-open{ transform:translateX(0); }
+  .nav-mobile a{
+    font-size:22px; font-weight:600; color:rgba(255,255,255,.82);
+    position:relative; padding:6px 0;
+  }
   .nav-toggle{ display:block; z-index:110; }
 }
 
