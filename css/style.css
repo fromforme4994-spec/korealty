@@ -862,14 +862,14 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 32px;
-  padding: clamp(48px, 6vw, 80px);
-  border-radius: 8px;
-  background: var(--navy);
-  color: var(--white);
+  gap: 20px 32px;
+  padding: 36px 0 0;
+  border-top: 1px solid var(--gray-line);
+  color: var(--navy);
 }
-.band h2 { max-width: 20ch; }
+.band h2 { max-width: 24ch; font-size: clamp(19px, 2vw, 24px); font-weight: 700; }
 .band .btn { flex: none; }
+.sec--band { padding-top: 0; }
 
 /* ---------- Footer ---------- */
 
