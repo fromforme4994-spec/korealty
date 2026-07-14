@@ -235,7 +235,9 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(27,43,53,.55) 0%, rgba(27,43,53,.75) 55%, rgba(27,43,53,.95) 100%);
+  /* 위쪽은 영상이 보이도록 열어두고, 흰 글씨가 몰린 아래쪽만 진하게 덮는다.
+     영상은 밝은 하늘과 어두운 건물을 오가므로 글씨 뒤는 항상 어두워야 한다. */
+  background: linear-gradient(180deg, rgba(27,43,53,.40) 0%, rgba(27,43,53,.62) 50%, rgba(27,43,53,.94) 100%);
 }
 .hero__in {
   position: relative;
