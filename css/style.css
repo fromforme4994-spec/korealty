@@ -125,7 +125,7 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   justify-content: space-between;
   height: 76px;
 }
-.head__logo img { height: 22px; width: auto; }
+.head__logo img { height: 32px; width: auto; }
 
 .nav { display: flex; align-items: center; gap: 32px; }
 .nav a {
@@ -260,7 +260,6 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   font-weight: 900;
   letter-spacing: -.02em;
 }
-.hero__stats dd small { font-size: .45em; font-weight: 700; margin-left: 3px; color: var(--gray); }
 
 @media (max-width: 720px) {
   .hero__stats { grid-template-columns: repeat(2, 1fr); }
