@@ -275,7 +275,10 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 .sec--navy { background: var(--navy); color: var(--white); }
 .sec--navy .lede { color: rgba(255,255,255,.72); }
 
-.sec__head { max-width: 70ch; margin-bottom: 56px; }
+/* 제목은 폭을 넉넉히 쓰고, 읽는 글(.lede)만 62ch로 묶는다.
+   70ch를 블록 전체에 걸면 제목이 몇십 px 모자라 어색하게 접힌다. */
+.sec__head { margin-bottom: 56px; }
+.sec__head .lede { max-width: 62ch; }
 
 /* ============================================================
    SIGNATURE 1 — Scope explorer
