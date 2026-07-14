@@ -10,10 +10,27 @@
   const burger = $(".burger");
   const nav = $(".nav");
   if (burger && nav) {
-    burger.addEventListener("click", () => {
-      const open = nav.classList.toggle("is-open");
+    const setOpen = (open) => {
+      nav.classList.toggle("is-open", open);
       burger.setAttribute("aria-expanded", String(open));
+    };
+
+    burger.addEventListener("click", () => {
+      setOpen(!nav.classList.contains("is-open"));
     });
+
+    /* 메뉴를 연 채로 스크롤하면 접는다. 열어둔 메뉴가 본문을 가린 채
+       따라다니면 어디를 보고 있는지 알 수 없다.
+       메뉴 항목을 눌러 페이지가 이동할 때의 스크롤과는 무관하다(페이지가 바뀐다). */
+    let last = window.scrollY;
+    window.addEventListener("scroll", () => {
+      if (!nav.classList.contains("is-open")) {
+        last = window.scrollY;
+        return;
+      }
+      // 손가락이 살짝 닿아 생기는 미세한 흔들림으로는 닫지 않는다.
+      if (Math.abs(window.scrollY - last) > 8) setOpen(false);
+    }, { passive: true });
   }
 
   /* ---------- Scroll reveal ---------- */
