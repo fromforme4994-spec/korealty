@@ -837,6 +837,11 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 .quote img { border-radius: 6px; }
 @media (max-width: 900px) { .quote { grid-template-columns: 1fr; gap: 32px; } .quote img { display: none; } }
 
+/* 사진 없이 문장만 두는 인용문. 사진이 비우던 자리를 글자 크기로 채운다. */
+.quote--plain { grid-template-columns: 1fr; }
+.quote--plain > div { max-width: 920px; }
+.quote--plain blockquote { font-size: clamp(26px, 3.4vw, 46px); line-height: 1.35; }
+
 /* ---------- Contact ---------- */
 
 .reach { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
