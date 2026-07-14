@@ -199,6 +199,42 @@
     declutter();
     if (window.ResizeObserver) new ResizeObserver(declutter).observe(plot);
 
+    /* 넓은 지도에 점 20개만 찍히면 빈 면적이 먼저 눈에 들어와 실적이 적어 보인다.
+       현장이 있는 자치구를 건수만큼 진하게 칠해, 빈 면을 '커버한 지역'으로 바꾼다.
+       구 판정은 핀의 원래 좌표(겹침 보정 전)를 SVG 도형에 넣어 브라우저가 직접 한다. */
+    function shadeDistricts() {
+      const pt = svg.createSVGPoint();
+      const paths = $$(".map__gu", svg);
+      const count = {};
+
+      $$(".map__pin", plot).forEach((pin) => {
+        if (pin.hidden) return;
+        pt.x = parseFloat(pin.style.left) / 100 * 1000;
+        pt.y = parseFloat(pin.style.top) / 100 * 620;
+        for (const path of paths) {
+          if (path.isPointInFill(pt)) {
+            const gu = path.querySelector("title").textContent;
+            count[gu] = (count[gu] || 0) + 1;
+            break;
+          }
+        }
+      });
+
+      paths.forEach((path) => {
+        const n = count[path.querySelector("title").textContent] || 0;
+        path.classList.remove("is-lv1", "is-lv2", "is-lv3");
+        if (n >= 4) path.classList.add("is-lv3");
+        else if (n >= 2) path.classList.add("is-lv2");
+        else if (n === 1) path.classList.add("is-lv1");
+      });
+
+      return Object.keys(count).length;
+    }
+
+    const covered = shadeDistricts();
+    const guCount = $("[data-gu-count]");
+    if (guCount) guCount.textContent = covered;
+
     /* 처음 열었을 때 마곡 퀸즈파크10(NO.18)을 띄운다. 필터로 빠져 있으면 첫 현장. */
     show(inSeoul.find((p) => p.no === 18) || inSeoul[0]);
 
@@ -217,6 +253,9 @@
         b.hidden = !hit;
         if (hit) shown++;
       });
+
+      // 걸러낸 뒤의 현장만으로 다시 칠한다. 안 그러면 핀은 사라졌는데 색만 남는다.
+      shadeDistricts();
 
       if (shown === 0) {
         empty.textContent = `${cat} 현장은 서울 밖에 있습니다. 아래 목록에서 확인하세요.`;

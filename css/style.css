@@ -6,11 +6,11 @@
    Red is an accent only; it is never used as a surface.
    ============================================================ */
 
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=398bc37b") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=398bc37b") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=398bc37b") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=398bc37b") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=398bc37b") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=378f0c88") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=378f0c88") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=378f0c88") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=378f0c88") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=378f0c88") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -492,7 +492,7 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 /* 지도는 상자 한가운데에 놓는다 */
 .map__svg {
   width: 100%;
-  max-width: 860px;
+  max-width: 680px;
   height: auto;
   display: block;
   margin: 0 auto;
@@ -503,7 +503,12 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   stroke-width: 1.2;
   transition: fill .2s var(--ease);
 }
-.map:hover .map__gu { fill: #EDF0F2; }
+/* 현장이 있는 구를 건수만큼 진하게. 빈 지도가 아니라 '커버한 지역'으로 읽히게 한다.
+   호버 반전은 현장이 없는 구에만 걸어야 색칠을 덮어쓰지 않는다. */
+.map__gu.is-lv1 { fill: #D6DEE3; }
+.map__gu.is-lv2 { fill: #B6C4CD; }
+.map__gu.is-lv3 { fill: #8FA3B0; }
+.map:hover .map__gu:not(.is-lv1):not(.is-lv2):not(.is-lv3) { fill: #EDF0F2; }
 
 /* 버튼 크기는 동그라미와 같게 둔다. 라벨을 흐름에 넣으면 글씨가 안 보이는
    상태에서도 버튼이 그만큼 옆으로 넓어져, 지도 빈 곳의 클릭을 가로챈다. */
