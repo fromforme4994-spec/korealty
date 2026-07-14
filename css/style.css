@@ -146,18 +146,30 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 .head__logo img { height: 32px; width: auto; }
 .head__call { justify-self: end; }
 
-.nav { display: flex; align-items: center; justify-self: center; gap: 6px; }
+/* 아주 옅은 통 위에 현재 페이지만 흰 알약으로 떠오른다.
+   색으로 강하게 칠하지 않고 빛과 그림자로만 구분해 헤더를 가볍게 둔다. */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  gap: 2px;
+  padding: 4px 5px;
+  background: rgba(41, 62, 75, .05);
+  border-radius: 999px;
+}
 .nav a {
-  padding: 9px 15px;
-  border-radius: 6px;
+  padding: 8px 15px;
+  border-radius: 999px;
   font-size: 15px;
   font-weight: 600;
   color: var(--navy);
-  transition: background .2s var(--ease), color .2s var(--ease);
+  transition: background .2s var(--ease), box-shadow .2s var(--ease);
 }
-.nav a:hover { background: var(--paper); }
-/* 지금 보고 있는 페이지. 얇은 밑줄로는 어디에 있는지 잘 안 보인다. */
-.nav a[aria-current="page"] { background: var(--navy); color: var(--white); }
+.nav a:hover { background: rgba(255, 255, 255, .55); }
+.nav a[aria-current="page"] {
+  background: var(--white);
+  box-shadow: 0 1px 3px rgba(27, 43, 53, .16), 0 0 0 .5px rgba(27, 43, 53, .06);
+}
 
 /* 지명원 PDF. 페이지 이동이 아니라 문서를 여는 링크라 색으로 구분한다. */
 .nav a.nav__doc { color: var(--red); }
@@ -195,7 +207,9 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
     align-items: flex-start;
     gap: 0;
     padding: 8px var(--pad) 24px;
+    /* 세로 목록에서는 알약 통이 필요 없다. 둥근 모서리와 옅은 바탕을 되돌린다. */
     background: var(--white);
+    border-radius: 0;
     border-bottom: 1px solid var(--gray-line);
   }
   .nav.is-open a {
