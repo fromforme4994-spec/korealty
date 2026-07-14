@@ -6,7 +6,7 @@
 
     python3 tools/subset-fonts.py
 """
-import glob, os, subprocess, sys
+import glob, hashlib, os, re, subprocess, sys
 
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(SITE, "assets", "fonts", "src")     # 원본 .otf 보관
@@ -46,6 +46,30 @@ def main():
         total += kb
         print(f"  Pretendard-{w}.woff2  {kb:6.0f} KB")
     print(f"합계 {total/1024:.1f} MB")
+    stamp_version()
+
+def stamp_version():
+    """폰트 URL의 ?v= 를 내용 해시로 갱신한다.
+
+    파일명은 그대로인데 CDN이 1년 immutable로 캐시하므로(vercel.json),
+    버전을 바꾸지 않으면 이미 방문한 사람은 옛 폰트를 계속 쓴다.
+    새 글자가 두부(□)로 보이는 원인이 이것이다.
+    """
+    h = hashlib.sha1()
+    for w in WEIGHTS:
+        with open(os.path.join(OUT, f"Pretendard-{w}.woff2"), "rb") as f:
+            h.update(f.read())
+    v = h.hexdigest()[:8]
+
+    pat = re.compile(r"(Pretendard-\w+\.woff2)(\?v=[0-9a-f]+)?")
+    for p in glob.glob(os.path.join(SITE, "*.html")) + [os.path.join(SITE, "css", "style.css")]:
+        with open(p, encoding="utf-8") as f:
+            s = f.read()
+        new = pat.sub(lambda m: m.group(1) + "?v=" + v, s)
+        if new != s:
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(new)
+    print(f"폰트 버전 {v} 로 HTML·CSS 갱신")
 
 if __name__ == "__main__":
     main()
