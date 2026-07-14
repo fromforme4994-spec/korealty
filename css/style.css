@@ -538,6 +538,19 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 .map__card dt { color: var(--gray); font-weight: 600; }
 .map__card dd { margin: 0; color: var(--navy-soft); }
 
+/* 실적 페이지에서는 지도를 줄이고 주변 여백을 조여, 지도 아래 카드 두 장이
+   같은 화면에 들어오게 한다. 핀은 %로 앉으므로 지도를 줄여도 위치는 유지된다. */
+.sec--record { padding-top: 56px; }
+.sec--record .sec__head { margin-bottom: 28px; }
+.sec--record .map { max-width: 660px; padding: 16px; }
+.sec--record .map__plot,
+.sec--record .map__svg { max-width: 400px; }
+.sec--record .map__card { top: 16px; left: 16px; }
+.sec--record .map__away { margin-top: 12px; }
+.sec--record .map__wrap { margin-bottom: 20px; }
+.sec--record .filters { margin-bottom: 8px; }
+.sec--record .proj { padding: 20px; gap: 16px; }
+
 .map__empty {
   position: absolute;
   inset: auto 24px 24px;
