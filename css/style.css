@@ -147,6 +147,11 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 }
 .nav a:hover::after, .nav a[aria-current="page"]::after { transform: scaleX(1); }
 
+/* 지명원 PDF. 페이지 이동이 아니라 문서를 여는 링크라 색으로 구분한다. */
+.nav a.nav__doc { color: var(--red); }
+.nav a.nav__doc::after { background: var(--red); }
+.nav a.nav__doc svg { width: 13px; height: 13px; margin-left: 5px; vertical-align: -1px; }
+
 .head__call {
   display: inline-flex;
   align-items: center;
