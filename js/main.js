@@ -1,273 +1,220 @@
+/* KOREALTY DMC — interactions */
+
 (function () {
   "use strict";
 
-  /* ---------- Footer year ---------- */
-  const copyYear = document.getElementById("copyYear");
-  if (copyYear) copyYear.textContent = new Date().getFullYear();
+  const $  = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-  /* ---------- Header scroll state ---------- */
-  const header = document.getElementById("siteHeader");
-  const toTopBtn = document.getElementById("toTop");
-  function onScroll() {
-    const y = window.scrollY;
-    header.classList.toggle("is-scrolled", y > 40);
-    toTopBtn.classList.toggle("is-visible", y > 800);
-  }
-  document.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-  toTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-
-  /* ---------- Mobile nav ---------- */
-  const navToggle = document.getElementById("navToggle");
-  const navMenuMobile = document.getElementById("navMenuMobile");
-  navToggle.addEventListener("click", () => {
-    const open = navMenuMobile.classList.toggle("is-open");
-    navToggle.setAttribute("aria-expanded", String(open));
-    document.body.style.overflow = open ? "hidden" : "";
-  });
-  navMenuMobile.querySelectorAll("[data-nav]").forEach((link) => {
-    link.addEventListener("click", () => {
-      navMenuMobile.classList.remove("is-open");
-      navToggle.setAttribute("aria-expanded", "false");
-      document.body.style.overflow = "";
+  /* ---------- Mobile navigation ---------- */
+  const burger = $(".burger");
+  const nav = $(".nav");
+  if (burger && nav) {
+    burger.addEventListener("click", () => {
+      const open = nav.classList.toggle("is-open");
+      burger.setAttribute("aria-expanded", String(open));
     });
-  });
-
-  /* ---------- Hero load-in + video ready ---------- */
-  const hero = document.getElementById("hero");
-  const heroVideo = document.getElementById("heroVideo");
-  function markLoaded() { hero.classList.add("is-loaded"); }
-  requestAnimationFrame(() => requestAnimationFrame(markLoaded));
-  if (heroVideo) {
-    heroVideo.addEventListener("canplay", () => heroVideo.classList.add("is-ready"), { once: true });
-    heroVideo.addEventListener("loadeddata", () => heroVideo.classList.add("is-ready"), { once: true });
-    // Safety: if video fails or is slow, still reveal poster background
-    setTimeout(() => heroVideo.classList.add("is-ready"), 1800);
-  }
-
-  /* ---------- CEO section video ready ---------- */
-  const ceoVideo = document.getElementById("ceoVideo");
-  if (ceoVideo) {
-    ceoVideo.addEventListener("canplay", () => ceoVideo.classList.add("is-ready"), { once: true });
-    ceoVideo.addEventListener("loadeddata", () => ceoVideo.classList.add("is-ready"), { once: true });
-    setTimeout(() => ceoVideo.classList.add("is-ready"), 1800);
   }
 
   /* ---------- Scroll reveal ---------- */
-  const revealEls = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            io.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0, rootMargin: "0px 0px -60px 0px" }
-    );
-    revealEls.forEach((el) => io.observe(el));
-  } else {
-    revealEls.forEach((el) => el.classList.add("is-visible"));
-  }
-
-  /* ---------- Count-up stats ---------- */
-  const counters = document.querySelectorAll("[data-count]");
-  function animateCount(el) {
-    const target = parseInt(el.getAttribute("data-count"), 10);
-    const suffix = el.getAttribute("data-suffix") || "";
-    const duration = 1400;
-    const start = performance.now();
-    function tick(now) {
-      const p = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
-      const val = Math.round(target * eased);
-      el.textContent = val + (p >= 1 ? suffix : "");
-      if (p < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-  if ("IntersectionObserver" in window && counters.length) {
-    const cio = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            animateCount(entry.target);
-            cio.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.6 }
-    );
-    counters.forEach((el) => cio.observe(el));
-  }
-
-  /* ---------- Business area tabs ---------- */
-  const bizTabs = document.querySelectorAll(".biz-tab");
-  const bizPanels = document.querySelectorAll(".biz-panel");
-  bizTabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const key = tab.getAttribute("data-tab");
-      bizTabs.forEach((t) => {
-        t.classList.toggle("is-active", t === tab);
-        t.setAttribute("aria-selected", String(t === tab));
-      });
-      bizPanels.forEach((p) => p.classList.toggle("is-active", p.getAttribute("data-panel") === key));
-    });
-  });
-
-  /* ---------- History scroll-linked year/dots ---------- */
-  const historyTimeline = document.getElementById("historyTimeline");
-  const historyBigYear = document.getElementById("historyBigYear");
-  const historyDots = document.getElementById("historyDots");
-  if (historyTimeline && historyBigYear && historyDots) {
-    const tlYears = Array.from(historyTimeline.querySelectorAll(".tl-year[data-year]"));
-    tlYears.forEach((el, i) => {
-      const btn = document.createElement("button");
-      btn.className = "history-dot";
-      btn.type = "button";
-      btn.setAttribute("aria-label", el.getAttribute("data-year"));
-      btn.addEventListener("click", () => {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
-      });
-      historyDots.appendChild(btn);
-      if (i === 0) btn.classList.add("is-active");
-    });
-    const dotEls = Array.from(historyDots.children);
-
-    let activeIndex = -1;
-    function setActiveHistory(index) {
-      if (index === activeIndex) return;
-      activeIndex = index;
-      const year = tlYears[index].getAttribute("data-year");
-      historyBigYear.textContent = year;
-      historyBigYear.classList.toggle("is-long", year.length > 4);
-      dotEls.forEach((d, i) => d.classList.toggle("is-active", i === index));
-    }
-
-    function updateActiveHistory() {
-      const centerY = window.innerHeight / 2;
-      let closest = 0;
-      let closestDist = Infinity;
-      tlYears.forEach((el, i) => {
-        const rect = el.getBoundingClientRect();
-        const dist = Math.abs(rect.top + rect.height / 2 - centerY);
-        if (dist < closestDist) {
-          closestDist = dist;
-          closest = i;
+  const rise = $$(".rise");
+  if (rise.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-in");
+          io.unobserve(e.target);
         }
       });
-      setActiveHistory(closest);
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    rise.forEach((el) => io.observe(el));
+  }
+
+  /* ---------- Scope explorer: pins + tabs + card ---------- */
+  const scope = $("[data-scope]");
+  if (scope && typeof SCOPES !== "undefined") {
+    const card  = $("[data-scope-card]", scope);
+    const tabs  = $("[data-scope-tabs]", scope);
+    const image = $(".scope", scope);
+
+    SCOPES.forEach((s, i) => {
+      const pin = document.createElement("button");
+      pin.className = "pin";
+      pin.type = "button";
+      pin.textContent = "+";
+      pin.style.left = s.pin.x + "%";
+      pin.style.top  = s.pin.y + "%";
+      pin.setAttribute("aria-expanded", String(i === 0));
+      pin.setAttribute("aria-label", s.title + " 자세히 보기");
+      pin.addEventListener("click", () => select(i));
+      image.appendChild(pin);
+
+      const tab = document.createElement("button");
+      tab.type = "button";
+      tab.textContent = s.tab;
+      tab.setAttribute("role", "tab");
+      tab.setAttribute("aria-selected", String(i === 0));
+      tab.addEventListener("click", () => select(i));
+      tabs.appendChild(tab);
+    });
+
+    function select(i) {
+      const s = SCOPES[i];
+      $$(".pin", image).forEach((p, k) => p.setAttribute("aria-expanded", String(k === i)));
+      $$("button", tabs).forEach((t, k) => t.setAttribute("aria-selected", String(k === i)));
+
+      card.innerHTML = `
+        <h3 class="h-card">${s.title}</h3>
+        <p>${s.desc}</p>
+        <ol class="scope__flow">
+          ${s.flow.map((f, k) => `<li><b>${String(k + 1).padStart(2, "0")}</b><span>${f}</span></li>`).join("")}
+        </ol>
+        <div class="scope__cost">
+          <span>${s.metricLabel}</span>
+          <b>${s.metric}</b>
+        </div>`;
     }
 
-    if (window.matchMedia("(min-width:961px)").matches) {
-      let ticking = false;
-      document.addEventListener(
-        "scroll",
-        () => {
-          if (ticking) return;
-          ticking = true;
-          requestAnimationFrame(() => {
-            updateActiveHistory();
-            ticking = false;
-          });
-        },
-        { passive: true }
+    select(0);
+  }
+
+  /* ---------- Site map ----------
+     현장을 실제 위치에 찍는다. 실적에서 가장 먼저 궁금한 것은 "어디"이기 때문이다. */
+  const map = $("[data-map]");
+  if (map && typeof PROJECTS !== "undefined" && typeof SEOUL_GU !== "undefined") {
+    /* 라벨은 지도 상자 안에 앉는다. 상자가 가운데로 좁아져도 함께 따라오도록
+       DOM에서도 .map 안으로 넣는다. */
+    const card = $("[data-map-card]");
+    map.appendChild(card);
+
+    /* 핀은 지도와 같은 상자 안에서 %로 찍힌다. SVG만 가운데 옮기면 핀이 어긋나므로
+       둘을 같은 래퍼(.map__plot)에 넣는다. */
+    const plot = document.createElement("div");
+    plot.className = "map__plot";
+    map.appendChild(plot);
+
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 1000 620");
+    svg.setAttribute("class", "map__svg");
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", "서울 프로젝트 위치 지도");
+
+    SEOUL_GU.forEach((gu) => {
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", gu.d);
+      path.setAttribute("class", "map__gu");
+      path.innerHTML = `<title>${gu.name}</title>`;
+      svg.appendChild(path);
+    });
+    plot.appendChild(svg);
+
+    const inSeoul = PROJECTS.filter((p) => SITE_XY[p.no]);
+
+    function show(p) {
+      $$(".map__pin", plot).forEach((b) =>
+        b.setAttribute("aria-expanded", String(Number(b.dataset.no) === p.no))
       );
-      updateActiveHistory();
+      card.innerHTML = `<span>현장명 :</span><b>${p.name}</b>`;
+      card.hidden = false;
     }
-  }
 
-  /* ---------- Portfolio grid render ---------- */
-  const pfGrid = document.getElementById("pfGrid");
-  function cardTemplate(p) {
-    const tags = p.tags.map((t) => `<span class="pf-tag">${t}</span>`).join("");
-    return `
-      <div class="pf-card" data-tags="${p.tags.join(",")}" data-no="${p.no}" tabindex="0" role="button" aria-label="${p.name} 상세 보기">
-        <div class="pf-thumb">
-          <img src="${p.img}" alt="${p.name} 프로젝트 이미지" loading="lazy">
-          <span class="pf-no">NO. ${String(p.no).padStart(2, "0")}</span>
-          <span class="pf-ring" aria-hidden="true"></span>
-        </div>
-        <div class="pf-body">
-          <div class="pf-tags">${tags}</div>
-          <h3>${p.name}</h3>
-          <p class="pf-loc">${p.location}</p>
-        </div>
-      </div>`;
-  }
-  if (pfGrid && typeof PROJECTS !== "undefined") {
-    pfGrid.innerHTML = PROJECTS.map(cardTemplate).join("");
-  }
+    inSeoul.forEach((p) => {
+      const xy = SITE_XY[p.no];
+      const pin = document.createElement("button");
+      pin.type = "button";
+      pin.className = "map__pin";
+      pin.dataset.no = p.no;
+      pin.dataset.cat = p.cat;
+      pin.style.left = (xy.x / 1000 * 100) + "%";
+      pin.style.top = (xy.y / 620 * 100) + "%";
+      pin.setAttribute("aria-expanded", "false");
+      pin.setAttribute("aria-label", `${p.name} — ${p.loc}`);
+      pin.innerHTML = `<i></i><span class="map__label">${p.name}</span>`;
+      pin.addEventListener("click", () => show(p));
+      plot.appendChild(pin);
+    });
 
-  /* ---------- Portfolio filters ---------- */
-  const chips = document.querySelectorAll(".pf-chip");
-  const cards = () => document.querySelectorAll(".pf-card");
-  chips.forEach((chip) => {
-    chip.addEventListener("click", () => {
-      chips.forEach((c) => c.classList.toggle("is-active", c === chip));
-      const filter = chip.getAttribute("data-filter");
-      cards().forEach((card) => {
-        const tags = card.getAttribute("data-tags").split(",");
-        const show = filter === "all" || tags.includes(filter);
-        card.classList.toggle("is-hidden", !show);
+    show(inSeoul[0]);
+
+    /* 필터가 지도와 목록을 동시에 좁힌다.
+       유형에 따라 서울에 현장이 하나도 없을 수 있다(조합 2건은 일산·김포).
+       그때 지도만 비면 고장으로 보이므로 이유를 적는다. */
+    const empty = document.createElement("p");
+    empty.className = "map__empty";
+    empty.hidden = true;
+    map.appendChild(empty);
+
+    map.filterTo = (cat) => {
+      let shown = 0;
+      $$(".map__pin", plot).forEach((b) => {
+        const hit = cat === "전체" || b.dataset.cat === cat;
+        b.hidden = !hit;
+        if (hit) shown++;
       });
-    });
-  });
 
-  /* ---------- Portfolio modal ---------- */
-  const modal = document.getElementById("pfModal");
-  const modalImg = document.getElementById("pfModalImg");
-  const modalTitle = document.getElementById("pfModalTitle");
-  const modalTags = document.getElementById("pfModalTags");
-  const modalSpec = document.getElementById("pfModalSpec");
-  const modalClose = document.getElementById("pfModalClose");
-  let lastFocused = null;
+      if (shown === 0) {
+        empty.textContent = `${cat} 현장은 서울 밖에 있습니다. 아래 목록에서 확인하세요.`;
+        empty.hidden = false;
+        card.hidden = true;
+      } else {
+        empty.hidden = true;
+        card.hidden = false;
+        const active = $(".map__pin[aria-expanded='true']", plot);
+        if (!active || active.hidden) {
+          const first = $$(".map__pin", plot).find((b) => !b.hidden);
+          if (first) first.click();
+        }
+      }
+    };
+  }
 
-  function openModal(project) {
-    modalImg.src = project.img;
-    modalImg.alt = project.name + " 프로젝트 이미지";
-    modalTitle.textContent = project.name;
-    modalTags.innerHTML = project.tags.map((t) => `<span class="pf-tag">${t}</span>`).join("");
-    modalSpec.innerHTML = `
-      <div class="row"><dt>발주처</dt><dd>${project.client}</dd></div>
-      <div class="row"><dt>위치</dt><dd>${project.location}</dd></div>
-      <div class="row"><dt>규모</dt><dd>${project.scale}</dd></div>
-      <div class="row"><dt>시공사</dt><dd>${project.builder}</dd></div>
-      <div class="row"><dt>사업기간</dt><dd>${project.period}</dd></div>
-    `;
-    lastFocused = document.activeElement;
-    modal.classList.add("is-open");
-    modal.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-    modalClose.focus();
-  }
-  function closeModal() {
-    modal.classList.remove("is-open");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-    if (lastFocused) lastFocused.focus();
-  }
-  if (pfGrid) {
-    pfGrid.addEventListener("click", (e) => {
-      const card = e.target.closest(".pf-card");
-      if (!card) return;
-      const project = PROJECTS.find((p) => p.no === parseInt(card.getAttribute("data-no"), 10));
-      if (project) openModal(project);
+  /* ---------- Portfolio: filter + render ---------- */
+  const board = $("[data-projects]");
+  if (board && typeof PROJECTS !== "undefined") {
+    const rail = $("[data-filters]");
+    const count = $("[data-count]");
+    const cats = ["전체", "오피스텔", "주거", "상가", "조합", "오피스"];
+
+    function card(p) {
+      return `
+        <article class="proj rise is-in" data-cat="${p.cat}">
+          <div>
+            <span class="proj__no num">NO. ${String(p.no).padStart(2, "0")}</span>
+            <span class="proj__type">${p.type}</span>
+            <h3>${p.name}</h3>
+            <dl>
+              <dt>발주처</dt><dd>${p.client}</dd>
+              <dt>위치</dt><dd>${p.loc}</dd>
+              <dt>규모</dt><dd>${p.scale}${p.up !== null ? ` · 지하 ${p.down}층 / 지상 ${p.up}층` : ""}</dd>
+              <dt>시공사</dt><dd>${p.builder}</dd>
+              <dt>사업기간</dt><dd>${p.period}</dd>
+            </dl>
+          </div>
+        </article>`;
+    }
+
+    function render(cat) {
+      const list = cat === "전체" ? PROJECTS : PROJECTS.filter((p) => p.cat === cat);
+      board.innerHTML = list.map(card).join("");
+      if (count) count.textContent = list.length;
+    }
+
+    cats.forEach((c, i) => {
+      const n = c === "전체" ? PROJECTS.length : PROJECTS.filter((p) => p.cat === c).length;
+      const b = document.createElement("button");
+      b.type = "button";
+      b.innerHTML = `${c}<span class="num">${n}</span>`;
+      b.setAttribute("aria-pressed", String(i === 0));
+      b.addEventListener("click", () => {
+        $$("button", rail).forEach((x) => x.setAttribute("aria-pressed", "false"));
+        b.setAttribute("aria-pressed", "true");
+        render(c);
+        const m = $("[data-map]");
+        if (m && m.filterTo) m.filterTo(c);
+      });
+      rail.appendChild(b);
     });
-    pfGrid.addEventListener("keydown", (e) => {
-      if (e.key !== "Enter" && e.key !== " ") return;
-      const card = e.target.closest(".pf-card");
-      if (!card) return;
-      e.preventDefault();
-      const project = PROJECTS.find((p) => p.no === parseInt(card.getAttribute("data-no"), 10));
-      if (project) openModal(project);
-    });
+
+    render("전체");
   }
-  modalClose.addEventListener("click", closeModal);
-  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
-  });
 })();

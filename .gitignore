@@ -1,1 +1,4 @@
 .DS_Store
+
+# 원본 OTF는 서브셋(woff2)을 만들 때만 쓰인다. 배포에는 woff2만 올라간다.
+assets/fonts/src/
