@@ -6,11 +6,11 @@
    Red is an accent only; it is never used as a surface.
    ============================================================ */
 
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=82239835") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=82239835") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=82239835") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=82239835") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=82239835") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=398bc37b") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=398bc37b") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=398bc37b") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=398bc37b") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=398bc37b") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -475,12 +475,12 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 }
 .map:hover .map__gu { fill: #EDF0F2; }
 
+/* 버튼 크기는 동그라미와 같게 둔다. 라벨을 흐름에 넣으면 글씨가 안 보이는
+   상태에서도 버튼이 그만큼 옆으로 넓어져, 지도 빈 곳의 클릭을 가로챈다. */
 .map__pin {
   position: absolute;
   z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 7px;
+  width: 14px; height: 14px;
   padding: 0;
   background: none;
   border: 0;
@@ -488,7 +488,7 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   transform: translate(-7px, -7px);
 }
 .map__pin i {
-  flex: none;
+  display: block;
   width: 14px; height: 14px;
   border-radius: 50%;
   background: var(--navy);
@@ -496,50 +496,64 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   box-shadow: 0 1px 4px rgba(27,43,53,.3);
   transition: transform .18s var(--ease), background .18s var(--ease);
 }
+/* 현장이 몰린 곳에서는 글씨 뒤에 다른 핀의 동그라미가 깔린다.
+   흰 바탕을 받쳐 무엇 위에 놓이든 읽히게 한다. */
 .map__label {
+  position: absolute;
+  left: 21px;
+  top: 50%;
+  padding: 2px 7px;
+  background: rgba(255,255,255,.94);
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(27,43,53,.14);
   font-size: 12px;
   font-weight: 700;
   color: var(--navy);
   white-space: nowrap;
   opacity: 0;
-  transform: translateX(-4px);
+  transform: translate(-4px, -50%);
   transition: opacity .18s var(--ease), transform .18s var(--ease);
   pointer-events: none;
 }
 .map__pin:hover i { transform: scale(1.25); }
 .map__pin:hover .map__label,
-.map__pin:focus-visible .map__label { opacity: 1; transform: none; }
+.map__pin:focus-visible .map__label { opacity: 1; transform: translate(0, -50%); }
 
 .map__pin[aria-expanded="true"] i { background: var(--red); transform: scale(1.35); }
-.map__pin[aria-expanded="true"] .map__label { opacity: 1; transform: none; color: var(--red); }
+.map__pin[aria-expanded="true"] .map__label { opacity: 1; transform: translate(0, -50%); color: var(--red); }
 .map__pin[hidden] { display: none; }
+
+/* 핀은 형제 요소라, DOM 순서상 뒤에 오는 핀의 동그라미가 앞 핀의 글씨를 덮는다.
+   글씨가 보이는 핀(선택·호버·포커스)만 위로 올려 가려지지 않게 한다. */
+.map__pin:hover,
+.map__pin:focus-visible,
+.map__pin[aria-expanded="true"] { z-index: 5; }
 
 /* 핀을 읽는 라벨 — 지도 안, 현장이 없는 왼쪽 위 여백에 앉힌다 */
 .map__card {
   position: absolute;
-  z-index: 3;
-  top: 32px;
-  left: 32px;
+  z-index: 6;
+  top: 20px;
+  left: 20px;
   display: flex;
   align-items: baseline;
-  gap: 10px;
-  padding: 16px 22px;
+  gap: 7px;
+  padding: 9px 14px;
   background: var(--navy);
   color: var(--white);
-  border-radius: 6px;
-  box-shadow: 0 10px 30px rgba(27,43,53,.18);
+  border-radius: 5px;
+  box-shadow: 0 8px 22px rgba(27,43,53,.16);
 }
-.map__card span {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--gray);
+/* 이름표와 현장명은 같은 크기로 읽는다. 구분은 색으로만 준다. */
+.map__card span,
+.map__card b {
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: -.01em;
   white-space: nowrap;
 }
-.map__card b {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -.01em;
-}
+.map__card span { font-weight: 600; color: var(--gray); }
+.map__card b { font-weight: 700; }
 .map__plot { position: relative; max-width: 860px; margin: 0 auto; }
 .map__cardtop {
   padding-bottom: 20px;
@@ -583,24 +597,32 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 }
 
 /* 서울 밖 현장은 지도에 찍지 않고 목록으로 세운다 */
+/* 지도 상자 안, 지도 아래 한 줄. 알약 모양을 벗겨야 아래 필터 버튼과 헷갈리지 않는다. */
 .map__away {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
-  max-width: 980px;
-  margin: 20px auto 0;
+  align-items: baseline;
+  gap: 0 6px;
+  margin: 14px 0 2px;
+  font-size: 12.5px;
+  line-height: 1.6;
 }
 .map__away span {
-  padding: 9px 14px;
-  background: var(--white);
-  border: 1px solid var(--gray-line);
-  border-radius: 999px;
-  font-size: 13px;
+  padding: 0;
+  background: none;
+  border: 0;
   font-weight: 600;
-  color: var(--navy-soft);
+  color: var(--gray);
 }
-.map__away span b { color: var(--gray); font-weight: 600; margin-left: 6px; }
+.map__away span:first-child { color: var(--navy-soft); margin-right: 2px; }
+.map__away span:first-child b { color: var(--red); font-weight: 700; margin-left: 4px; }
+/* 첫 항목은 제목 역할이라 빼고, 지역들 사이에만 가운뎃점을 넣는다. */
+.map__away span:nth-child(n+3)::before {
+  content: "·";
+  color: var(--gray-line);
+  margin-right: 6px;
+}
 
 @media (max-width: 900px) {
   .map { padding: 12px; }

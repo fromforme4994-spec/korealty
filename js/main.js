@@ -108,6 +108,11 @@
     });
     plot.appendChild(svg);
 
+    /* 서울 외 지역 목록도 지도 상자 안으로 옮긴다. 밖에 두면 바로 아래 필터 버튼과
+       생김새가 같아 누를 수 있는 것처럼 보인다. plot 뒤에 붙어 지도 아래에 앉는다. */
+    const away = map.parentElement.querySelector(".map__away");
+    if (away) map.appendChild(away);
+
     const inSeoul = PROJECTS.filter((p) => SITE_XY[p.no]);
 
     function show(p) {
@@ -134,7 +139,51 @@
       plot.appendChild(pin);
     });
 
-    show(inSeoul[0]);
+    /* 마곡 퀸즈파크9·10처럼 실제로 몇 미터 거리인 현장들은 동그라미가 겹쳐
+       아래 핀을 아예 누를 수 없다. 겹치는 것끼리만 최소 간격까지 밀어낸다.
+       지도 크기가 바뀌면 겹침 정도도 달라지므로 픽셀 기준으로 다시 계산한다. */
+    const MIN_GAP = 19; // 동그라미 14px + 여유
+
+    function declutter() {
+      const W = plot.clientWidth, H = plot.clientHeight;
+      if (!W) return;
+      const items = $$(".map__pin", plot).map((pin) => ({
+        pin,
+        bx: parseFloat(pin.style.left) / 100 * W,
+        by: parseFloat(pin.style.top) / 100 * H,
+      }));
+      items.forEach((it) => { it.x = it.bx; it.y = it.by; });
+
+      for (let pass = 0; pass < 80; pass++) {
+        let moved = false;
+        for (let i = 0; i < items.length; i++) {
+          for (let j = i + 1; j < items.length; j++) {
+            const a = items[i], b = items[j];
+            let dx = b.x - a.x, dy = b.y - a.y;
+            let d = Math.hypot(dx, dy);
+            if (d >= MIN_GAP) continue;
+            if (d < 0.01) { dx = Math.cos(i); dy = Math.sin(i); d = 1; }
+            const push = (MIN_GAP - d) / 2;
+            const ux = dx / d, uy = dy / d;
+            a.x -= ux * push; a.y -= uy * push;
+            b.x += ux * push; b.y += uy * push;
+            moved = true;
+          }
+        }
+        if (!moved) break;
+      }
+
+      items.forEach((it) => {
+        it.pin.style.transform =
+          `translate(${-7 + (it.x - it.bx)}px, ${-7 + (it.y - it.by)}px)`;
+      });
+    }
+
+    declutter();
+    if (window.ResizeObserver) new ResizeObserver(declutter).observe(plot);
+
+    /* 처음 열었을 때 마곡 퀸즈파크10(NO.18)을 띄운다. 필터로 빠져 있으면 첫 현장. */
+    show(inSeoul.find((p) => p.no === 18) || inSeoul[0]);
 
     /* 필터가 지도와 목록을 동시에 좁힌다.
        유형에 따라 서울에 현장이 하나도 없을 수 있다(조합 2건은 일산·김포).
