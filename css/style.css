@@ -6,11 +6,11 @@
    Red is an accent only; it is never used as a surface.
    ============================================================ */
 
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=3703b948") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=3703b948") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=3703b948") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=3703b948") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=3703b948") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=82239835") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=82239835") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=82239835") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=82239835") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=82239835") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -48,7 +48,9 @@ body {
   word-break: keep-all;
 }
 
-img, video { max-width: 100%; display: block; }
+/* height:auto가 없으면 <img>의 width/height 속성 때문에 이미지가 찌그러진다.
+   그 속성은 로딩 중 레이아웃이 흔들리지 않게 하려고 넣은 것이다. */
+img, video { max-width: 100%; height: auto; display: block; }
 a { color: inherit; text-decoration: none; }
 
 :focus-visible {
@@ -57,6 +59,16 @@ a { color: inherit; text-decoration: none; }
 }
 
 .shell { width: var(--shell); margin-inline: auto; }
+
+/* 화면에는 보이지 않고 스크린리더만 읽는다. 제목 단계를 잇는 데 쓴다. */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
 /* ---------- Type scale ---------- */
 
@@ -814,7 +826,7 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   padding-bottom: 40px;
   border-bottom: 1px solid rgba(255,255,255,.12);
 }
-.foot__logo img { height: 20px; margin-bottom: 20px; }
+.foot__logo img { height: 20px; width: auto; margin-bottom: 20px; }
 .foot__links { display: flex; gap: 28px; font-weight: 600; color: rgba(255,255,255,.8); }
 .foot__links a:hover { color: var(--white); }
 .foot__bot { padding-top: 28px; display: flex; flex-wrap: wrap; gap: 8px 24px; }
@@ -822,11 +834,14 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 
 /* ---------- Reveal ---------- */
 
-.rise { opacity: 0; transform: translateY(20px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
-.rise.is-in { opacity: 1; transform: none; }
+/* 스크롤 등장 효과. 숨기는 것은 자바스크립트가 살아 있을 때(html.js)만 한다.
+   무조건 숨기면 스크립트가 실패했을 때 본문이 영영 안 보인다. */
+.rise { transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.js .rise { opacity: 0; transform: translateY(20px); }
+.js .rise.is-in { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
-  .rise { opacity: 1; transform: none; }
+  .rise, .js .rise { opacity: 1; transform: none; }
 }
