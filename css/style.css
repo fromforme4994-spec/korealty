@@ -489,10 +489,14 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   border: 1px solid var(--gray-line);
   border-radius: 8px;
 }
-/* 지도는 상자 한가운데에 놓는다 */
+/* 지도 폭은 한 곳에서만 정한다.
+   핀은 .map__plot을 기준으로 %로 앉으므로, 상자와 지도의 폭이 다르면
+   핀이 지도 밖으로 밀려난다. 둘 다 이 변수를 따르게 묶어 둔다. */
+.map { --map-w: 680px; }
+
 .map__svg {
   width: 100%;
-  max-width: 680px;
+  max-width: var(--map-w);
   height: auto;
   display: block;
   margin: 0 auto;
@@ -589,7 +593,7 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 }
 .map__card span { font-weight: 600; color: var(--gray); }
 .map__card b { font-weight: 700; }
-.map__plot { position: relative; max-width: 860px; margin: 0 auto; }
+.map__plot { position: relative; max-width: var(--map-w); margin: 0 auto; }
 .map__cardtop {
   padding-bottom: 20px;
   margin-bottom: 18px;
@@ -609,9 +613,8 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
    같은 화면에 들어오게 한다. 핀은 %로 앉으므로 지도를 줄여도 위치는 유지된다. */
 .sec--record { padding-top: 56px; }
 .sec--record .sec__head { margin-bottom: 28px; }
-.sec--record .map { max-width: 660px; padding: 16px; }
-.sec--record .map__plot,
-.sec--record .map__svg { max-width: 400px; }
+/* 지도 폭은 --map-w 하나만 바꾸면 된다. 상자와 지도가 함께 따라온다. */
+.sec--record .map { --map-w: 400px; max-width: 660px; padding: 16px; }
 .sec--record .map__card { top: 16px; left: 16px; }
 .sec--record .map__away { margin-top: 12px; }
 .sec--record .map__wrap { margin-bottom: 20px; }
