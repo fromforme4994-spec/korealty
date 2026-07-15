@@ -81,13 +81,22 @@ def main() -> None:
     block = f'{BEGIN}\n{cards}\n      {END}'
 
     page = PAGE.read_text(encoding="utf-8")
-    pattern = re.compile(
-        r'(<div class="grid grid--2" data-projects>)(.*?)(</div>)', re.S
-    )
-    if not pattern.search(page):
-        sys.exit('portfolio.html에서 data-projects 컨테이너를 찾지 못했다.')
 
-    updated = pattern.sub(lambda m: f"{m.group(1)}\n{block}\n      {m.group(3)}", page, count=1)
+    # 재실행이면 기존 생성 블록(BEGIN..END)만 교체한다. 컨테이너 안 </div>를
+    # 정규식으로 찾으면 카드 내부의 </div>에서 멈춰 중복 삽입되므로 안 된다.
+    if BEGIN in page and END in page:
+        pre, rest = page.split(BEGIN, 1)
+        _, post = rest.split(END, 1)
+        updated = f"{pre}{block}{post}"
+    else:
+        anchor = '<div class="grid grid--2" data-projects>'
+        if anchor not in page:
+            sys.exit("portfolio.html에서 data-projects 컨테이너를 찾지 못했다.")
+        open_tag, post = page.split(anchor, 1)
+        if not post.lstrip().startswith("</div>"):
+            sys.exit("컨테이너가 비어 있지 않은데 생성 마커도 없다. 수동 확인 필요.")
+        post = post.lstrip()[len("</div>"):]
+        updated = f"{open_tag}{anchor}\n{block}\n      </div>{post}"
     PAGE.write_text(updated, encoding="utf-8")
     print(f"portfolio.html에 프로젝트 {len(projects)}건을 써 넣었다.")
 
