@@ -17,11 +17,11 @@ BASE = "https://korealty.co.kr"
 
 # (파일, 주소, 우선순위) — 404는 검색에 넣지 않는다.
 PAGES = [
-    ("index.html",     "/",               "1.0"),
-    ("portfolio.html", "/portfolio.html", "0.9"),
-    ("about.html",     "/about.html",     "0.8"),
-    ("business.html",  "/business.html",  "0.8"),
-    ("contact.html",   "/contact.html",   "0.7"),
+    ("index.html",     "/",          "1.0"),
+    ("portfolio.html", "/portfolio", "0.9"),
+    ("about.html",     "/about",     "0.8"),
+    ("business.html",  "/business",  "0.8"),
+    ("contact.html",   "/contact",   "0.7"),
 ]
 
 
