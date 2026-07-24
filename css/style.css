@@ -936,6 +936,9 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 body.no-scroll { overflow: hidden; }
 
 .proj-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 24px; }
+/* display를 주면 브라우저 기본 규칙인 [hidden]{display:none}을 이겨버린다.
+   그러면 hidden을 걸어도 빈 모달이 화면을 덮은 채 닫히지 않는다. 다시 눌러 이긴다. */
+.proj-modal[hidden] { display: none; }
 .proj-modal__backdrop { position: absolute; inset: 0; background: rgba(27,43,53,.72); }
 .proj-modal__box {
   position: relative;
