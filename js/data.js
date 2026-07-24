@@ -6,9 +6,9 @@
    immutable로 돌려, 사진이 없던 시절 받은 404까지 브라우저에 1년 박혔다. 헤더는
    고쳤지만 이미 박힌 404는 주소가 같으면 다시 묻지 않으므로 v를 붙여 우회한다.
    같은 이름으로 사진을 바꿔 끼울 때도 v를 올리면 된다.
-   status = 분양대행 실적이므로 기본값은 "분양완료". NO.10(웍앤콕)은 분양 상품이 아니라
-   운영 중인 공유오피스라 "운영중"으로 다르게 준다. period의 "준공예정" 표기는 지명원
-   작성 시점 기준 건축 공정 문구일 뿐, 분양 계약 자체가 끝난 실적이라는 사실과는 무관하다. */
+   status = 실적 사진 위에 얹는 뱃지. 28건 모두 "분양완료"로 통일한다(사용자 결정).
+   period의 "준공예정" 표기는 지명원 작성 시점 기준 건축 공정 문구일 뿐,
+   분양 계약 자체가 끝난 실적이라는 사실과는 무관하다. */
 
 const PROJECTS = [
   { no: 1,  cat: "상가",   type: "단지내상가",              name: "포항한신더휴 펜타시티",     client: "㈜가인",                        loc: "포항시 북구 흥해읍 대련리 기술융합지구 펜타시티 A2BL", scale: "2개동 23개 점포, 공동주택 2,192세대", builder: "한신공영",           period: "2024.12 준공예정",       up: null, down: null, img: "assets/img/projects/01.jpg?v=1", status: "분양완료" },
@@ -22,7 +22,7 @@ const PROJECTS = [
   /* 지명원 원문은 NO.07과 동일한 위치·규모를 싣고 있어(복사 오류) 위치·규모·층수만 공개 자료로 대체했다.
      시공사·사업기간은 사용자 결정에 따라 지명원 원문 값을 유지한다. */
   { no: 9,  cat: "오피스텔", type: "오피스텔 · 근린생활시설", name: "수유역 더 오페라",          client: "㈜오페라",                      loc: "강북구 수유동 45-2",                                   scale: "오피스텔 95실, 근린생활시설 20실",   builder: "㈜상조건설",         period: "2022.02 준공",           up: 17, down: 2, img: "assets/img/projects/09.jpg?v=1", status: "분양완료" },
-  { no: 10, cat: "오피스",  type: "공유오피스",              name: "웍앤콕",                    client: "㈜르본씨앤디",                  loc: "구로구 디지털로34길 44, 코오롱싸이언스밸리 B101호",     scale: "공유오피스 175실 (3,037.09평)",      builder: "㈜르본씨앤디",       period: "현재 운영중",            up: null, down: null, img: "assets/img/projects/10.jpg?v=1", status: "운영중" },
+  { no: 10, cat: "오피스",  type: "공유오피스",              name: "웍앤콕",                    client: "㈜르본씨앤디",                  loc: "구로구 디지털로34길 44, 코오롱싸이언스밸리 B101호",     scale: "공유오피스 175실 (3,037.09평)",      builder: "㈜르본씨앤디",       period: "현재 운영중",            up: null, down: null, img: "assets/img/projects/10.jpg?v=1", status: "분양완료" },
   { no: 11, cat: "주거",   type: "공동주택",                name: "이튼브라운",                client: "대명건설주택㈜",                loc: "영등포구 영등포1가 92-3 외 9필지",                     scale: "공동주택 216세대",                   builder: "대명건설주택㈜",     period: "2022.05 준공예정",       up: 20, down: 6, img: "assets/img/projects/11.jpg?v=1", status: "분양완료" },
   { no: 12, cat: "오피스텔", type: "오피스텔 · 공동주택",     name: "한가람 더원",               client: "㈜한가람종합건설",              loc: "영등포구 영등포동7가 94-32 / 829-112",                 scale: "공동주택 28세대, 오피스텔 168실",    builder: "㈜한가람종합건설",   period: "2021.11 준공예정",       up: 11, down: 2, img: "assets/img/projects/12.jpg?v=1", status: "분양완료" },
   { no: 13, cat: "오피스텔", type: "오피스텔 · 공동주택",     name: "스톤 엘리시온 역삼",        client: "㈜스톤빌리지",                  loc: "강남구 역삼동 790-9",                                  scale: "공동주택 19세대, 오피스텔 25실",     builder: "㈜SL건설개발, 글로벌종합건설", period: "2020.12 준공예정", up: 11, down: 4, img: "assets/img/projects/13.jpg?v=1", status: "분양완료" },
