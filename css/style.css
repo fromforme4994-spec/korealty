@@ -911,3 +911,70 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   html { scroll-behavior: auto; }
   .rise, .js .rise { opacity: 1; transform: none; }
 }
+
+/* ---------- Project card: click to view photo ---------- */
+
+.proj { cursor: pointer; }
+.proj:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+.proj__view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  align-self: center;
+  color: var(--gray);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.proj__view svg { width: 22px; height: 22px; stroke: var(--gray); transition: stroke .2s var(--ease); }
+.proj:hover .proj__view, .proj:focus-visible .proj__view { color: var(--navy); }
+.proj:hover .proj__view svg, .proj:focus-visible .proj__view svg { stroke: var(--navy); }
+
+/* ---------- Project modal ---------- */
+
+body.no-scroll { overflow: hidden; }
+
+.proj-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 24px; }
+.proj-modal__backdrop { position: absolute; inset: 0; background: rgba(27,43,53,.72); }
+.proj-modal__box {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--white);
+  border-radius: 6px;
+  box-shadow: 0 24px 64px rgba(27,43,53,.32);
+}
+.proj-modal__x {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 32px; height: 32px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(27,43,53,.55);
+  color: var(--white);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 1;
+}
+.proj-modal__x:hover { background: var(--navy-deep); }
+.proj-modal__media { position: relative; aspect-ratio: 16 / 9; background: var(--paper); }
+.proj-modal__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.proj-modal__status {
+  position: absolute;
+  left: 16px; bottom: 16px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  background: var(--navy);
+  color: var(--white);
+}
+.proj-modal__status[data-status="운영중"] { background: var(--white); color: var(--navy); }
+.proj-modal__body { padding: 24px 28px 28px; }
+.proj-modal__no { font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--red); }
+.proj-modal__body h3 { margin: 8px 0 4px; font-size: 21px; font-weight: 700; }
+.proj-modal__type { margin: 0; color: var(--navy-soft); font-size: 14px; }

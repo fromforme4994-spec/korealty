@@ -61,7 +61,7 @@ def card(p: dict) -> str:
     scale = e(p["scale"])
     if p.get("up") is not None:
         scale += f" · 지하 {e(p['down'])}층 / 지상 {e(p['up'])}층"
-    return f"""        <article class="proj rise is-in" data-cat="{e(p['cat'])}">
+    return f"""        <article class="proj rise is-in" data-cat="{e(p['cat'])}" data-no="{e(p['no'])}" tabindex="0" role="button" aria-haspopup="dialog">
           <div>
             <span class="proj__no num">NO. {str(p['no']).zfill(2)}</span>
             <span class="proj__type">{e(p['type'])}</span>
@@ -73,6 +73,10 @@ def card(p: dict) -> str:
               <dt>시공사</dt><dd>{e(p['builder'])}</dd>
               <dt>사업기간</dt><dd>{e(p['period'])}</dd>
             </dl>
+          </div>
+          <div class="proj__view" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5 12 5s9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>사진 보기</span>
           </div>
         </article>"""
 

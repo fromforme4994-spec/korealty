@@ -282,7 +282,7 @@
 
     function card(p) {
       return `
-        <article class="proj rise is-in" data-cat="${p.cat}">
+        <article class="proj rise is-in" data-cat="${p.cat}" data-no="${p.no}" tabindex="0" role="button" aria-haspopup="dialog">
           <div>
             <span class="proj__no num">NO. ${String(p.no).padStart(2, "0")}</span>
             <span class="proj__type">${p.type}</span>
@@ -295,6 +295,10 @@
               <dt>사업기간</dt><dd>${p.period}</dd>
             </dl>
           </div>
+          <div class="proj__view" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5 12 5s9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>사진 보기</span>
+          </div>
         </article>`;
     }
 
@@ -303,6 +307,78 @@
       board.innerHTML = list.map(card).join("");
       if (count) count.textContent = list.length;
     }
+
+    /* ---------- Portfolio: click a card to see the photo + 분양 상태 ---------- */
+    const modal = document.createElement("div");
+    modal.className = "proj-modal";
+    modal.hidden = true;
+    modal.innerHTML = `
+      <div class="proj-modal__backdrop" data-proj-close></div>
+      <div class="proj-modal__box" role="dialog" aria-modal="true" aria-labelledby="proj-modal-name">
+        <button type="button" class="proj-modal__x" data-proj-close aria-label="닫기">&times;</button>
+        <div class="proj-modal__media">
+          <img data-proj-img alt="">
+          <span class="proj-modal__status" data-proj-status></span>
+        </div>
+        <div class="proj-modal__body">
+          <span class="proj-modal__no num" data-proj-no></span>
+          <h3 id="proj-modal-name" data-proj-name></h3>
+          <p class="proj-modal__type" data-proj-type></p>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+
+    const modalImg    = $("[data-proj-img]", modal);
+    const modalStatus = $("[data-proj-status]", modal);
+    const modalNo     = $("[data-proj-no]", modal);
+    const modalName   = $("[data-proj-name]", modal);
+    const modalType   = $("[data-proj-type]", modal);
+    let lastFocus = null;
+
+    function openModal(p) {
+      if (!p) return;
+      modalImg.src = p.img;
+      modalImg.alt = `${p.name} 현장 사진`;
+      modalStatus.textContent = p.status;
+      modalStatus.dataset.status = p.status;
+      modalNo.textContent = `NO. ${String(p.no).padStart(2, "0")}`;
+      modalName.textContent = p.name;
+      modalType.textContent = p.type;
+      lastFocus = document.activeElement;
+      modal.hidden = false;
+      document.body.classList.add("no-scroll");
+      $(".proj-modal__x", modal).focus();
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      document.body.classList.remove("no-scroll");
+      if (lastFocus) lastFocus.focus();
+    }
+
+    board.addEventListener("click", (e) => {
+      const art = e.target.closest("[data-no]");
+      if (!art) return;
+      const p = PROJECTS.find((x) => x.no === Number(art.dataset.no));
+      openModal(p);
+    });
+
+    board.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const art = e.target.closest("[data-no]");
+      if (!art) return;
+      e.preventDefault();
+      const p = PROJECTS.find((x) => x.no === Number(art.dataset.no));
+      openModal(p);
+    });
+
+    modal.addEventListener("click", (e) => {
+      if (e.target.closest("[data-proj-close]")) closeModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.hidden) closeModal();
+    });
 
     cats.forEach((c, i) => {
       const n = c === "전체" ? PROJECTS.length : PROJECTS.filter((p) => p.cat === c).length;
