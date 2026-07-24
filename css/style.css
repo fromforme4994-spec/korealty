@@ -583,6 +583,9 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   border-radius: 5px;
   box-shadow: 0 8px 22px rgba(27,43,53,.16);
 }
+/* display를 준 탓에 [hidden]{display:none}이 밀린다(.map__pin과 같은 사정).
+   서울 밖 유형으로 거르면 카드를 감춰야 하는데, 걸러낸 현장 이름이 남아 있었다. */
+.map__card[hidden] { display: none; }
 /* 이름표와 현장명은 같은 크기로 읽는다. 구분은 색으로만 준다. */
 .map__card span,
 .map__card b {
