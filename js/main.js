@@ -335,12 +335,20 @@
     const modalType   = $("[data-proj-type]", modal);
     let lastFocus = null;
 
+    /* 사진을 못 받아오면 빈 액자만 남아 고장으로 보인다. 그때는 사진 칸을
+       접고 글 정보만 보여준다. data.js가 옛 캐시라 img가 없을 때도 같다. */
+    const modalMedia = $(".proj-modal__media", modal);
+    modalImg.addEventListener("error", () => { modalMedia.hidden = true; });
+
     function openModal(p) {
       if (!p) return;
-      modalImg.src = p.img;
-      modalImg.alt = `${p.name} 현장 사진`;
-      modalStatus.textContent = p.status;
-      modalStatus.dataset.status = p.status;
+      modalMedia.hidden = !p.img;
+      if (p.img) {
+        modalImg.src = p.img;
+        modalImg.alt = `${p.name} 현장 사진`;
+      }
+      modalStatus.textContent = p.status || "";
+      modalStatus.dataset.status = p.status || "";
       modalNo.textContent = `NO. ${String(p.no).padStart(2, "0")}`;
       modalName.textContent = p.name;
       modalType.textContent = p.type;
