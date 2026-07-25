@@ -121,6 +121,69 @@
     </div>
   </section>
 
+  <section class="sec sec--paper" id="inquiry">
+    <div class="shell">
+      <div class="sec__head">
+        <p class="eyebrow">Inquiry</p>
+        <h2 class="h-section">상담 신청</h2>
+        <p class="lede">사업지와 현재 단계를 남겨 주시면 담당자가 확인 후 연락드립니다. 급하시면 <a href="tel:15995022" style="text-decoration:underline">1599-5022</a>로 전화 주세요.</p>
+      </div>
+
+      <form class="form rise" data-inquiry novalidate>
+        <input type="hidden" name="access_key" value="7f702494-d59b-4167-9803-5754718b975a">
+        <input type="hidden" name="subject" value="[홈페이지] 분양 상담 신청">
+        <input type="hidden" name="from_name" value="코리얼티 홈페이지">
+        <!-- 스팸봇 잡이(honeypot). 사람은 못 보고 봇만 채운다. 채워지면 접수 안 된다. -->
+        <input type="checkbox" name="botcheck" class="form__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="form__grid">
+          <label class="field">
+            <span>성함 <b>*</b></span>
+            <input type="text" name="성함" required autocomplete="name" placeholder="홍길동">
+          </label>
+          <label class="field">
+            <span>연락처 <b>*</b></span>
+            <input type="tel" name="연락처" required autocomplete="tel" placeholder="010-0000-0000">
+          </label>
+          <label class="field">
+            <span>이메일</span>
+            <input type="email" name="이메일" autocomplete="email" placeholder="name@example.com">
+          </label>
+          <label class="field">
+            <span>사업지 지역</span>
+            <input type="text" name="사업지 지역" placeholder="예: 서울 강서구 마곡지구">
+          </label>
+          <label class="field field--full">
+            <span>사업 단계</span>
+            <select name="사업 단계">
+              <option value="">선택 안 함</option>
+              <option>사업 기획</option>
+              <option>토지 확보</option>
+              <option>인허가 진행</option>
+              <option>착공 준비</option>
+              <option>분양 준비</option>
+              <option>기타</option>
+            </select>
+          </label>
+          <label class="field field--full">
+            <span>문의 내용 <b>*</b></span>
+            <textarea name="문의 내용" required rows="5" placeholder="사업 개요와 필요하신 부분을 자유롭게 적어 주세요."></textarea>
+          </label>
+        </div>
+
+        <label class="form__consent">
+          <input type="checkbox" name="개인정보 수집·이용 동의" required value="동의함">
+          <span>상담을 위한 개인정보(성함 · 연락처)의 수집 · 이용에 동의합니다. <b>*</b></span>
+        </label>
+
+        <div class="form__foot">
+          <button type="submit" class="btn btn--primary" data-submit>상담 신청하기</button>
+          <p class="form__msg" data-msg role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <section class="sec sec--navy">
     <div class="shell">
       <figure class="quote quote--plain rise">

@@ -47,6 +47,38 @@
     rise.forEach((el) => io.observe(el));
   }
 
+  /* ---------- Count-up: 숫자가 화면에 들어오면 0에서 올라간다 ---------- */
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const counters = $$("[data-count-up]");
+  if (counters.length && "IntersectionObserver" in window) {
+    const run = (el) => {
+      const final = el.textContent;                 // 원본(콤마 등)을 그대로 되돌리려고 보관
+      const target = parseInt(final.replace(/[^\d]/g, ""), 10);
+      if (!Number.isFinite(target)) return;
+      if (reduceMotion) return;                      // 모션 최소화 설정이면 최종값 그대로 둔다
+      const dur = 1200;
+      const t0 = performance.now();
+      el.textContent = "0";
+      const tick = (now) => {
+        const p = Math.min(1, (now - t0) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);        // easeOutCubic
+        if (p < 1) {
+          el.textContent = String(Math.round(target * eased));
+          requestAnimationFrame(tick);
+        } else {
+          el.textContent = final;                    // 콤마 등 원본 서식으로 마무리
+        }
+      };
+      requestAnimationFrame(tick);
+    };
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { run(e.target); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.6 });
+    counters.forEach((el) => io.observe(el));
+  }
+
   /* ---------- Scope explorer: pins + tabs + card ---------- */
   const scope = $("[data-scope]");
   if (scope && typeof SCOPES !== "undefined") {
@@ -93,6 +125,40 @@
     }
 
     select(0);
+  }
+
+  /* ---------- Process timeline: 단계를 누르면 설명이 바뀐다 ---------- */
+  const proc = $("[data-proc]");
+  if (proc && typeof PROCESS !== "undefined") {
+    const stepsEl = $(".proc__steps", proc);
+    const panel = $("[data-proc-panel]", proc);
+
+    function selectStep(i) {
+      $$(".proc__step", stepsEl).forEach((b, j) =>
+        b.setAttribute("aria-selected", String(j === i))
+      );
+      const p = PROCESS[i];
+      panel.innerHTML =
+        `<span class="proc__no num">STEP ${p.step}</span>` +
+        `<h3 class="h-card">${p.title}</h3>` +
+        `<p>${p.desc}</p>`;
+    }
+
+    PROCESS.forEach((p, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "proc__step";
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-selected", String(i === 0));
+      b.innerHTML =
+        `<span class="proc__dot num">${p.step}</span>` +
+        `<span class="proc__label">${p.title}</span>`;
+      b.addEventListener("click", () => selectStep(i));
+      b.addEventListener("mouseenter", () => selectStep(i));
+      stepsEl.appendChild(b);
+    });
+
+    selectStep(0);
   }
 
   /* ---------- Site map ----------
@@ -404,5 +470,46 @@
     });
 
     render("전체");
+  }
+
+  /* ---------- Inquiry form: Web3Forms로 접수 (페이지 이동 없이) ---------- */
+  const form = $("[data-inquiry]");
+  if (form) {
+    const msg = $("[data-msg]", form);
+    const btn = $("[data-submit]", form);
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      const label = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "보내는 중…";
+      msg.textContent = "";
+      msg.className = "form__msg";
+
+      try {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(data),
+        });
+        const json = await res.json();
+        if (json.success) {
+          form.reset();
+          msg.textContent = "상담 신청이 접수되었습니다. 담당자가 곧 연락드리겠습니다.";
+          msg.classList.add("is-ok");
+        } else {
+          msg.textContent = "전송에 실패했습니다. 잠시 후 다시 시도하시거나 1599-5022로 전화 주세요.";
+          msg.classList.add("is-err");
+        }
+      } catch (err) {
+        msg.textContent = "네트워크 오류로 전송하지 못했습니다. 1599-5022로 전화 주세요.";
+        msg.classList.add("is-err");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = label;
+      }
+    });
   }
 })();

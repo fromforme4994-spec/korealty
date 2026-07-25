@@ -908,6 +908,95 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 .band .btn { flex: none; }
 .sec--band { padding-top: 0; }
 
+/* ---------- Process timeline (남색 섹션 위 인터랙티브 단계) ---------- */
+.proc { margin-top: clamp(32px, 4vw, 52px); }
+.proc__steps {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(6, 1fr);
+  position: relative;
+}
+/* 점들을 잇는 연결선. 점 지름(44px)의 중앙(22px)에 맞춘다. */
+.proc__steps::before {
+  content: ""; position: absolute; left: 8%; right: 8%; top: 21px;
+  height: 2px; background: rgba(255,255,255,.16);
+}
+.proc__step {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 0 6px; background: none; border: 0; cursor: pointer;
+  font-family: inherit; color: rgba(255,255,255,.6);
+}
+.proc__dot {
+  width: 44px; height: 44px; border-radius: 999px;
+  display: grid; place-items: center;
+  background: var(--navy); border: 2px solid rgba(255,255,255,.24);
+  font-size: 14px; font-weight: 800; color: rgba(255,255,255,.7);
+  transition: background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease);
+}
+.proc__label { font-size: 13px; font-weight: 600; text-align: center; line-height: 1.35; transition: color .2s var(--ease); }
+.proc__step:hover .proc__dot { border-color: rgba(255,255,255,.55); }
+.proc__step[aria-selected="true"] .proc__dot { background: var(--red); border-color: var(--red); color: var(--white); }
+.proc__step[aria-selected="true"] .proc__label { color: var(--white); }
+.proc__step:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; border-radius: 4px; }
+
+.proc__panel {
+  margin-top: clamp(28px, 4vw, 44px);
+  padding: clamp(24px, 3vw, 36px);
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+}
+.proc__no { display: block; margin-bottom: 10px; color: var(--red); font-size: 12px; font-weight: 800; letter-spacing: .16em; }
+.proc__panel h3 { color: var(--white); margin: 0 0 10px; }
+.proc__panel p { margin: 0; color: rgba(255,255,255,.78); font-size: clamp(15px, 1.3vw, 17px); max-width: 62ch; }
+
+/* 모바일: 단계를 세로로 쌓고 연결선은 감춘다. */
+@media (max-width: 760px) {
+  .proc__steps { grid-template-columns: 1fr; }
+  .proc__steps::before { display: none; }
+  .proc__step { flex-direction: row; justify-content: flex-start; gap: 14px; padding: 9px 0; }
+  .proc__dot { width: 38px; height: 38px; flex: none; }
+  .proc__label { text-align: left; font-size: 15px; }
+}
+
+/* ---------- Inquiry form ---------- */
+.form { max-width: 760px; margin-top: clamp(28px, 4vw, 44px); }
+/* honeypot: 화면 밖으로 보내 사람 눈엔 안 보이게 한다. */
+.form__hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field--full { grid-column: 1 / -1; }
+.field > span { font-size: 13px; font-weight: 700; color: var(--navy); }
+.field > span b { color: var(--red); }
+.field input, .field select, .field textarea {
+  font: inherit; font-size: 15px;
+  padding: 13px 14px;
+  border: 1px solid var(--gray-line);
+  border-radius: var(--radius);
+  background: var(--white); color: var(--navy);
+  transition: border-color .2s var(--ease);
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--gray); }
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: var(--navy);
+}
+.field textarea { resize: vertical; min-height: 120px; }
+.form__consent {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-top: 18px; font-size: 14px; color: var(--navy-soft);
+}
+.form__consent input { margin-top: 3px; flex: none; width: 18px; height: 18px; accent-color: var(--red); }
+.form__consent b { color: var(--red); }
+.form__foot { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 24px; }
+.form__foot .btn:disabled { opacity: .6; cursor: default; }
+.form__msg { margin: 0; font-size: 14px; font-weight: 600; }
+.form__msg.is-ok { color: #1F7A4D; }
+.form__msg.is-err { color: var(--red); }
+
+@media (max-width: 620px) {
+  .form__grid { grid-template-columns: 1fr; }
+}
+
 /* ---------- Footer ---------- */
 
 .foot {
