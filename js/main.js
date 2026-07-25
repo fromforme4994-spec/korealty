@@ -278,7 +278,7 @@
   if (board && typeof PROJECTS !== "undefined") {
     const rail = $("[data-filters]");
     const count = $("[data-count]");
-    const cats = ["전체", "오피스텔", "주거", "상가", "조합", "오피스"];
+    const cats = ["전체", "오피스텔", "주거시설", "상업시설", "조합", "오피스"];
 
     function card(p) {
       return `
