@@ -243,7 +243,11 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 
 .hero {
   position: relative;
-  min-height: min(88vh, 820px);
+  /* 헤더(76px)를 뺀 화면 높이를 꽉 채운다. 그래야 하단의 스크롤 신호가
+     화면 맨 아래에 붙고, 히어로 아래로 흰 여백이 생기지 않는다.
+     dvh는 모바일 주소창 높이 변화를 반영한다(미지원 브라우저는 위 vh를 쓴다). */
+  min-height: calc(100vh - 76px);
+  min-height: calc(100dvh - 76px);
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -308,6 +312,31 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 
 @media (max-width: 720px) {
   .hero__stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* 히어로 하단의 "아래로 스크롤" 신호. 눌러도 다음 섹션(#scope)으로 내려간다. */
+.hero__scroll {
+  position: absolute;
+  left: 50%; bottom: 22px;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  color: rgba(255,255,255,.72);
+  font-size: 10px; font-weight: 700; letter-spacing: .22em;
+  transition: color .2s var(--ease);
+}
+.hero__scroll:hover { color: var(--white); }
+.hero__scroll svg { width: 22px; height: 22px; animation: heroScroll 1.8s var(--ease) infinite; }
+@keyframes heroScroll {
+  0%, 100% { transform: translateY(0);   opacity: .7; }
+  50%      { transform: translateY(5px); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll svg { animation: none; }
+}
+/* 모바일에서는 통계가 아래를 채워 신호가 겹치므로 숨긴다. */
+@media (max-width: 720px) {
+  .hero__scroll { display: none; }
 }
 
 /* ---------- Section frame ---------- */
