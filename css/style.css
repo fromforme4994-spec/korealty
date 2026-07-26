@@ -249,7 +249,7 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   min-height: calc(100vh - 76px);
   min-height: calc(100dvh - 76px);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   overflow: hidden;
   background: var(--navy-deep);
   color: var(--white);
@@ -267,14 +267,17 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   content: "";
   position: absolute;
   inset: 0;
-  /* 위쪽은 영상이 보이도록 열어두고, 흰 글씨가 몰린 아래쪽만 진하게 덮는다.
-     영상은 밝은 하늘과 어두운 건물을 오가므로 글씨 뒤는 항상 어두워야 한다. */
-  background: linear-gradient(180deg, rgba(27,43,53,.40) 0%, rgba(27,43,53,.62) 50%, rgba(27,43,53,.94) 100%);
+  /* 텍스트가 화면 중앙 왼쪽에 오므로, 왼쪽을 가로로 어둡게 덮어 글씨를 살리고
+     오른쪽 영상은 밝게 남긴다. 여기에 아래쪽(통계)까지 세로로 한 번 더 덮는다.
+     영상이 밝은 하늘과 어두운 건물을 오가도 글씨 뒤는 항상 충분히 어둡다. */
+  background:
+    linear-gradient(90deg, rgba(27,43,53,.62) 0%, rgba(27,43,53,.30) 45%, rgba(27,43,53,0) 80%),
+    linear-gradient(180deg, rgba(27,43,53,.30) 0%, rgba(27,43,53,.42) 45%, rgba(27,43,53,.80) 100%);
 }
 .hero__in {
   position: relative;
   z-index: 1;
-  padding: 140px 0 64px;
+  padding: 40px 0;
 }
 /* On the navy hero the brand red drops below AA against the overlay,
    so the eyebrow switches to the sub gray. Red stays for accents on light. */
