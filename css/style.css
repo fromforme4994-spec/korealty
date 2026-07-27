@@ -113,8 +113,10 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  transition: background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease);
+  transition: background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease), transform .12s var(--ease);
 }
+/* 누를 때 살짝 눌리는 촉각 피드백. transform이라 주변 배치는 흔들리지 않는다. */
+.btn:active { transform: translateY(1px); }
 .btn--primary { background: var(--red); color: var(--white); }
 .btn--primary:hover { background: #C7321F; }
 .btn--ghost { background: transparent; color: var(--white); border-color: rgba(255,255,255,.45); }
@@ -781,9 +783,10 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   background: var(--white);
   border: 1px solid var(--gray-line);
   border-radius: 6px;
-  transition: border-color .2s var(--ease), transform .2s var(--ease);
+  transition: border-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease);
 }
-.card:hover { border-color: var(--navy); }
+/* 실적 카드(.proj)처럼 살짝 떠오르게 해 카드 hover 감각을 통일한다. */
+.card:hover { border-color: var(--navy); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(27,43,53,.08); }
 .card p { margin: 12px 0 0; color: var(--navy-soft); font-size: 15px; }
 
 /* Project card — spec sheet, not a photo frame */
@@ -1038,8 +1041,12 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   transition: border-color .2s var(--ease);
 }
 .field input::placeholder, .field textarea::placeholder { color: var(--gray); }
+/* 포커스 시 외곽선만 지우지 않고, 테두리를 진하게 + 은은한 브랜드 링을 준다.
+   키보드 사용자에게도 포커스 위치가 또렷하고, 톤은 사이트에 맞게 차분하다. */
 .field input:focus, .field select:focus, .field textarea:focus {
-  outline: none; border-color: var(--navy);
+  outline: none;
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(41, 62, 75, .12);
 }
 .field textarea { resize: vertical; min-height: 120px; }
 .form__consent {
