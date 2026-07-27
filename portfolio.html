@@ -64,12 +64,15 @@
       <div class="sec__head">
         <p class="eyebrow">Track Record</p>
         <h1 class="h-section">프로젝트 현황</h1>
-        <p class="lede">서울 25개 자치구 가운데 <b data-gu-count>10</b>개 구에서 20개 현장을 수행했습니다. 색이 진한 구일수록 현장이 많습니다. 나머지 8개는 포항에서 보령까지 분포합니다.</p>
+        <p class="lede">서울 25개 자치구 가운데 <b data-gu-count>10</b>개 구에서 20개 현장을 수행했습니다. 나머지 8개는 포항에서 보령까지 분포합니다.</p>
       </div>
 
       <div class="map__wrap rise" data-map-wrap>
         <div class="map" data-map></div>
         <div class="map__card" data-map-card></div>
+        <!-- 데스크톱에서 WebGL이 되면 js/portfolio-map.js가 위 SVG 지도를 숨기고
+             이 3D 지도(서울 프로젝트 핀)로 바꾼다. 모바일·실패 시 SVG가 남는다. -->
+        <div class="map3d" data-map3d aria-label="서울 프로젝트 3D 지도"></div>
         <div class="map__away">
           <span>서울 외 현장<b>8건</b></span>
           <span>포항</span><span>경산</span><span>파주</span><span>김포</span>
@@ -609,5 +612,6 @@
 <script src="js/data.js"></script>
 <script src="js/map.js"></script>
 <script src="js/main.js"></script>
+<script src="js/portfolio-map.js" defer></script>
 </body>
 </html>

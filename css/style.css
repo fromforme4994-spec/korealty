@@ -680,6 +680,40 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 .sec--record .filters { margin-bottom: 8px; }
 .sec--record .proj { padding: 20px; gap: 16px; }
 
+/* ---------- 실적 3D 지도 (데스크톱, portfolio-map.js) ---------- */
+.map3d {
+  display: none; position: relative; width: 100%;
+  height: clamp(380px, 52vh, 560px);
+  border-radius: 8px; overflow: hidden;
+  background: var(--navy-deep); border: 1px solid var(--gray-line);
+}
+.map3d.is-on { display: block; }
+/* 3D가 뜨면 기존 SVG 지도 박스와 카드를 숨긴다(모바일·실패 시엔 SVG가 남는다). */
+.map__wrap.has-3d .map,
+.map__wrap.has-3d .map__card { display: none; }
+
+/* 프로젝트 핀 */
+.map3d .mk {
+  display: flex; align-items: center; gap: 8px; cursor: default;
+  transform: translateY(-4px); filter: drop-shadow(0 3px 8px rgba(0,0,0,.5));
+}
+.map3d .mk__dot {
+  width: 12px; height: 12px; border-radius: 50%; flex: none;
+  background: var(--red); border: 1.5px solid #fff;
+  box-shadow: 0 0 0 4px rgba(226,61,44,.25);
+}
+.map3d .mk__lbl {
+  font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap;
+  background: rgba(27,43,53,.82); padding: 3px 9px; border-radius: 7px;
+  border: 1px solid rgba(255,255,255,.14);
+  opacity: 0; transform: translateX(-4px); transition: opacity .16s var(--ease), transform .16s var(--ease);
+}
+.map3d .mk:hover .mk__lbl { opacity: 1; transform: translateX(0); }
+
+/* 출처 표기 최소화(라이선스상 유지, 흐리게) */
+.map3d .maplibregl-ctrl-attrib { background: rgba(10,13,19,.45) !important; font-size: 9px !important; }
+.map3d .maplibregl-ctrl-attrib a { color: rgba(255,255,255,.5) !important; }
+
 .map__empty {
   position: absolute;
   inset: auto 24px 24px;
