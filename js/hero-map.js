@@ -100,11 +100,14 @@
         // 창 크기가 바뀌면 다시 맞춘다(반응형).
         window.addEventListener("resize", function () { map.resize(); });
 
-        // 타일이 한 번 자리잡으면 서서히 나타난다. 영상은 정지하지 않고 뒤에서
-        // 계속 재생한다 — 혹시 지도가 빈 화면이어도 영상이 폴백으로 보이게.
+        // 타일이 한 번 자리잡으면 서서히 나타난다. 이때 지도 층에 어두운 바닥이
+        // 깔리므로, 뒤의 밝은 영상이 비치지 않도록 영상을 멈춘다(자원도 절약).
+        // 지도가 아예 실패하면 여기까지 안 와서 is-on이 안 붙고 영상이 폴백으로 남는다.
         map.once("idle", function () {
           map.resize();
           mapEl.classList.add("is-on");
+          var v = document.querySelector(".hero video");
+          if (v) { try { v.pause(); } catch (e) {} }
           if (!reduceMotion) spin(map);
         });
       })

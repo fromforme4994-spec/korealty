@@ -270,6 +270,10 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
    더 높은 특정도(.hero .hero__map)로 절대배치를 고정해야 한다. */
 .hero .hero__map {
   position: absolute; inset: 0;
+  /* 불투명한 어두운 바닥. 지도 캔버스에 투명한 부분이 있어도 뒤의 밝은 영상이
+     비치지 않게 한다. 지도가 뜰 때(is-on)만 보이므로, 지도가 실패하면 이 층은
+     계속 숨어 있고(opacity 0) 영상이 폴백으로 남는다. */
+  background: var(--navy-deep);
   opacity: 0; transition: opacity .8s var(--ease);
 }
 .hero .hero__map.is-on { opacity: 1; }
