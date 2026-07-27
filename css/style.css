@@ -277,13 +277,16 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   opacity: 0; transition: opacity .8s var(--ease);
 }
 .hero .hero__map.is-on { opacity: 1; }
-/* 배경 지도라 조작 흔적(포커스 외곽선 등)과 로고는 최대한 눈에 안 띄게. */
-.hero__map .maplibregl-ctrl-attrib {
+/* 배경 지도라 조작 흔적(포커스 외곽선 등)과 출처 표기는 최대한 눈에 안 띄게.
+   출처는 OSM 라이선스상 표기 의무가 있어 지우지 않고, 아주 작고 흐리게만 둔다. */
+.hero .hero__map .maplibregl-ctrl-attrib {
+  background: transparent !important;
+  margin: 0 6px 3px 0 !important;
   font-size: 9px !important;
-  background: rgba(10,13,19,.42) !important;
 }
-.hero__map .maplibregl-ctrl-attrib a { color: rgba(255,255,255,.5) !important; }
-.hero__map .maplibregl-canvas { outline: none !important; }
+.hero .hero__map .maplibregl-ctrl-attrib a { color: rgba(255,255,255,.22) !important; }
+.hero .hero__map .maplibregl-ctrl-attrib-button { display: none !important; }
+.hero .hero__map .maplibregl-canvas { outline: none !important; }
 .hero__media::after {
   content: "";
   position: absolute;

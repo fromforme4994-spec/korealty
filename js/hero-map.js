@@ -85,7 +85,7 @@
           center: [126.9258, 37.5238], // 여의도
           zoom: 15.3, pitch: 60, bearing: -20,
           interactive: false,          // 히어로 배경이라 조작 막는다
-          attributionControl: { compact: true },
+          attributionControl: { compact: false }, // 출처 표기를 접지 않고 흐리게 항상 노출
           antialias: true, maxPitch: 75
         });
 
