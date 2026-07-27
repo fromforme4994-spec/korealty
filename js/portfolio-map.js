@@ -155,6 +155,11 @@
       el.className = "mk";
       el.innerHTML = '<span class="mk__dot"></span><span class="mk__lbl"></span>';
       el.querySelector(".mk__lbl").textContent = p.name;
+      // 핀을 누르면 그 프로젝트 카드를 클릭한 것과 같게 — 사진 모달이 열린다.
+      el.addEventListener("click", function () {
+        var card = document.querySelector('[data-projects] [data-no="' + no + '"]');
+        if (card) card.click();
+      });
       new maplibregl.Marker({ element: el, anchor: "bottom" })
         .setLngLat(GEO[no]).addTo(map);
       markers.push({ el: el, cat: p.cat });

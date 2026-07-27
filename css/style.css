@@ -694,7 +694,7 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 
 /* 프로젝트 핀 */
 .map3d .mk {
-  display: flex; align-items: center; gap: 8px; cursor: default;
+  display: flex; align-items: center; gap: 8px; cursor: pointer;
   transform: translateY(-4px); filter: drop-shadow(0 3px 8px rgba(0,0,0,.5));
 }
 .map3d .mk__dot {
