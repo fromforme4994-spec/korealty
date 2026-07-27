@@ -81,6 +81,9 @@
     <div class="hero__media">
       <video src="assets/video/hero-city.mp4" poster="assets/img/hero-city-poster.jpg"
              autoplay muted loop playsinline preload="metadata"></video>
+      <!-- 데스크톱에서 WebGL이 되면 js/hero-map.js가 이 위에 여의도 3D 지도를
+           얹는다. 안 되면(모바일·구형·타일지연) 위 영상이 그대로 보인다. -->
+      <div class="hero__map" data-hero-map aria-hidden="true"></div>
     </div>
     <div class="shell hero__in">
       <p class="eyebrow">Property Development · Marketing · Consulting</p>
@@ -235,5 +238,6 @@
 <script src="js/data.js"></script>
 <script src="js/map.js"></script>
 <script src="js/main.js"></script>
+<script src="js/hero-map.js" defer></script>
 </body>
 </html>
