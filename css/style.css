@@ -264,12 +264,15 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   object-fit: cover;
 }
 /* 3D 지도 층. 기본은 숨김(영상이 보임). 지도가 다 뜨면 is-on으로 서서히 나타나
-   영상을 덮는다. 지도가 실패하면 계속 숨은 채라 영상이 폴백으로 남는다. */
-.hero__map {
+   영상을 덮는다. 지도가 실패하면 계속 숨은 채라 영상이 폴백으로 남는다.
+   ⚠ MapLibre가 컨테이너에 .maplibregl-map(position:relative)을 붙여, 나중에 로드되는
+   그 CSS가 같은 특정도의 .hero__map을 덮어써 높이가 0으로 찌그러진다. 그래서 반드시
+   더 높은 특정도(.hero .hero__map)로 절대배치를 고정해야 한다. */
+.hero .hero__map {
   position: absolute; inset: 0;
   opacity: 0; transition: opacity .8s var(--ease);
 }
-.hero__map.is-on { opacity: 1; }
+.hero .hero__map.is-on { opacity: 1; }
 /* 배경 지도라 조작 흔적(포커스 외곽선 등)과 로고는 최대한 눈에 안 띄게. */
 .hero__map .maplibregl-ctrl-attrib {
   font-size: 9px !important;
