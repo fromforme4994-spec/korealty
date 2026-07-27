@@ -36,11 +36,25 @@
     });
   }
 
+  /* 처음부터 어두운 지도 층으로 영상을 덮는다. 그래야 밝은 영상이 잠깐 떴다
+     지도로 바뀌는 깜빡임이 없다(실적 지도와 같은 방식). 지도가 실패하면
+     revert()로 층을 걷어 영상이 폴백으로 다시 보인다. */
+  var settled = false;
+  mapEl.classList.add("is-on");
+  function revert() {
+    if (settled) return;
+    mapEl.classList.remove("is-on");
+    var v = document.querySelector(".hero video");
+    if (v) { try { v.play(); } catch (e) {} }
+  }
+  // 안전장치: 10초 안에 지도가 안 뜨면 영상으로 되돌린다.
+  var safety = setTimeout(revert, 10000);
+
   loadCSS("assets/vendor/maplibre-gl.css");
-  loadJS("assets/vendor/maplibre-gl.js").then(initMap).catch(function () { /* 영상 유지 */ });
+  loadJS("assets/vendor/maplibre-gl.js").then(initMap).catch(function () { clearTimeout(safety); revert(); });
 
   function initMap() {
-    if (!window.maplibregl) return;
+    if (!window.maplibregl) { clearTimeout(safety); revert(); return; }
 
     // openfreemap의 무료 벡터 타일을 쓰되, 다크 브랜드 톤으로 레이어를 새로 짠다.
     fetch("https://tiles.openfreemap.org/styles/positron")
@@ -100,18 +114,18 @@
         // 창 크기가 바뀌면 다시 맞춘다(반응형).
         window.addEventListener("resize", function () { map.resize(); });
 
-        // 타일이 한 번 자리잡으면 서서히 나타난다. 이때 지도 층에 어두운 바닥이
-        // 깔리므로, 뒤의 밝은 영상이 비치지 않도록 영상을 멈춘다(자원도 절약).
-        // 지도가 아예 실패하면 여기까지 안 와서 is-on이 안 붙고 영상이 폴백으로 남는다.
+        // 타일이 한 번 자리잡으면 성공으로 보고 안전장치를 끈다. 이미 어두운 층이
+        // 영상을 덮고 있으니, 뒤 영상은 멈춰 자원을 아낀다.
         map.once("idle", function () {
+          settled = true;
+          clearTimeout(safety);
           map.resize();
-          mapEl.classList.add("is-on");
           var v = document.querySelector(".hero video");
           if (v) { try { v.pause(); } catch (e) {} }
           if (!reduceMotion) spin(map);
         });
       })
-      .catch(function () { /* 타일 실패 → 영상 유지 */ });
+      .catch(function () { clearTimeout(safety); revert(); /* 타일 실패 → 영상으로 되돌림 */ });
   }
 
   function spin(map) {
