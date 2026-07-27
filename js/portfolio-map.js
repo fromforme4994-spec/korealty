@@ -59,13 +59,26 @@
     });
   }
 
+  /* 처음부터 SVG를 감추고 어두운 자리(3D 지도 배경색)를 보여준다. 그래야 옛 SVG가
+     잠깐 떴다 3D로 바뀌는 깜빡임이 없다. 지도가 실패하면 revert()로 SVG를 되살린다. */
+  var settled = false;
+  wrap.classList.add("has-3d");
+  mapEl.classList.add("is-on");
+  function revert() {
+    if (settled) return;
+    wrap.classList.remove("has-3d");
+    mapEl.classList.remove("is-on");
+  }
+  // 안전장치: 10초 안에 지도가 안 뜨면 SVG로 되돌린다.
+  var safety = setTimeout(revert, 10000);
+
   loadCSS("assets/vendor/maplibre-gl.css");
-  loadJS("assets/vendor/maplibre-gl.js").then(init).catch(function () { /* SVG 유지 */ });
+  loadJS("assets/vendor/maplibre-gl.js").then(init).catch(function () { clearTimeout(safety); revert(); });
 
   var markers = [];
 
   function init() {
-    if (!window.maplibregl) return;
+    if (!window.maplibregl) { clearTimeout(safety); revert(); return; }
 
     fetch("https://tiles.openfreemap.org/styles/positron")
       .then(function (r) { return r.json(); })
@@ -125,11 +138,11 @@
 
         window.addEventListener("resize", function () { map.resize(); });
 
-        // 타일이 자리잡으면 SVG를 숨기고 3D를 보인다. 실패하면 여기 못 와서 SVG가 남는다.
+        // 타일이 한 번 자리잡으면 성공으로 보고 안전장치를 끈다(이미 3D가 보이는 상태).
         map.once("idle", function () {
+          settled = true;
+          clearTimeout(safety);
           map.resize();
-          wrap.classList.add("has-3d");
-          mapEl.classList.add("is-on");
         });
 
         // 유형 필터 연동: 버튼을 누르면 해당 유형 핀만 남긴다.
@@ -143,7 +156,7 @@
           });
         }
       })
-      .catch(function () { /* 타일 실패 → SVG 유지 */ });
+      .catch(function () { clearTimeout(safety); revert(); /* 타일 실패 → SVG로 되돌림 */ });
   }
 
   function addMarkers(map) {
