@@ -7,7 +7,7 @@
 <meta name="description" content="코리얼티디엠씨㈜ 최준성 대표 명함. 전화·문자·이메일·오시는 길을 한 화면에서 열고, 연락처를 휴대폰에 바로 저장할 수 있습니다.">
 <link rel="canonical" href="https://korealty.co.kr/card">
 <meta name="robots" content="noindex, follow">
-<meta name="theme-color" content="#e6ecf3">
+<meta name="theme-color" content="#dbe3ee">
 
 <meta property="og:type" content="profile">
 <meta property="og:site_name" content="코리얼티디엠씨㈜">
@@ -26,7 +26,7 @@
 
 <style>
   /* 명함은 사이트 CSS를 쓰지 않는 독립 페이지라 여백만 직접 지운다. */
-  html,body{margin:0;padding:0;background:#e6ecf3;}
+  html,body{margin:0;padding:0;background:#c6d2e1;}
 
   @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Regular.woff2?v=24ee0095") format("woff2"); font-weight: 400; font-display: swap; }
   @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Medium.woff2?v=24ee0095") format("woff2"); font-weight: 500; font-display: swap; }
@@ -41,13 +41,16 @@
     --navy-deep:#1B2B35;
     --navy-soft:#3B5566;
     --red:#E23D2C;
+    --red-ink:#C0301F;     /* 작은 빨간 글자용. CI 레드는 흰 배경에서 4:1 언저리라 글자로는 부족하다. */
     --text:#22303C;
-    --muted:#5A6874;       /* 흰 패널 위 4.5:1 이상 */
-    --faint:#667380;
-    --line:rgba(41,62,75,.10);
-    --line-soft:rgba(41,62,75,.07);
-    --glass:rgba(255,255,255,.72);
-    --glass-strong:rgba(255,255,255,.86);
+    --muted:#54626F;       /* 푸른기 도는 패널 위 4.5:1 이상 */
+    --faint:#414D58;       /* 카드 아래쪽이 짙어져 여기까지 내려야 4.5:1 이 나온다. */
+    --line:rgba(41,62,75,.12);
+    --line-soft:rgba(41,62,75,.08);
+    /* 흰색이 아니라 푸른기 도는 유리. 레퍼런스처럼 아래로 갈수록 짙어진다. */
+    --glass:rgba(240,245,251,.66);
+    --glass-strong:rgba(238,243,250,.82);
+    --panel:rgba(252,253,255,.62);
     --radius:18px;
     --stack:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
     /* 빛이 위에서 오는 부드러운 그림자 */
@@ -64,9 +67,9 @@
     justify-content:center;
     color:var(--text);
     background:
-      radial-gradient(120% 85% at 50% -10%, #ffffff 0%, rgba(255,255,255,0) 55%),
-      radial-gradient(80% 55% at 88% 105%, rgba(41,62,75,.16) 0%, rgba(41,62,75,0) 62%),
-      linear-gradient(180deg,#f2f6fa 0%, #dde5ee 100%);
+      radial-gradient(115% 80% at 50% -12%, rgba(255,255,255,.9) 0%, rgba(255,255,255,0) 52%),
+      radial-gradient(85% 55% at 88% 108%, rgba(41,62,75,.28) 0%, rgba(41,62,75,0) 60%),
+      linear-gradient(180deg,#e4ebf4 0%, #c3d0e0 52%, #a9b8cd 100%);
     -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;
   }
@@ -76,8 +79,8 @@
     max-width:430px;
     /* 위쪽 광택은 배경 그라데이션으로 넣는다. 덧씌우는 레이어로 만들면
        글자 위를 덮어 워드마크가 씻겨 보인다. */
-    background:linear-gradient(180deg, rgba(255,255,255,.97) 0%, var(--glass-strong) 30%);
-    border:1px solid rgba(255,255,255,.9);
+    background:linear-gradient(180deg, rgba(255,255,255,.94) 0%, var(--glass-strong) 26%, rgba(205,217,234,.9) 68%, rgba(183,198,219,.94) 100%);
+    border:1px solid rgba(255,255,255,.75);
     border-radius:28px;
     padding:30px 24px 22px;
     box-shadow:
@@ -91,7 +94,7 @@
   /* 유리 질감은 지원하는 기기에서만. 안 되면 위의 불투명 흰색으로 남는다. */
   @supports ((backdrop-filter:blur(24px)) or (-webkit-backdrop-filter:blur(24px))){
     .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.88) 0%, var(--glass) 30%);
+      background:linear-gradient(180deg, rgba(255,255,255,.86) 0%, var(--glass) 26%, rgba(201,214,232,.76) 68%, rgba(178,194,217,.82) 100%);
       -webkit-backdrop-filter:blur(24px) saturate(150%); backdrop-filter:blur(24px) saturate(150%);
     }
   }
@@ -114,7 +117,7 @@
   /* ---- identity ---- */
   .eyebrow{
     font-size:11px; letter-spacing:.24em; text-transform:uppercase;
-    color:var(--red); font-weight:700; margin-bottom:12px;
+    color:var(--red-ink); font-weight:700; margin-bottom:12px;
     display:flex; align-items:center; gap:9px;
   }
   .eyebrow::after{content:""; height:1px; flex:1; background:linear-gradient(90deg, rgba(226,61,44,.35), rgba(226,61,44,0));}
@@ -150,8 +153,8 @@
   }
   .qa i{
     width:56px; height:56px; border-radius:50%; display:grid; place-items:center;
-    background:linear-gradient(180deg,#ffffff 0%, #eef2f7 100%);
-    border:1px solid rgba(255,255,255,.9);
+    background:linear-gradient(180deg,#ffffff 0%, #e6ecf5 100%);
+    border:1px solid rgba(255,255,255,.85);
     color:var(--navy);
     box-shadow:0 1px 0 rgba(255,255,255,.95) inset, 0 10px 20px -14px rgba(27,43,53,.65), 0 2px 6px -4px rgba(27,43,53,.3);
     transition:transform .15s ease, box-shadow .2s ease, color .2s ease;
@@ -178,8 +181,8 @@
   /* ---- contact rows ---- */
   .rows{
     display:flex; flex-direction:column; margin-bottom:18px;
-    border:1px solid rgba(255,255,255,.9); border-radius:var(--radius); overflow:hidden;
-    background:rgba(255,255,255,.55);
+    border:1px solid rgba(255,255,255,.85); border-radius:var(--radius); overflow:hidden;
+    background:var(--panel);
     box-shadow:var(--lift);
   }
   .row{
@@ -192,23 +195,24 @@
   .row:active{background:rgba(41,62,75,.06);}
   .ic{
     width:40px;height:40px;border-radius:13px; display:grid;place-items:center;
-    background:linear-gradient(180deg,#ffffff,#eef2f7);
-    border:1px solid rgba(255,255,255,.9); color:var(--navy);
+    background:linear-gradient(180deg,#ffffff,#e6ecf5);
+    border:1px solid rgba(255,255,255,.85); color:var(--navy);
     box-shadow:0 1px 0 rgba(255,255,255,.95) inset, 0 6px 14px -10px rgba(27,43,53,.6);
   }
   .ic svg{width:18px;height:18px;}
   .row .meta{min-width:0;}
   .row .lab{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); font-weight:600; margin-bottom:2px;}
   .row .val{font-size:15px; font-weight:600; color:var(--navy-deep); font-variant-numeric:tabular-nums; letter-spacing:.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-  .row .val.mail{text-transform:none; letter-spacing:0;}
+  /* 이메일·홈페이지는 대문자로 보이게만 한다. mailto:/href 값은 소문자 그대로다. */
+  .row .val.mail{text-transform:uppercase; letter-spacing:.01em;}
   .chev{color:var(--faint); display:flex;}
   .chev svg{width:16px;height:16px;}
 
   /* ---- address ---- */
   .addr{
     display:block; text-decoration:none; color:var(--text);
-    border:1px solid rgba(255,255,255,.9); border-radius:var(--radius);
-    padding:15px 16px; margin-bottom:20px; background:rgba(255,255,255,.55);
+    border:1px solid rgba(255,255,255,.85); border-radius:var(--radius);
+    padding:15px 16px; margin-bottom:20px; background:var(--panel);
     box-shadow:var(--lift);
     transition:background .16s ease;
   }
