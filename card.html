@@ -22,17 +22,17 @@
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png?v=def091a5">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png?v=a17d6f32">
-<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Pretendard-Bold.woff2?v=a5d94fd1" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Pretendard-Bold.woff2?v=6f88754d" crossorigin>
 
 <style>
   /* 명함은 사이트 CSS를 쓰지 않는 독립 페이지라 여백만 직접 지운다. */
   html,body{margin:0;padding:0;background:#7c8899;}
 
-  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Regular.woff2?v=a5d94fd1") format("woff2"); font-weight: 400; font-display: swap; }
-  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Medium.woff2?v=a5d94fd1") format("woff2"); font-weight: 500; font-display: swap; }
-  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-SemiBold.woff2?v=a5d94fd1") format("woff2"); font-weight: 600; font-display: swap; }
-  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Bold.woff2?v=a5d94fd1") format("woff2"); font-weight: 700; font-display: swap; }
-  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Black.woff2?v=a5d94fd1") format("woff2"); font-weight: 900; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Regular.woff2?v=6f88754d") format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Medium.woff2?v=6f88754d") format("woff2"); font-weight: 500; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-SemiBold.woff2?v=6f88754d") format("woff2"); font-weight: 600; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Bold.woff2?v=6f88754d") format("woff2"); font-weight: 700; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Black.woff2?v=6f88754d") format("woff2"); font-weight: 900; font-display: swap; }
 
   :root{
     color-scheme:light;
@@ -82,10 +82,32 @@
     box-shadow:
       0 50px 90px -40px rgba(12,20,30,.55),
       0 14px 32px -18px rgba(12,20,30,.35);
-    animation:rise .7s cubic-bezier(.2,.7,.2,1) both;
+    animation:rise .6s cubic-bezier(.2,.7,.2,1) .78s both;
   }
-  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-  @media (prefers-reduced-motion:reduce){ .card{animation:none} }
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+  /* ---- 인트로: 로고가 먼저, 그다음 명함 ----
+     명함은 빨리 보고 싶은 화면이라 1.2초 안에 끝낸다. 더 끌면 방해가 된다. */
+  .splash{
+    position:fixed; inset:0; z-index:40;
+    display:grid; place-items:center;
+    background:linear-gradient(160deg,#22323f 0%, #16222c 55%, #0e1720 100%);
+    animation:splash-out .45s ease .82s both;
+  }
+  .splash img{
+    width:min(58vw,240px); height:auto; display:block;
+    animation:logo-in .5s cubic-bezier(.2,.7,.2,1) .06s both,
+              logo-out .4s ease .8s both;
+  }
+  @keyframes logo-in{ from{opacity:0; transform:scale(.9)} to{opacity:1; transform:scale(1)} }
+  @keyframes logo-out{ to{opacity:0; transform:scale(1.08)} }
+  @keyframes splash-out{ to{opacity:0; visibility:hidden} }
+
+  /* 움직임을 줄이도록 설정한 사람에게는 인트로를 보이지 않는다. */
+  @media (prefers-reduced-motion:reduce){
+    .card{animation:none}
+    .splash{display:none}
+  }
 
   /* ---- 머리말 ---- */
   .wordmark{ display:flex; }
@@ -140,15 +162,22 @@
   @media (hover:hover){ .row:hover .val{ color:var(--red-ink); } .row:hover .chev{ color:var(--red-ink); } }
 
   /* ---- 오시는 길 ---- */
-  .addr{ display:block; text-decoration:none; color:var(--text); padding-top:4px; }
+  .addr{ padding-top:4px; }
   .addr .a1{ font-size:14.5px; font-weight:600; line-height:1.55; color:var(--navy-deep); }
   .addr .a2{ font-size:12.5px; color:var(--muted); line-height:1.55; margin-top:2px; }
-  .addr .go{
-    margin-top:10px; font-size:12.5px; font-weight:700; color:var(--navy);
-    display:inline-flex; align-items:center; gap:5px; letter-spacing:.02em;
+  /* 티맵은 넣지 않는다. 웹 주소가 없어 앱이 없으면 눌러도 아무 일이 없고,
+     iOS 와 안드로이드의 파라미터 이름도 다르다. 네이버·카카오는 둘 다
+     웹 주소가 있어 앱 없이도 열린다. */
+  .maps{ display:flex; gap:8px; margin-top:11px; }
+  .maps a{
+    flex:1; display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    padding:11px 8px; border:1px solid rgba(41,62,75,.22); border-radius:999px;
+    font-size:12.5px; font-weight:700; color:var(--navy); text-decoration:none;
+    letter-spacing:.01em; transition:border-color .16s ease, color .16s ease;
   }
-  .addr .go svg{ width:13px; height:13px; }
-  @media (hover:hover){ .addr:hover .go{ color:var(--red-ink); } }
+  .maps a svg{ width:12px; height:12px; }
+  .maps a:active{ opacity:.6; }
+  @media (hover:hover){ .maps a:hover{ color:var(--red-ink); border-color:rgba(192,48,31,.45); } }
 
   /* ---- 저장 버튼 ---- */
   .save{
@@ -184,6 +213,10 @@
 </style>
 </head>
 <body>
+
+<div class="splash" aria-hidden="true">
+  <img src="assets/img/logo-intro.png" alt="" width="800" height="137">
+</div>
 
 <div class="stage">
   <main class="card" role="group" aria-label="최준성 디지털 명함">
@@ -229,13 +262,18 @@
     <div class="rule"></div>
 
     <h2 class="sec">오시는 길</h2>
-    <a class="addr" href="https://map.naver.com/p/search/서울 마포구 백범로 8 우정마샹스" target="_blank" rel="noopener">
+    <div class="addr">
       <div class="a1">서울시 마포구 백범로 8, 2층 210호</div>
       <div class="a2">노고산동 107-17, 우정마샹스</div>
-      <div class="go">네이버 지도에서 열기
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      <div class="maps">
+        <a href="https://map.naver.com/p/search/서울 마포구 백범로 8 우정마샹스" target="_blank" rel="noopener">네이버 지도
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
+        <a href="https://map.kakao.com/link/search/서울 마포구 백범로 8 우정마샹스" target="_blank" rel="noopener">카카오맵
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
       </div>
-    </a>
+    </div>
 
     <div class="rule"></div>
 
@@ -269,6 +307,11 @@
     "ADR;TYPE=WORK:;;서울시 마포구 백범로 8 2층 210호 (노고산동 107-17 우정마샹스);;;;대한민국",
     "END:VCARD"
   ].join("\r\n");
+
+  // 인트로는 CSS 애니메이션이 끝내지만, 애니메이션이 동작하지 않는 환경에서
+  // 덮개가 그대로 남아 명함을 가리는 일이 없도록 시간이 지나면 걷어낸다.
+  var splash = document.querySelector(".splash");
+  if (splash) setTimeout(function(){ splash.remove(); }, 1600);
 
   var btn = document.getElementById("saveBtn");
   var toast = document.getElementById("toast");
