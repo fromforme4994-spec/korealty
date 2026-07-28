@@ -37,7 +37,10 @@ HTML = """<!doctype html><meta charset="utf-8">
     font-family:"Pretendard",system-ui,sans-serif;color:#fff;
     /* card.html 의 .splash 와 같은 값. 인트로와 미리보기는 브랜드가 처음
        보이는 자리라 색이 어긋나면 티가 난다. 한쪽을 바꾸면 다른 쪽도 바꾼다. */
-    background:linear-gradient(160deg,#1A1B1E 0%, #101113 55%, #08090A 100%);
+    background:
+      radial-gradient(circle at 82% 20%, rgba(226,61,44,.20) 0 12%, rgba(226,61,44,0) 46%),
+      radial-gradient(circle at 16% 86%, rgba(90,116,150,.35) 0 14%, rgba(90,116,150,0) 50%),
+      linear-gradient(150deg,#263746 0%, #17242f 55%, #0d151d 100%);
     -webkit-font-smoothing:antialiased;
   }
   /* 상호는 워드마크가 이미 말한다. 한글로 한 번 더 적지 않는다. */

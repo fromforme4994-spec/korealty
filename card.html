@@ -17,7 +17,7 @@
 <meta property="og:description" content="전화·이메일·오시는 길. 버튼 한 번으로 연락처가 저장됩니다.">
 <!-- 명함 전용 미리보기. 회사 og.jpg 를 쓰면 명함 링크에 회사 배너가 뜬다.
      tools/build-og-card.py 로 만든다. -->
-<meta property="og:image" content="https://korealty.co.kr/assets/img/og-card.jpg?v=3">
+<meta property="og:image" content="https://korealty.co.kr/assets/img/og-card.jpg?v=4">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -95,9 +95,12 @@
   .splash{
     position:fixed; inset:0; z-index:40;
     display:grid; place-items:center;
-    /* 색기운이 없는 먹빛. 어두운 남색은 초록빛으로 보인다는 지적이 있었고,
-       무채색이면 그 여지가 없는 데다 워드마크의 빨간 O 가 가장 또렷하다. */
-    background:linear-gradient(160deg,#1A1B1E 0%, #101113 55%, #08090A 100%);
+    /* tools/build-og-card.py 의 미리보기 배경과 같은 값. 두 화면은 브랜드가
+       처음 보이는 자리라 색이 어긋나면 티가 난다. 한쪽을 바꾸면 다른 쪽도 바꾼다. */
+    background:
+      radial-gradient(circle at 82% 20%, rgba(226,61,44,.20) 0 12%, rgba(226,61,44,0) 46%),
+      radial-gradient(circle at 16% 86%, rgba(90,116,150,.35) 0 14%, rgba(90,116,150,0) 50%),
+      linear-gradient(150deg,#263746 0%, #17242f 55%, #0d151d 100%);
     animation:splash-out .45s ease .82s both;
   }
   .splash img{
