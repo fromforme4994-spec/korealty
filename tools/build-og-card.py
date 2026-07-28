@@ -35,14 +35,13 @@ HTML = """<!doctype html><meta charset="utf-8">
     display:flex;flex-direction:column;justify-content:center;align-items:center;
     text-align:center;
     font-family:"Pretendard",system-ui,sans-serif;color:#fff;
-    background:
-      radial-gradient(circle at 82% 20%, rgba(226,61,44,.22) 0 12%, rgba(226,61,44,0) 46%),
-      radial-gradient(circle at 16% 86%, rgba(255,255,255,.10) 0 14%, rgba(255,255,255,0) 50%),
-      linear-gradient(150deg,#1D1E21 0%, #131416 55%, #08090A 100%);
+    /* card.html 의 .splash 와 같은 값. 인트로와 미리보기는 브랜드가 처음
+       보이는 자리라 색이 어긋나면 티가 난다. 한쪽을 바꾸면 다른 쪽도 바꾼다. */
+    background:linear-gradient(160deg,#1A1B1E 0%, #101113 55%, #08090A 100%);
     -webkit-font-smoothing:antialiased;
   }
-  .wm{height:38px;width:auto;display:block;margin-bottom:52px;}
-  .eyebrow{font-size:25px;font-weight:700;letter-spacing:.2em;color:#F06A5C;margin-bottom:16px;}
+  /* 상호는 워드마크가 이미 말한다. 한글로 한 번 더 적지 않는다. */
+  .wm{height:38px;width:auto;display:block;margin-bottom:56px;}
   .name{display:flex;align-items:center;gap:24px;}
   .name h1{font-size:112px;font-weight:900;letter-spacing:-.03em;line-height:1;}
   .role{
@@ -53,7 +52,6 @@ HTML = """<!doctype html><meta charset="utf-8">
 </style>
 <div class="og">
   <img class="wm" src="assets/img/logo-intro.png" alt="">
-  <div class="eyebrow">코리얼티디엠씨</div>
   <div class="name"><h1>최준성</h1><span class="role">대표</span></div>
   <div class="disc">Development · Marketing · Consulting</div>
 </div>
