@@ -687,7 +687,8 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   display: none; position: relative; width: 100%;
   height: clamp(380px, 52vh, 560px);
   border-radius: 8px; overflow: hidden;
-  background: var(--navy-deep); border: 1px solid var(--gray-line);
+  /* 타일이 오기 전 자리 색. 지도 배경색과 같아야 어두운 판이 깜빡이지 않는다. */
+  background: #F3F6F9; border: 1px solid var(--gray-line);
 }
 .map3d.is-on { display: block; }
 /* 3D가 뜨면 기존 SVG 지도 박스와 카드를 숨긴다(모바일·실패 시엔 SVG가 남는다). */
@@ -697,12 +698,13 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 /* 프로젝트 핀 */
 .map3d .mk {
   display: flex; align-items: center; gap: 8px; cursor: pointer;
-  transform: translateY(-4px); filter: drop-shadow(0 3px 8px rgba(0,0,0,.5));
+  transform: translateY(-4px); filter: drop-shadow(0 3px 8px rgba(27,43,53,.28));
 }
+/* 밝은 지도 위라 흰 테두리는 묻힌다. 남색 테두리로 바꿔 점이 또렷하게 남는다. */
 .map3d .mk__dot {
   width: 12px; height: 12px; border-radius: 50%; flex: none;
-  background: var(--red); border: 1.5px solid #fff;
-  box-shadow: 0 0 0 4px rgba(226,61,44,.25);
+  background: var(--red); border: 1.5px solid rgba(27,43,53,.55);
+  box-shadow: 0 0 0 4px rgba(226,61,44,.18);
 }
 .map3d .mk__lbl {
   font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap;
@@ -713,8 +715,8 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 .map3d .mk:hover .mk__lbl { opacity: 1; transform: translateX(0); }
 
 /* 출처 표기 최소화(라이선스상 유지, 흐리게) */
-.map3d .maplibregl-ctrl-attrib { background: rgba(10,13,19,.45) !important; font-size: 9px !important; }
-.map3d .maplibregl-ctrl-attrib a { color: rgba(255,255,255,.5) !important; }
+.map3d .maplibregl-ctrl-attrib { background: rgba(255,255,255,.55) !important; font-size: 9px !important; }
+.map3d .maplibregl-ctrl-attrib a { color: rgba(27,43,53,.5) !important; }
 
 .map__empty {
   position: absolute;

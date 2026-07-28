@@ -87,31 +87,44 @@
           version: 8,
           glyphs: base.glyphs,
           sources: base.sources,
+          /* 건축 도면 톤. 종이처럼 밝은 바탕에 얇은 선으로 그린 느낌을 낸다.
+             히어로 지도는 흰 글자가 얹히므로 어두운 채로 두고, 여기만 밝게 간다. */
           layers: [
-            { id: "bg", type: "background", paint: { "background-color": "#1B2B35" } },
+            { id: "bg", type: "background", paint: { "background-color": "#F3F6F9" } },
             { id: "water", type: "fill", source: "openmaptiles", "source-layer": "water",
-              paint: { "fill-color": "#12212c" } },
+              paint: { "fill-color": "#DDE5EE" } },
             { id: "landcover", type: "fill", source: "openmaptiles", "source-layer": "landcover",
-              paint: { "fill-color": "#17252f", "fill-opacity": 0.6 } },
+              paint: { "fill-color": "#EAEFF4", "fill-opacity": 0.7 } },
             { id: "park", type: "fill", source: "openmaptiles", "source-layer": "park",
-              paint: { "fill-color": "#16261f", "fill-opacity": 0.7 } },
+              paint: { "fill-color": "#E6EDE7", "fill-opacity": 0.8 } },
+            /* 밝은 바탕에서는 선이 금세 묻힌다. 어두운 판일 때보다 진하게 잡는다. */
             { id: "roads", type: "line", source: "openmaptiles", "source-layer": "transportation",
-              paint: { "line-color": "#243040",
-                "line-width": ["interpolate", ["linear"], ["zoom"], 10, 0.4, 16, 2.2] } },
+              paint: { "line-color": "#B9C4D1",
+                "line-width": ["interpolate", ["linear"], ["zoom"], 10, 0.5, 16, 2.2] } },
             { id: "roads-major", type: "line", source: "openmaptiles", "source-layer": "transportation",
               filter: ["in", "class", "motorway", "trunk", "primary"],
-              paint: { "line-color": "#33415a",
-                "line-width": ["interpolate", ["linear"], ["zoom"], 10, 0.8, 16, 3.4] } },
+              paint: { "line-color": "#94A4B6",
+                "line-width": ["interpolate", ["linear"], ["zoom"], 10, 1.0, 16, 3.4] } },
+            /* 건물 바닥 외곽선. fill-extrusion 에는 외곽선 속성이 없어서(색·높이·불투명도
+               정도만 있다) 도면 느낌의 선은 이렇게 따로 그린다. 입체의 세로·지붕
+               모서리까지는 이 방식으로 나오지 않는다. 건물보다 먼저 그려야
+               지붕 위로 선이 떠 보이지 않는다. */
+            { id: "building-outline", type: "line", source: "openmaptiles", "source-layer": "building",
+              minzoom: 13,
+              paint: { "line-color": "#8FA0B4",
+                "line-width": ["interpolate", ["linear"], ["zoom"], 13, 0.3, 16, 0.8],
+                "line-opacity": 0.9 } },
             { id: "buildings", type: "fill-extrusion", source: "openmaptiles", "source-layer": "building",
               minzoom: 13,
               paint: {
                 "fill-extrusion-color": ["interpolate", ["linear"],
                   ["coalesce", ["get", "render_height"], ["get", "height"], 10],
-                  0, "#243044", 60, "#2c3a50", 150, "#394962", 300, "#45587a"],
+                  0, "#FFFFFF", 60, "#F5F7FA", 150, "#E9EEF4", 300, "#DCE3EC"],
                 "fill-extrusion-height": ["interpolate", ["linear"], ["zoom"],
                   13, 0, 15, ["coalesce", ["get", "render_height"], ["get", "height"], 8]],
                 "fill-extrusion-base": ["coalesce", ["get", "render_min_height"], ["get", "min_height"], 0],
-                "fill-extrusion-opacity": 0.92
+                /* 살짝 비쳐야 아래 외곽선이 보이면서 도면처럼 읽힌다. */
+                "fill-extrusion-opacity": 0.86
               } }
           ]
         };
@@ -130,7 +143,8 @@
 
         map.on("load", function () {
           try {
-            map.setLight({ anchor: "viewport", color: "#eef3ff", intensity: 0.3, position: [1.4, 120, 70] });
+            // 밝은 바탕에서는 빛을 세게 줘야 면이 서로 구분된다.
+            map.setLight({ anchor: "viewport", color: "#ffffff", intensity: 0.55, position: [1.4, 120, 60] });
           } catch (e) {}
           map.resize();
           addMarkers(map);
