@@ -129,11 +129,19 @@
           ]
         };
 
+        /* 건물은 줌 13 부터만 타일에 있다. 그래서 전체 조망(10.2)에서는 도면
+           질감이 안 보인다. 건물이 보이는 축척에서 시작해 전체로 물러나면
+           질감을 한 번 보여주고 조망으로 끝나 둘 다 챙긴다. */
+        var OVERVIEW = { center: [126.955, 37.560], zoom: 10.2, pitch: 42, bearing: -17 };
+        var START = { center: [126.9250, 37.5240], zoom: 14.6, pitch: 58, bearing: -12 }; // 여의도
+        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var view = reduceMotion ? OVERVIEW : START;
+
         var map = new maplibregl.Map({
           container: mapEl,
           style: style,
-          center: [126.955, 37.560], // 서울 중심 근처
-          zoom: 10.2, pitch: 42, bearing: -17,
+          center: view.center,
+          zoom: view.zoom, pitch: view.pitch, bearing: view.bearing,
           antialias: true, maxPitch: 75,
           attributionControl: { compact: true },
           cooperativeGestures: true // 스크롤 확대는 Ctrl/⌘ 필요 → 페이지 스크롤과 안 부딪힘
@@ -153,11 +161,43 @@
         window.addEventListener("resize", function () { map.resize(); });
 
         // 타일이 한 번 자리잡으면 성공으로 보고 안전장치를 끈다(이미 3D가 보이는 상태).
+        var tilesReady = false;
         map.once("idle", function () {
           settled = true;
           clearTimeout(safety);
           map.resize();
+          tilesReady = true;
+          maybePullBack();
         });
+
+        /* 물러나는 연출은 지도가 화면에 들어왔을 때 시작한다. 이 지도는 페이지
+           아래쪽에 있어서, 로드되자마자 재생하면 보는 사람 없이 끝나 버린다. */
+        var pulled = reduceMotion;
+        var visible = false;
+        function maybePullBack() {
+          if (pulled || !tilesReady || !visible) return;
+          pulled = true;
+          /* 타일이 그려지자마자 물러나면 정작 보여주려던 도면 장면을 못 보고
+             지나간다. 잠깐 머문 뒤에 시작한다. */
+          setTimeout(function () {
+            map.easeTo({
+              center: OVERVIEW.center, zoom: OVERVIEW.zoom,
+              pitch: OVERVIEW.pitch, bearing: OVERVIEW.bearing,
+              duration: 3200,
+              easing: function (t) { return 1 - Math.pow(1 - t, 3); } // 끝에서 부드럽게 멈춘다
+            });
+          }, 1100);
+        }
+        if (!pulled && "IntersectionObserver" in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) {
+              if (en.isIntersecting) { visible = true; maybePullBack(); io.disconnect(); }
+            });
+          }, { threshold: 0.4 });
+          io.observe(mapEl);
+        } else {
+          visible = true; // 관찰자를 못 쓰면 그냥 타일 준비되는 대로 재생
+        }
 
         // 유형 필터 연동: 버튼을 누르면 해당 유형 핀만 남긴다.
         var rail = document.querySelector("[data-filters]");
