@@ -17,7 +17,7 @@
 <meta property="og:description" content="전화·이메일·오시는 길. 버튼 한 번으로 연락처가 저장됩니다.">
 <!-- 명함 전용 미리보기. 회사 og.jpg 를 쓰면 명함 링크에 회사 배너가 뜬다.
      tools/build-og-card.py 로 만든다. -->
-<meta property="og:image" content="https://korealty.co.kr/assets/img/og-card.jpg?v=1">
+<meta property="og:image" content="https://korealty.co.kr/assets/img/og-card.jpg?v=2">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -95,7 +95,9 @@
   .splash{
     position:fixed; inset:0; z-index:40;
     display:grid; place-items:center;
-    background:linear-gradient(160deg,#22323f 0%, #16222c 55%, #0e1720 100%);
+    /* 색기운이 없는 먹빛. 어두운 남색은 초록빛으로 보인다는 지적이 있었고,
+       무채색이면 그 여지가 없는 데다 워드마크의 빨간 O 가 가장 또렷하다. */
+    background:linear-gradient(160deg,#1A1B1E 0%, #101113 55%, #08090A 100%);
     animation:splash-out .45s ease .82s both;
   }
   .splash img{

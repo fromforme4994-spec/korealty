@@ -36,9 +36,9 @@ HTML = """<!doctype html><meta charset="utf-8">
     text-align:center;
     font-family:"Pretendard",system-ui,sans-serif;color:#fff;
     background:
-      radial-gradient(circle at 82% 20%, rgba(226,61,44,.20) 0 12%, rgba(226,61,44,0) 46%),
-      radial-gradient(circle at 16% 86%, rgba(90,116,150,.35) 0 14%, rgba(90,116,150,0) 50%),
-      linear-gradient(150deg,#263746 0%, #17242f 55%, #0d151d 100%);
+      radial-gradient(circle at 82% 20%, rgba(226,61,44,.22) 0 12%, rgba(226,61,44,0) 46%),
+      radial-gradient(circle at 16% 86%, rgba(255,255,255,.10) 0 14%, rgba(255,255,255,0) 50%),
+      linear-gradient(150deg,#1D1E21 0%, #131416 55%, #08090A 100%);
     -webkit-font-smoothing:antialiased;
   }
   .wm{height:38px;width:auto;display:block;margin-bottom:52px;}
