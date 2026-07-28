@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>최준성 대표 · 코리얼티디엠씨㈜ 디지털 명함</title>
-<meta name="description" content="코리얼티디엠씨㈜ 최준성 대표 명함. 전화·문자·이메일·오시는 길을 한 화면에서 열고, 연락처를 휴대폰에 바로 저장할 수 있습니다.">
+<meta name="description" content="코리얼티디엠씨㈜ 최준성 대표 명함. 전화·이메일·오시는 길을 한 화면에서 열고, 연락처를 휴대폰에 바로 저장할 수 있습니다.">
 <link rel="canonical" href="https://korealty.co.kr/card">
 <meta name="robots" content="noindex, follow">
-<meta name="theme-color" content="#dbe3ee">
+<meta name="theme-color" content="#7c8899">
 
 <meta property="og:type" content="profile">
 <meta property="og:site_name" content="코리얼티디엠씨㈜">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:url" content="https://korealty.co.kr/card">
 <meta property="og:title" content="최준성 대표 | 코리얼티디엠씨㈜">
-<meta property="og:description" content="전화·문자·이메일·오시는 길. 버튼 한 번으로 연락처가 저장됩니다.">
+<meta property="og:description" content="전화·이메일·오시는 길. 버튼 한 번으로 연락처가 저장됩니다.">
 <meta property="og:image" content="https://korealty.co.kr/assets/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,204 +22,164 @@
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png?v=def091a5">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png?v=a17d6f32">
-<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Pretendard-Bold.woff2?v=24ee0095" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Pretendard-Bold.woff2?v=a5d94fd1" crossorigin>
 
 <style>
   /* 명함은 사이트 CSS를 쓰지 않는 독립 페이지라 여백만 직접 지운다. */
-  html,body{margin:0;padding:0;background:#c6d2e1;}
+  html,body{margin:0;padding:0;background:#7c8899;}
 
-  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Regular.woff2?v=24ee0095") format("woff2"); font-weight: 400; font-display: swap; }
-  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Medium.woff2?v=24ee0095") format("woff2"); font-weight: 500; font-display: swap; }
-  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-SemiBold.woff2?v=24ee0095") format("woff2"); font-weight: 600; font-display: swap; }
-  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Bold.woff2?v=24ee0095") format("woff2"); font-weight: 700; font-display: swap; }
-  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Black.woff2?v=24ee0095") format("woff2"); font-weight: 900; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Regular.woff2?v=a5d94fd1") format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Medium.woff2?v=a5d94fd1") format("woff2"); font-weight: 500; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-SemiBold.woff2?v=a5d94fd1") format("woff2"); font-weight: 600; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Bold.woff2?v=a5d94fd1") format("woff2"); font-weight: 700; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Black.woff2?v=a5d94fd1") format("woff2"); font-weight: 900; font-display: swap; }
 
   :root{
     color-scheme:light;
-    /* 사이트 CI 색을 그대로 쓴다. css/style.css 의 --navy / --red 와 같은 값. */
+    /* 사이트 CI 색. css/style.css 의 --navy / --red 와 같은 값. */
     --navy:#293E4B;
     --navy-deep:#1B2B35;
     --navy-soft:#3B5566;
     --red:#E23D2C;
     --red-ink:#C0301F;     /* 작은 빨간 글자용. CI 레드는 흰 배경에서 4:1 언저리라 글자로는 부족하다. */
-    --text:#22303C;
-    --muted:#54626F;       /* 푸른기 도는 패널 위 4.5:1 이상 */
-    --faint:#54626F;       /* 밝은 패널 위 작은 라벨용 */
-    --faint-deep:#38424D;  /* 짙어진 카드 아래쪽에 놓이는 글자용 */
-    --line:rgba(41,62,75,.12);
-    --line-soft:rgba(41,62,75,.08);
-    /* 흰색이 아니라 푸른기 도는 유리. 레퍼런스처럼 아래로 갈수록 짙어진다. */
-    --glass:rgba(240,245,251,.66);
-    --glass-strong:rgba(238,243,250,.82);
-    --panel:rgba(252,253,255,.62);
-    --radius:18px;
+    /* 글자는 전부 흰 카드 위에만 놓인다. 그래서 색을 어둡게 끌어내릴 필요가 없다. */
+    --text:#1F2A35;
+    --muted:#5C6875;
+    --faint:#66727F;
+    --rule:rgba(31,42,53,.12);      /* 구획을 나누는 선 */
+    --rule-soft:rgba(31,42,53,.07); /* 항목 사이 선 */
     --stack:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
-    /* 빛이 위에서 오는 부드러운 그림자 */
-    --lift:0 1px 0 rgba(255,255,255,.9) inset, 0 18px 40px -24px rgba(27,43,53,.45), 0 4px 12px -8px rgba(27,43,53,.22);
   }
   *{box-sizing:border-box;}
 
+  /* 짙은 것은 카드가 아니라 배경이다. 카드를 어둡게 하면 글자 대비가 계속
+     빠듯해지지만, 배경만 내리면 깊이는 그대로면서 글자는 흰 바탕에 남는다. */
   .stage{
     font-family:var(--stack);
     min-height:100dvh;
-    padding:clamp(16px,5vw,44px) 16px;
+    padding:clamp(20px,6vw,56px) 16px;
     display:flex;
     align-items:center;
     justify-content:center;
     color:var(--text);
     background:
-      radial-gradient(115% 80% at 50% -12%, rgba(255,255,255,.9) 0%, rgba(255,255,255,0) 52%),
-      radial-gradient(85% 55% at 88% 108%, rgba(41,62,75,.28) 0%, rgba(41,62,75,0) 60%),
-      linear-gradient(180deg,#dbe4f0 0%, #b2c2d8 50%, #8fa2bd 100%);
+      radial-gradient(circle at 14% 16%, rgba(126,140,163,.75) 0 9%, rgba(126,140,163,0) 42%),
+      radial-gradient(circle at 88% 10%, rgba(17,25,35,.55) 0 8%, rgba(17,25,35,0) 38%),
+      radial-gradient(circle at 10% 78%, rgba(31,43,58,.55) 0 11%, rgba(31,43,58,0) 44%),
+      radial-gradient(circle at 94% 84%, rgba(45,60,80,.5) 0 10%, rgba(45,60,80,0) 40%),
+      radial-gradient(circle at 62% 52%, rgba(255,255,255,.3) 0 6%, rgba(255,255,255,0) 30%),
+      linear-gradient(160deg,#b4bdc9 0%, #8b96a6 48%, #6a7686 100%);
     -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;
   }
 
   .card{
     width:100%;
-    max-width:430px;
-    /* 위쪽 광택은 배경 그라데이션으로 넣는다. 덧씌우는 레이어로 만들면
-       글자 위를 덮어 워드마크가 씻겨 보인다. */
-    background:linear-gradient(180deg, rgba(255,255,255,.92) 0%, var(--glass-strong) 24%, rgba(190,205,226,.92) 66%, rgba(163,181,207,.95) 100%);
-    border:1px solid rgba(255,255,255,.75);
-    border-radius:28px;
-    padding:30px 24px 22px;
+    max-width:410px;
+    background:#fff;
+    border-radius:30px;
+    padding:28px 26px 24px;
     box-shadow:
-      0 1px 0 rgba(255,255,255,.95) inset,
-      0 40px 80px -40px rgba(27,43,53,.5),
-      0 10px 26px -16px rgba(27,43,53,.28);
-    position:relative;
-    overflow:hidden;
+      0 50px 90px -40px rgba(12,20,30,.55),
+      0 14px 32px -18px rgba(12,20,30,.35);
     animation:rise .7s cubic-bezier(.2,.7,.2,1) both;
-  }
-  /* 유리 질감은 지원하는 기기에서만. 안 되면 위의 불투명 흰색으로 남는다. */
-  @supports ((backdrop-filter:blur(24px)) or (-webkit-backdrop-filter:blur(24px))){
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.84) 0%, var(--glass) 24%, rgba(186,201,223,.8) 66%, rgba(158,177,204,.86) 100%);
-      -webkit-backdrop-filter:blur(24px) saturate(150%); backdrop-filter:blur(24px) saturate(150%);
-    }
   }
   @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){ .card{animation:none} }
 
-  /* ---- wordmark ---- */
-  .brand{
-    display:flex; align-items:center; justify-content:space-between;
-    gap:12px; margin-bottom:26px;
-  }
-  .wordmark{ display:flex; align-items:center; }
-  .wordmark img{ height:22px; width:auto; display:block; }
+  /* ---- 머리말 ---- */
+  .wordmark{ display:flex; }
+  .wordmark img{ height:21px; width:auto; display:block; }
 
-  /* ---- identity ---- */
+  /* 구획선. 레퍼런스처럼 상자로 묶지 않고 선으로만 나눈다. */
+  .rule{ height:1px; background:var(--rule); margin:22px 0; }
+
+  /* ---- 이름 ---- */
   .eyebrow{
-    font-size:11px; letter-spacing:.24em; text-transform:uppercase;
-    color:var(--red-ink); font-weight:700; margin-bottom:12px;
-    display:flex; align-items:center; gap:9px;
+    font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--red-ink); font-weight:700; margin-bottom:10px;
   }
-  .eyebrow::after{content:""; height:1px; flex:1; background:linear-gradient(90deg, rgba(226,61,44,.35), rgba(226,61,44,0));}
-
-  .name{
-    display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
-    margin:0 0 6px;
-  }
-  .name h1{
-    margin:0; font-weight:800; font-size:40px; letter-spacing:-.02em;
-    line-height:1; color:var(--navy-deep);
-  }
+  .name{ display:flex; align-items:center; gap:11px; flex-wrap:wrap; margin:0 0 7px; }
+  .name h1{ margin:0; font-weight:800; font-size:38px; letter-spacing:-.02em; line-height:1.05; color:var(--navy-deep); }
   .name .role{
-    font-size:15px; font-weight:700; color:var(--navy);
-    padding:4px 12px; border:1px solid rgba(41,62,75,.18);
-    border-radius:999px; background:rgba(255,255,255,.75); letter-spacing:.01em;
-    box-shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 4px 10px -8px rgba(27,43,53,.5);
+    font-size:14px; font-weight:700; color:var(--navy);
+    padding:4px 12px; border:1px solid rgba(41,62,75,.2);
+    border-radius:999px; letter-spacing:.01em;
   }
-  .romaji{ font-size:11.5px; letter-spacing:.22em; color:var(--muted); font-weight:600; margin:0 0 16px; text-transform:uppercase;}
+  .romaji{ font-size:11px; letter-spacing:.22em; color:var(--faint); font-weight:600; margin:0 0 12px; text-transform:uppercase; }
   /* 사업 영역은 여기 한 번만 적는다. 머리말·꼬리말에 또 쓰면 같은 말이 세 번 나온다. */
-  .org{ margin:0 0 22px; font-size:12.5px; color:var(--muted); letter-spacing:.04em; font-weight:500;}
+  .org{ margin:0; font-size:12.5px; color:var(--muted); letter-spacing:.03em; font-weight:500; }
 
-  /* ---- primary CTA ---- */
+  /* ---- 구획 제목 ---- */
+  .sec{
+    font-size:12px; font-weight:700; color:var(--navy-deep);
+    letter-spacing:.06em; margin:0 0 4px;
+  }
+
+  /* ---- 연락처: 왼쪽 라벨 / 오른쪽 값 ---- */
+  .list{ margin-top:6px; }
+  .row{
+    display:grid; grid-template-columns:auto 1fr auto; align-items:baseline;
+    gap:12px; padding:13px 0; text-decoration:none; color:var(--text);
+    border-top:1px solid var(--rule-soft);
+    transition:opacity .15s ease;
+  }
+  .row:first-child{ border-top:0; }
+  .row:active{ opacity:.55; }
+  .row .lab{ font-size:12.5px; color:var(--muted); font-weight:500; white-space:nowrap; }
+  .row .val{
+    font-size:15.5px; font-weight:700; color:var(--navy-deep); text-align:right;
+    font-variant-numeric:tabular-nums; letter-spacing:.01em;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  /* 이메일·홈페이지는 대문자로 보이게만 한다. mailto:/href 값은 소문자 그대로다. */
+  .row .val.mail{ text-transform:uppercase; letter-spacing:.02em; font-size:14.5px; }
+  /* 화살표는 그림 요소라 3:1 이 기준이다. 더 흐리면 눌리는 줄로 안 보인다. */
+  .row .chev{ color:#838F9C; display:flex; align-self:center; }
+  .row .chev svg{ width:15px; height:15px; }
+  @media (hover:hover){ .row:hover .val{ color:var(--red-ink); } .row:hover .chev{ color:var(--red-ink); } }
+
+  /* ---- 오시는 길 ---- */
+  .addr{ display:block; text-decoration:none; color:var(--text); padding-top:4px; }
+  .addr .a1{ font-size:14.5px; font-weight:600; line-height:1.55; color:var(--navy-deep); }
+  .addr .a2{ font-size:12.5px; color:var(--muted); line-height:1.55; margin-top:2px; }
+  .addr .go{
+    margin-top:10px; font-size:12.5px; font-weight:700; color:var(--navy);
+    display:inline-flex; align-items:center; gap:5px; letter-spacing:.02em;
+  }
+  .addr .go svg{ width:13px; height:13px; }
+  @media (hover:hover){ .addr:hover .go{ color:var(--red-ink); } }
+
+  /* ---- 저장 버튼 ---- */
   .save{
     display:flex; align-items:center; justify-content:center; gap:9px;
-    width:100%; padding:16px; margin-bottom:20px;
-    background:linear-gradient(180deg,var(--navy-soft) 0%, var(--navy) 100%);
-    color:#fff; border:none; cursor:pointer;
+    width:100%; padding:17px; margin-top:4px;
+    background:var(--navy-deep); color:#fff; border:none; cursor:pointer;
     border-radius:999px; font-family:var(--stack); font-weight:800; font-size:15.5px;
     letter-spacing:.01em;
-    box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 14px 28px -16px rgba(27,43,53,.85), 0 4px 10px -8px rgba(27,43,53,.5);
-    transition:transform .15s ease, box-shadow .2s ease, filter .2s ease;
+    box-shadow:0 14px 26px -16px rgba(12,20,30,.9);
+    transition:transform .15s ease, background .2s ease;
   }
-  .save:hover{filter:brightness(1.06);}
-  .save:active{transform:translateY(1px) scale(.995);}
-  .save svg{width:19px;height:19px;}
+  .save:hover{ background:#25384a; }
+  .save:active{ transform:translateY(1px) scale(.995); }
+  .save svg{ width:19px; height:19px; }
 
-  /* ---- contact rows ---- */
-  .rows{
-    display:flex; flex-direction:column; margin-bottom:18px;
-    border:1px solid rgba(255,255,255,.85); border-radius:var(--radius); overflow:hidden;
-    background:var(--panel);
-    box-shadow:var(--lift);
-  }
-  .row{
-    display:grid; grid-template-columns:42px 1fr auto; align-items:center;
-    gap:13px; padding:13px 15px; color:var(--text); text-decoration:none;
-    transition:background .16s ease;
-  }
-  .row + .row{border-top:1px solid var(--line-soft);}
-  .row:hover{background:rgba(255,255,255,.8);}
-  .row:active{background:rgba(41,62,75,.06);}
-  .ic{
-    /* 레퍼런스의 원형 버튼 감각은 여기로 옮겼다. 따로 둔 원형 바로가기는
-       아래 목록과 하는 일이 같아 뺐다. */
-    width:42px;height:42px;border-radius:50%; display:grid;place-items:center;
-    background:linear-gradient(180deg,#ffffff,#e6ecf5);
-    border:1px solid rgba(255,255,255,.85); color:var(--navy);
-    box-shadow:0 1px 0 rgba(255,255,255,.95) inset, 0 6px 14px -10px rgba(27,43,53,.6);
-  }
-  .ic svg{width:18px;height:18px;}
-  .row .meta{min-width:0;}
-  .row .lab{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); font-weight:600; margin-bottom:2px;}
-  .row .val{font-size:15px; font-weight:600; color:var(--navy-deep); font-variant-numeric:tabular-nums; letter-spacing:.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-  /* 이메일·홈페이지는 대문자로 보이게만 한다. mailto:/href 값은 소문자 그대로다. */
-  .row .val.mail{text-transform:uppercase; letter-spacing:.01em;}
-  .chev{color:var(--faint); display:flex;}
-  .chev svg{width:16px;height:16px;}
-
-  /* ---- address ---- */
-  .addr{
-    display:block; text-decoration:none; color:var(--text);
-    border:1px solid rgba(255,255,255,.85); border-radius:var(--radius);
-    padding:15px 16px; margin-bottom:20px; background:var(--panel);
-    box-shadow:var(--lift);
-    transition:background .16s ease;
-  }
-  .addr:hover{background:rgba(255,255,255,.8);}
-  .addr .lab{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); font-weight:600; margin-bottom:6px; display:flex; align-items:center; gap:7px;}
-  .addr .lab svg{width:14px;height:14px;color:var(--red);}
-  .addr .a1{font-size:14.5px; font-weight:600; line-height:1.5; color:var(--navy-deep);}
-  .addr .a2{font-size:12.5px; color:var(--muted); line-height:1.5; margin-top:2px;}
-  .addr .go{margin-top:9px; font-size:12px; font-weight:700; color:var(--navy); display:inline-flex; align-items:center; gap:5px; letter-spacing:.02em;}
-  .addr .go svg{width:13px;height:13px;}
-
-  /* ---- footer ---- */
-  .foot{
-    text-align:center; padding-top:16px; border-top:1px solid var(--line);
-  }
-  /* 카드 아래쪽이 짙어 여기만 더 진한 글자색을 쓴다. 밝은 패널 위 라벨까지
-     이 색으로 내리면 필요 이상으로 무거워진다. */
-  .foot .hint{font-size:11px; color:var(--faint-deep); letter-spacing:.01em;}
+  .hint{ text-align:center; font-size:11px; color:var(--faint); margin-top:11px; letter-spacing:.01em; }
 
   .toast{
     position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px);
     background:var(--navy-deep); color:#fff; font-weight:700; font-size:13.5px;
-    padding:12px 20px; border-radius:999px; box-shadow:0 20px 40px -18px rgba(27,43,53,.7);
+    padding:12px 20px; border-radius:999px; box-shadow:0 20px 40px -18px rgba(12,20,30,.8);
     opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
     z-index:50; font-family:var(--stack); display:flex; align-items:center; gap:8px;
   }
-  .toast svg{width:16px;height:16px;color:#5fd39a;}
-  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .toast svg{ width:16px; height:16px; color:#5fd39a; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 
   @media (max-width:380px){
-    .name h1{font-size:34px;}
-    .card{padding:26px 18px 20px;}
+    .name h1{ font-size:33px; }
+    .card{ padding:24px 20px 20px; }
+    .rule{ margin:18px 0; }
   }
 </style>
 </head>
@@ -228,63 +188,62 @@
 <div class="stage">
   <main class="card" role="group" aria-label="최준성 디지털 명함">
 
-    <div class="brand">
-      <div class="wordmark"><img src="assets/img/logo.png" alt="KOREALTY" width="640" height="140"></div>
-    </div>
+    <div class="wordmark"><img src="assets/img/logo.png" alt="KOREALTY" width="640" height="140"></div>
+
+    <div class="rule"></div>
 
     <div class="eyebrow">코리얼티디엠씨</div>
-
     <div class="name">
       <h1>최준성</h1>
       <span class="role">대표</span>
     </div>
     <p class="romaji">CHOI&nbsp;&nbsp;JUNSEONG</p>
-
     <p class="org">Development · Marketing · Consulting</p>
+
+    <div class="rule"></div>
+
+    <h2 class="sec">연락처</h2>
+    <div class="list">
+      <a class="row" href="tel:+821090284994">
+        <span class="lab">휴대폰</span>
+        <span class="val">010-9028-4994</span>
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+      </a>
+      <a class="row" href="tel:15995022">
+        <span class="lab">대표번호</span>
+        <span class="val">1599-5022</span>
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+      </a>
+      <a class="row" href="mailto:kangsuk4@naver.com">
+        <span class="lab">이메일</span>
+        <span class="val mail">kangsuk4@naver.com</span>
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+      </a>
+      <a class="row" href="https://korealty.co.kr" target="_blank" rel="noopener">
+        <span class="lab">홈페이지</span>
+        <span class="val mail">korealty.co.kr</span>
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+      </a>
+    </div>
+
+    <div class="rule"></div>
+
+    <h2 class="sec">오시는 길</h2>
+    <a class="addr" href="https://map.naver.com/p/search/서울 마포구 백범로 8 우정마샹스" target="_blank" rel="noopener">
+      <div class="a1">서울시 마포구 백범로 8, 2층 210호</div>
+      <div class="a2">노고산동 107-17, 우정마샹스</div>
+      <div class="go">네이버 지도에서 열기
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </div>
+    </a>
+
+    <div class="rule"></div>
 
     <button class="save" id="saveBtn" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
       연락처 저장하기
     </button>
-
-    <div class="rows">
-      <a class="row" href="tel:+821090284994">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.98.36 1.94.7 2.86a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.22-1.27a2 2 0 0 1 2.11-.45c.92.34 1.88.57 2.86.7A2 2 0 0 1 22 16.92z"/></svg></span>
-        <span class="meta"><div class="lab">휴대폰</div><div class="val">010-9028-4994</div></span>
-        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
-
-      <a class="row" href="tel:15995022">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
-        <span class="meta"><div class="lab">대표번호</div><div class="val">1599-5022</div></span>
-        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
-
-      <a class="row" href="mailto:kangsuk4@naver.com">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
-        <span class="meta"><div class="lab">이메일</div><div class="val mail">kangsuk4@naver.com</div></span>
-        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
-
-      <a class="row" href="https://korealty.co.kr" target="_blank" rel="noopener">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
-        <span class="meta"><div class="lab">홈페이지</div><div class="val mail">korealty.co.kr</div></span>
-        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
-    </div>
-
-    <a class="addr" href="https://map.naver.com/p/search/서울 마포구 백범로 8 우정마샹스" target="_blank" rel="noopener">
-      <div class="lab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>오시는 길</div>
-      <div class="a1">서울시 마포구 백범로 8, 2층 210호</div>
-      <div class="a2">노고산동 107-17, 우정마샹스</div>
-      <div class="go">네이버 지도에서 열기
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-      </div>
-    </a>
-
-    <div class="foot">
-      <div class="hint">위 버튼을 누르면 연락처가 휴대폰에 저장됩니다</div>
-    </div>
+    <p class="hint">누르면 연락처가 휴대폰에 저장됩니다</p>
 
   </main>
 </div>
