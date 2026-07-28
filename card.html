@@ -159,7 +159,8 @@
   .row:active{ opacity:.55; }
   .row .lab{ font-size:12.5px; color:var(--muted); font-weight:500; white-space:nowrap; }
   .row .val{
-    font-size:15.5px; font-weight:700; color:var(--navy-deep); text-align:right;
+    /* 값은 굵게 두지 않는다. 라벨과의 구분은 크기와 색으로 충분하다. */
+    font-size:15.5px; font-weight:500; color:var(--navy-deep); text-align:right;
     font-variant-numeric:tabular-nums; letter-spacing:.01em;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
