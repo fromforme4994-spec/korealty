@@ -323,9 +323,19 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   border: 1px solid rgba(255,255,255,.32);
   border-radius: 16px;
 }
-/* html.intro-pending은 첫 페인트 전에(<head> 인라인 스크립트) 이미 걸려
-   있다. 재생 중엔 이 기본 테두리를 끄고 SVG가 그 자리를 대신 그린다. */
-html.intro-pending .hero__intro { border-color: transparent; }
+/* 좁은 화면에서는 프레임 inset(24px)과 글 좌우 여백(--pad, 24px)이 같아
+   테두리에 글자가 딱 붙어 보인다. 프레임을 화면 가장자리 쪽으로 당겨
+   글과의 틈을 만든다. */
+@media (max-width: 720px) {
+  .hero__intro { inset: 8px; }
+}
+/* 이 기본 테두리는 is-running(hero-intro.js가 실제로 그리기 시작하는
+   순간)에만 끄고 SVG로 넘긴다. intro-pending(첫 페인트 전에 미리 걸리는
+   클래스)에 걸어두면, hero-intro.js는 별도 파일이라 네트워크로 늦게
+   도착할 수 있어 그 사이엔 테두리도 SVG도 없이 "영상만 덩그러니" 보이는
+   빈 순간이 생긴다. is-running에 묶어야 테두리가 사라지는 순간과 SVG가
+   나타나는 순간이 항상 같이 일어나 빈 순간이 없다. */
+.hero__intro.is-running { border-color: transparent; }
 
 .hero__intro-frame {
   display: none;
