@@ -26,7 +26,7 @@
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png?v=def091a5">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png?v=a17d6f32">
-<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Pretendard-Bold.woff2?v=33caa38d" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Pretendard-Bold.woff2?v=8e34cc9e" crossorigin>
 <script>document.documentElement.classList.add("js")</script>
 <link rel="stylesheet" href="css/style.css">
 <script type="application/ld+json">
@@ -85,7 +85,16 @@
            얹는다. 안 되면(모바일·구형·타일지연) 위 영상이 그대로 보인다. -->
       <div class="hero__map" data-hero-map aria-hidden="true"></div>
     </div>
-    <div class="shell hero__in">
+    <!-- 세션당 처음 한 번, 프레임이 그려지며 0→100%가 오르고 100%가 되면
+         숫자만 사라지고 아래 글이 나타난다(js/hero-intro.js). JS가 없거나
+         reduced-motion이면 처음부터 그냥 다 보인다(hero__in 기본은 보임). -->
+    <div class="hero__intro" data-hero-intro aria-hidden="true">
+      <svg class="hero__intro-frame" data-intro-frame>
+        <rect data-intro-rect pathLength="100"></rect>
+      </svg>
+      <div class="hero__intro-pct" data-intro-pct><span data-intro-pct-num>0</span>%</div>
+    </div>
+    <div class="shell hero__in" data-hero-content>
       <p class="eyebrow">Property Development · Marketing · Consulting</p>
       <h1 class="h-display"><em>함께 도전하고</em><br>함께 성공하는 기업</h1>
       <p class="lede">코리얼티디엠씨㈜는 도전으로 성장합니다. 개발 · 마케팅 · 컨설팅을 넘나드는 전문성으로, 변화하는 부동산 시장의 새로운 기준을 만들어갑니다.</p>
@@ -238,6 +247,7 @@
 <script src="js/data.js"></script>
 <script src="js/map.js"></script>
 <script src="js/main.js"></script>
+<script src="js/hero-intro.js" defer></script>
 <script src="js/hero-map.js" defer></script>
 </body>
 </html>
