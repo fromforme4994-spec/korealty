@@ -72,17 +72,24 @@
   // 안전장치: 10초 안에 지도가 안 뜨면 SVG로 되돌린다.
   var safety = setTimeout(revert, 10000);
 
-  loadCSS("assets/vendor/maplibre-gl.css");
-  loadJS("assets/vendor/maplibre-gl.js").then(init).catch(function () { clearTimeout(safety); revert(); });
+  // 벤더 파일은 1년 immutable 캐시라(vercel.json) 버전이 바뀌면 이 쿼리도 올려야 한다.
+  loadCSS("assets/vendor/maplibre-gl.css?v=4.7.1");
+  loadJS("assets/vendor/maplibre-gl.js?v=4.7.1").then(init).catch(function () { clearTimeout(safety); revert(); });
 
   var markers = [];
 
   function init() {
     if (!window.maplibregl) { clearTimeout(safety); revert(); return; }
 
-    fetch("https://tiles.openfreemap.org/styles/positron")
-      .then(function (r) { return r.json(); })
-      .then(function (base) {
+    // sources/glyphs는 openfreemap이 고정으로 제공하는 값이라(positron 스타일 확인됨)
+    // 매번 전체 스타일 JSON을 fetch할 필요 없이 여기 하드코딩해 왕복을 없앤다.
+    (function () {
+        var base = {
+          sources: {
+            openmaptiles: { type: "vector", url: "https://tiles.openfreemap.org/planet" }
+          },
+          glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf"
+        };
         var style = {
           version: 8,
           glyphs: base.glyphs,
@@ -209,8 +216,7 @@
             applyFilter(cat);
           });
         }
-      })
-      .catch(function () { clearTimeout(safety); revert(); /* 타일 실패 → SVG로 되돌림 */ });
+    })();
   }
 
   function addMarkers(map) {
