@@ -1,5 +1,5 @@
 /* 히어로 인트로: 프레임이 그려지며 0→100%가 오르고, 100%에서 숫자만 사라지며
-   (프레임은 남는다) 아래 글이 나타난다. 세션당 처음 한 번만 재생한다.
+   (프레임은 남는다) 아래 글이 나타난다. 방문할 때마다 재생한다.
 
    재생 여부는 이 파일이 아니라 <head>의 인라인 스크립트가 첫 페인트 전에
    이미 정해서 html.intro-pending 으로 걸어둔다(defer인 이 파일은 첫 페인트
@@ -61,6 +61,5 @@
     window.removeEventListener("resize", sizeSVG);
     intro.classList.remove("is-running"); // SVG는 숨고, 원래 있던 CSS 테두리가 프레임으로 남는다.
     htmlEl.classList.remove("intro-pending"); // 글이 나타난다.
-    try { sessionStorage.setItem("korealty:hero-intro-played", "1"); } catch (e) {}
   }
 })();
