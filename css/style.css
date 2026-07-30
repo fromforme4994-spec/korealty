@@ -323,8 +323,9 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   border: 1px solid rgba(255,255,255,.32);
   border-radius: 16px;
 }
-/* 재생 중에는 이 기본 테두리를 끄고 SVG가 그 자리를 대신 그린다. */
-.hero__intro.is-running { border-color: transparent; }
+/* html.intro-pending은 첫 페인트 전에(<head> 인라인 스크립트) 이미 걸려
+   있다. 재생 중엔 이 기본 테두리를 끄고 SVG가 그 자리를 대신 그린다. */
+html.intro-pending .hero__intro { border-color: transparent; }
 
 .hero__intro-frame {
   display: none;
@@ -352,9 +353,10 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 }
 .hero__intro.is-running .hero__intro-pct { opacity: 1; }
 
-/* 재생 중에는 글이 숨는다. JS가 인트로를 시작할 때만 이 클래스를 걸어서,
-   JS가 안 도는 경우엔 절대 숨지 않는다. */
-.hero.is-intro-playing .hero__in {
+/* html.intro-pending이 없으면(모션 최소화·재생완료·JS 미실행) 글은
+   절대 숨지 않는다 — 인라인 스크립트가 페인트 전에 판단해 미리 걸어두는
+   클래스라 "다 보였다가 숨는" 역순 깜빡임이 없다. */
+html.intro-pending .hero__in {
   opacity: 0;
   transform: translateY(14px);
 }

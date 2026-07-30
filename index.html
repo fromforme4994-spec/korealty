@@ -27,7 +27,20 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png?v=def091a5">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png?v=a17d6f32">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Pretendard-Bold.woff2?v=8e34cc9e" crossorigin>
-<script>document.documentElement.classList.add("js")</script>
+<script>
+document.documentElement.classList.add("js");
+/* 히어로 인트로: 페인트 전에 미리 정해야 "다 보였다가 갑자기 숨는" 역순
+   깜빡임이 없다(hero-intro.js는 defer라 첫 페인트보다 늦게 실행될 수 있다).
+   js/hero-intro.js가 로드 실패해도 4초 뒤엔 스스로 풀려 콘텐츠가 영영
+   숨지 않는다. */
+try {
+  if (!sessionStorage.getItem("korealty:hero-intro-played") &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.documentElement.classList.add("intro-pending");
+    setTimeout(function () { document.documentElement.classList.remove("intro-pending"); }, 4000);
+  }
+} catch (e) {}
+</script>
 <link rel="stylesheet" href="css/style.css">
 <script type="application/ld+json">
 {

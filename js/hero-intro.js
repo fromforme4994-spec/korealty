@@ -1,26 +1,22 @@
 /* 히어로 인트로: 프레임이 그려지며 0→100%가 오르고, 100%에서 숫자만 사라지며
    (프레임은 남는다) 아래 글이 나타난다. 세션당 처음 한 번만 재생한다.
-   기본 CSS는 "테두리가 이미 다 있는 상태"라, 이 스크립트가 안 돌아도(비활성·
-   에러) 콘텐츠와 프레임은 그대로 보인다 — 재생 여부와 무관하게 항상 안전한
-   점진적 향상. */
+
+   재생 여부는 이 파일이 아니라 <head>의 인라인 스크립트가 첫 페인트 전에
+   이미 정해서 html.intro-pending 으로 걸어둔다(defer인 이 파일은 첫 페인트
+   보다 늦게 실행될 수 있어, 여기서 결정하면 "다 보였다가 숨는" 역순
+   깜빡임이 생긴다). 그 클래스가 없으면 재생 대상이 아니라는 뜻이라 그냥
+   끝낸다 — 콘텐츠는 이미 CSS 기본값대로 다 보이는 상태다. */
 (function () {
   "use strict";
 
-  var hero = document.querySelector(".hero");
+  var htmlEl = document.documentElement;
+  if (!htmlEl.classList.contains("intro-pending")) return;
+
   var intro = document.querySelector("[data-hero-intro]");
   var svg = document.querySelector("[data-intro-frame]");
   var rect = document.querySelector("[data-intro-rect]");
   var pctNum = document.querySelector("[data-intro-pct-num]");
-  if (!hero || !intro || !svg || !rect || !pctNum) return;
-
-  var KEY = "korealty:hero-intro-played";
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  // 이미 이번 세션에 재생했거나 모션을 줄이는 설정이면, CSS 기본(테두리+글 다 보임)
-  // 상태를 그대로 유지한다(재생 생략).
-  var played;
-  try { played = sessionStorage.getItem(KEY); } catch (e) { played = null; }
-  if (played || reduceMotion) return;
+  if (!intro || !svg || !rect || !pctNum) { htmlEl.classList.remove("intro-pending"); return; }
 
   // SVG를 실제 픽셀 크기에 정확히 맞춘다. 정사각형(100x100) 뷰박스를 넓은
   // 화면에 억지로 늘려 쓰면(preserveAspectRatio:none) 모서리 계산이 어긋나
@@ -38,12 +34,10 @@
   sizeSVG();
   window.addEventListener("resize", sizeSVG);
 
+  intro.classList.add("is-running");
+
   var DUR = 2000; // ms
   function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
-
-  // 재생을 시작하는 순간에만 글을 숨긴다(점진적 향상 — 여기 도달 못 하면 항상 보임).
-  hero.classList.add("is-intro-playing");
-  intro.classList.add("is-running");
 
   var t0 = null;
   function tick(now) {
@@ -66,7 +60,7 @@
   function finish() {
     window.removeEventListener("resize", sizeSVG);
     intro.classList.remove("is-running"); // SVG는 숨고, 원래 있던 CSS 테두리가 프레임으로 남는다.
-    hero.classList.remove("is-intro-playing"); // 글이 나타난다.
-    try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
+    htmlEl.classList.remove("intro-pending"); // 글이 나타난다.
+    try { sessionStorage.setItem("korealty:hero-intro-played", "1"); } catch (e) {}
   }
 })();
