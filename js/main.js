@@ -472,14 +472,21 @@
     render("전체");
   }
 
-  /* ---------- Inquiry form: Web3Forms로 접수 (페이지 이동 없이) ---------- */
+  /* ---------- Inquiry form: Formspree로 접수 (페이지 이동 없이) ----------
+     web3forms를 쓰다가 옮겼다. web3forms는 API가 success를 응답하고
+     사용량도 정상 카운트되는데도 실제 메일이 어디에도(네이버·지메일
+     받은편지함·프로모션·스팸 전부) 안 와서, 서비스 쪽 발송 파이프라인이
+     막힌 것으로 보고 교체했다. */
   const form = $("[data-inquiry]");
   if (form) {
     const msg = $("[data-msg]", form);
     const btn = $("[data-submit]", form);
+    const replyTo = $('[name="_replyto"]', form);
+    const email = $('[name="이메일"]', form);
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
+      if (replyTo && email) replyTo.value = email.value;
 
       const label = btn.textContent;
       btn.disabled = true;
@@ -488,21 +495,17 @@
       msg.className = "form__msg";
 
       try {
-        /* FormData를 그대로 보낸다(JSON.stringify 안 함). Content-Type을
-           application/json으로 직접 지정하면 브라우저가 먼저 preflight
-           (OPTIONS) 요청을 보내야 하는데, web3forms 쪽이 여기 정상 응답을
-           안 해줘서 매번 CORS 에러로 막혔다(실접수 0건 → 메일 미수신).
-           FormData는 브라우저가 Content-Type을 자동으로
-           multipart/form-data로 붙이는데, 이건 CORS가 preflight 없이
-           바로 보내는 "단순 요청"이라 이 문제를 피한다. web3forms 공식
-           권장 방식이기도 하다. */
-        const res = await fetch("https://api.web3forms.com/submit", {
+        /* FormData를 그대로 보낸다. Content-Type을 직접 지정하면 CORS
+           preflight(OPTIONS)를 먼저 보내야 하는데, web3forms에서 이
+           단계가 막혀 있었다(그 여파로 서비스를 교체했다). FormData는
+           브라우저가 Content-Type을 자동으로 multipart/form-data로
+           붙여 preflight 없이 바로 나가는 "단순 요청"이 된다. */
+        const res = await fetch(form.action, {
           method: "POST",
           headers: { Accept: "application/json" },
           body: new FormData(form),
         });
-        const json = await res.json();
-        if (json.success) {
+        if (res.ok) {
           form.reset();
           msg.textContent = "상담 신청이 접수되었습니다. 담당자가 곧 연락드리겠습니다.";
           msg.classList.add("is-ok");
