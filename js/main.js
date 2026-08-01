@@ -481,7 +481,6 @@
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
 
-      const data = Object.fromEntries(new FormData(form).entries());
       const label = btn.textContent;
       btn.disabled = true;
       btn.textContent = "보내는 중…";
@@ -489,10 +488,18 @@
       msg.className = "form__msg";
 
       try {
+        /* FormData를 그대로 보낸다(JSON.stringify 안 함). Content-Type을
+           application/json으로 직접 지정하면 브라우저가 먼저 preflight
+           (OPTIONS) 요청을 보내야 하는데, web3forms 쪽이 여기 정상 응답을
+           안 해줘서 매번 CORS 에러로 막혔다(실접수 0건 → 메일 미수신).
+           FormData는 브라우저가 Content-Type을 자동으로
+           multipart/form-data로 붙이는데, 이건 CORS가 preflight 없이
+           바로 보내는 "단순 요청"이라 이 문제를 피한다. web3forms 공식
+           권장 방식이기도 하다. */
         const res = await fetch("https://api.web3forms.com/submit", {
           method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(data),
+          headers: { Accept: "application/json" },
+          body: new FormData(form),
         });
         const json = await res.json();
         if (json.success) {
