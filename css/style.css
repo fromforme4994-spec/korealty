@@ -1134,7 +1134,8 @@ html.intro-pending .hero__in {
   padding-bottom: 40px;
   border-bottom: 1px solid rgba(255,255,255,.12);
 }
-.foot__logo img { height: 20px; width: auto; margin-bottom: 20px; }
+.foot__logo { display: flex; align-items: center; gap: 18px; }
+.foot__logo img { height: 32px; width: auto; }
 .foot__links { display: flex; gap: 28px; font-weight: 600; color: rgba(255,255,255,.8); }
 .foot__links a:hover { color: var(--white); }
 .foot__bot { padding-top: 28px; display: flex; flex-wrap: wrap; gap: 8px 24px; }
