@@ -720,20 +720,6 @@ html.intro-pending .hero__in {
 .map__card span { font-weight: 600; color: var(--gray); }
 .map__card b { font-weight: 700; }
 .map__plot { position: relative; max-width: var(--map-w); margin: 0 auto; }
-.map__cardtop {
-  padding-bottom: 20px;
-  margin-bottom: 18px;
-  border-bottom: 1px solid rgba(255,255,255,.18);
-}
-.map__card dl {
-  display: grid;
-  grid-template-columns: 62px 1fr;
-  gap: 8px 14px;
-  margin: 0;
-  font-size: 13.5px;
-}
-.map__card dt { color: var(--gray); font-weight: 600; }
-.map__card dd { margin: 0; color: var(--navy-soft); }
 
 /* 실적 페이지에서는 지도를 줄이고 주변 여백을 조여, 지도 아래 카드 두 장이
    같은 화면에 들어오게 한다. 핀은 %로 앉으므로 지도를 줄여도 위치는 유지된다. */
