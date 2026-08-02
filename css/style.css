@@ -97,6 +97,10 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 
 /* 넓은 화면에서만 강제 줄바꿈. 좁은 화면에서는 글이 알아서 흐르게 둔다. */
 @media (max-width: 700px) { .br-wide { display: none; } }
+/* 반대로 좁은 화면에서만 강제 줄바꿈. 기본은 숨겨서 넓은 화면에서는
+   한 줄로 자연스럽게 흐르게 둔다. */
+.br-narrow { display: none; }
+@media (max-width: 700px) { .br-narrow { display: inline; } }
 
 /* Data numerals: tabular so figures line up in columns */
 .num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
