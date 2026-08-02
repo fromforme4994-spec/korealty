@@ -1263,6 +1263,11 @@ body.no-scroll { overflow: hidden; }
 
   .sec__cta { text-align: center; }
 
+  /* CTA 밴드(회사소개서 요청 등)는 space-between이라 좁은 화면에서
+     줄바꿈만 되고 왼쪽에 붙어 남아있었다. */
+  .band { flex-direction: column; align-items: center; text-align: center; }
+  .band h2 { max-width: none; }
+
   .foot__top { flex-direction: column; text-align: center; }
   .foot__logo { justify-content: center; }
   .foot__links { justify-content: center; flex-wrap: wrap; }
