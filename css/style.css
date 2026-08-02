@@ -411,6 +411,12 @@ html.intro-pending .hero__in {
 
 @media (max-width: 720px) {
   .hero__stats { grid-template-columns: repeat(2, 1fr); }
+  .hero__stats dt, .hero__stats dd { text-align: center; }
+  /* 통계뿐 아니라 위쪽 글·버튼도 다 가운데로 맞춘다. */
+  .hero__in { text-align: center; }
+  .hero .lede { margin-inline: auto; }
+  .hero h1 { max-width: none; }
+  .hero__cta { justify-content: center; }
 }
 
 /* 히어로 하단의 "아래로 스크롤" 신호. 눌러도 다음 섹션(#scope)으로 내려간다. */
@@ -433,9 +439,12 @@ html.intro-pending .hero__in {
 @media (prefers-reduced-motion: reduce) {
   .hero__scroll svg { animation: none; }
 }
-/* 모바일에서는 통계가 아래를 채워 신호가 겹치므로 숨긴다. */
+/* 모바일에서는 통계를 가운데 정렬해 자리를 줄이고, 글자("SCROLL")는
+   빼고 화살표만 작게 남긴다 — 통계랑 겹치지 않게. */
 @media (max-width: 720px) {
-  .hero__scroll { display: none; }
+  .hero__scroll { bottom: 10px; }
+  .hero__scroll span { display: none; }
+  .hero__scroll svg { width: 16px; height: 16px; }
 }
 
 /* ---------- Section frame ---------- */
