@@ -322,6 +322,11 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   pointer-events: none;
   border: 1px solid rgba(255,255,255,.32);
   border-radius: 16px;
+  /* 아래쪽 선 가운데, 스크롤 화살표가 지나가는 자리만 원형으로 뚫는다.
+     배경이 사진/영상이라 색을 못 맞추니, 칠하는 대신 그 자리만 투명하게
+     비워서(mask) 화살표가 문을 통과하듯 자연스럽게 겹치게 한다. */
+  -webkit-mask-image: radial-gradient(circle 46px at 50% 100%, transparent 99%, black 100%);
+          mask-image: radial-gradient(circle 46px at 50% 100%, transparent 99%, black 100%);
 }
 /* 좁은 화면에서는 프레임 inset(24px)과 글 좌우 여백(--pad, 24px)이 같아
    테두리에 글자가 딱 붙어 보인다. 프레임을 화면 가장자리 쪽으로 당겨
