@@ -421,6 +421,9 @@ html.intro-pending .hero__in {
   .hero .lede { margin-inline: auto; }
   .hero h1 { max-width: none; }
   .hero__cta { justify-content: center; }
+  /* CTA와 통계 구분선 사이가 다른 간격보다 두 배로 벌어져 있었다.
+     위(레데→CTA 36px)와 비슷한 눈금으로 맞춘다. */
+  .hero__stats { margin-top: 40px; }
 }
 
 /* 히어로 하단의 "아래로 스크롤" 신호. 눌러도 다음 섹션(#scope)으로 내려간다. */
@@ -1230,3 +1233,39 @@ body.no-scroll { overflow: hidden; }
 .proj-modal__no { font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--red); }
 .proj-modal__body h3 { margin: 8px 0 4px; font-size: 21px; font-weight: 700; }
 .proj-modal__type { margin: 0; color: var(--navy-soft); font-size: 14px; }
+
+/* ---------- 모바일: 히어로 아래 모든 섹션을 가운데 정렬로 통일 ----------
+   섹션 제목(.sec__head)이 공통 클래스라 여기 하나만 맞추면 사업영역·
+   프로세스·실적·왜 코리얼티 제목이 한 번에 맞춰진다. 번호가 붙는 목록
+   (사업영역 카드의 단계, 프로세스 스텝)은 텍스트만 가운데로 두면
+   번호·글자가 따로 놀아서, 번호+글자를 한 덩어리로 묶어 그 덩어리를
+   가운데로 옮긴다. */
+@media (max-width: 720px) {
+  .sec__head { text-align: center; }
+  .sec__head .lede { margin-inline: auto; }
+
+  .card { text-align: center; }
+
+  .scope__card { text-align: center; }
+  .scope__flow { justify-items: center; }
+  .scope__flow li {
+    display: flex;
+    grid-template-columns: none;
+    align-items: center;
+    width: fit-content;
+  }
+  .scope__cost { justify-content: center; }
+
+  .proc__step { justify-content: center; }
+  .proc__panel { text-align: center; }
+  .proc__panel p { margin-inline: auto; }
+
+  .quote { text-align: center; }
+
+  .sec__cta { text-align: center; }
+
+  .foot__top { flex-direction: column; text-align: center; }
+  .foot__logo { justify-content: center; }
+  .foot__links { justify-content: center; flex-wrap: wrap; }
+  .foot__bot { justify-content: center; text-align: center; }
+}
