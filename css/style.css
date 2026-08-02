@@ -1247,16 +1247,15 @@ body.no-scroll { overflow: hidden; }
   .card { text-align: center; }
 
   .scope__card { text-align: center; }
-  .scope__flow { justify-items: center; }
-  .scope__flow li {
-    display: flex;
-    grid-template-columns: none;
-    align-items: center;
-    width: fit-content;
-  }
-  .scope__cost { justify-content: center; }
+  /* 줄마다 따로 가운데 두면 번호가 줄마다 어긋난다. 번호·글자 칸
+     구조(28px + 1fr)는 그대로 두고, 목록 전체를 하나의 블록으로만
+     가운데에 둔다 — 번호는 세로로 줄이 맞고, 목록 자체는 카드 가운데. */
+  .scope__flow { width: fit-content; margin-inline: auto; text-align: left; }
+  .scope__cost { justify-content: center; gap: 10px; }
 
-  .proc__step { justify-content: center; }
+  /* 프로세스 원형 번호도 같은 이유로, 줄이 아니라 목록 전체를 블록으로
+     가운데에 둔다(각 줄은 원래대로 왼쪽부터 — 그래야 원이 세로로 맞는다). */
+  .proc__steps { width: fit-content; margin-inline: auto; }
   .proc__panel { text-align: center; }
   .proc__panel p { margin-inline: auto; }
 
