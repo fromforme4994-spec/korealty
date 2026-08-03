@@ -8,13 +8,13 @@
 
 /* 200·300 은 히어로의 굵기 대비(가는 첫 줄 ↔ 굵은 둘째 줄)에만 쓴다.
    본문에는 쓰지 않는다 — 작은 글씨에서 가늘면 대비가 떨어진다. */
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=2ef1c0a1") format("woff2"); font-weight: 200; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=2ef1c0a1") format("woff2");      font-weight: 300; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=2ef1c0a1") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=2ef1c0a1") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=2ef1c0a1") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=2ef1c0a1") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=2ef1c0a1") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=d785db18") format("woff2"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=d785db18") format("woff2");      font-weight: 300; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=d785db18") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=d785db18") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=d785db18") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=d785db18") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=d785db18") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -1131,12 +1131,15 @@ html.intro-pending .hero__in > * {
    아래 `.hist__list b`(회색)보다 특정도가 높아야 한다 — 인라인 style 이던
    시절엔 무조건 이겼지만, 클래스로 내려오면 뒤 규칙에 먹힌다. */
 .hist__list b.hist__t { color: var(--navy); }
-.hist__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+/* 한 해에 예닐곱 건이 붙는 행이 있어, 10px 로는 줄과 줄이 한 덩어리로
+   뭉쳐 어디까지가 한 건인지 잘 안 끊긴다. */
+.hist__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 16px; }
 .hist__list li {
   display: grid;
   grid-template-columns: 48px 1fr;
   gap: 16px;
   font-size: 15px;
+  line-height: 1.6;
   color: var(--navy-soft);
 }
 /* 라벨 칸 없이 한 줄로만 쓰는 목록(사업영역의 개발 PM 순서).
