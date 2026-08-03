@@ -356,7 +356,8 @@
             <dl>
               <dt>발주처</dt><dd>${p.client}</dd>
               <dt>위치</dt><dd>${p.loc}</dd>
-              <dt>규모</dt><dd>${p.scale}${p.up !== null ? ` · 지하 ${p.down}층 / 지상 ${p.up}층` : ""}</dd>
+              <dt>규모</dt><dd>${p.scale}</dd>
+              ${p.up !== null ? `<dt>층수</dt><dd>지하 ${p.down}층 / 지상 ${p.up}층</dd>` : ""}
               <dt>시공사</dt><dd>${p.builder}</dd>
               <dt>사업기간</dt><dd>${p.period}</dd>
             </dl>

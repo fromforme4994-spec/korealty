@@ -8,13 +8,13 @@
 
 /* 200·300 은 히어로의 굵기 대비(가는 첫 줄 ↔ 굵은 둘째 줄)에만 쓴다.
    본문에는 쓰지 않는다 — 작은 글씨에서 가늘면 대비가 떨어진다. */
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=bb60d006") format("woff2"); font-weight: 200; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=bb60d006") format("woff2");      font-weight: 300; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=bb60d006") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=bb60d006") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=bb60d006") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=bb60d006") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=bb60d006") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=2ef1c0a1") format("woff2"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=2ef1c0a1") format("woff2");      font-weight: 300; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=2ef1c0a1") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=2ef1c0a1") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=2ef1c0a1") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=2ef1c0a1") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=2ef1c0a1") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -1086,6 +1086,15 @@ html.intro-pending .hero__in > * {
 }
 .filters button .num { opacity: .55; margin-left: 6px; }
 
+/* 필터 아래 "N건 표시 중". 본문 문단(.lede)에 인라인 style 로 크기·색을
+   덮어써 쓰던 자리다 — 읽는 글이 아니라 상태 표시라 제 클래스를 준다.
+   보이는 모양은 그대로다. */
+.filters__count {
+  margin: 0 0 14px;
+  font-size: 14px;
+  color: var(--gray);
+}
+
 /* ---------- History ---------- */
 
 .hist { display: grid; gap: 0; }
@@ -1111,8 +1120,17 @@ html.intro-pending .hero__in > * {
 }
 /* 연도 범위("2008 — 2011")는 120px 칸에 한 줄로 안 들어가 두 줄이 된다.
    그냥 두면 "2008 —" 에서 끊겨 줄표가 허공에 매달린다. 뒷부분을 통째로
-   넘겨 "2008" / "— 2011" 로 끊는다. */
-.hist__yr span { white-space: nowrap; }
+   넘겨 "2008" / "— 2011" 로 끊는다.
+   색·크기는 HTML 인라인 style 로 박혀 있던 것을 그대로 옮겨 왔다. */
+.hist__to {
+  white-space: nowrap;
+  color: var(--gray);
+  font-size: 15px;
+}
+/* 한 줄짜리 항목의 앞머리(무엇을 하는 단계인가). 인라인 style 대신 클래스로.
+   아래 `.hist__list b`(회색)보다 특정도가 높아야 한다 — 인라인 style 이던
+   시절엔 무조건 이겼지만, 클래스로 내려오면 뒤 규칙에 먹힌다. */
+.hist__list b.hist__t { color: var(--navy); }
 .hist__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
 .hist__list li {
   display: grid;
@@ -1146,6 +1164,8 @@ html.intro-pending .hero__in > * {
 }
 .facts__row dt { font-weight: 700; }
 .facts__row dd { margin: 0; color: var(--navy-soft); }
+/* 값 뒤에 붙는 부연. HTML 인라인 style 로 박혀 있던 것을 그대로 옮겼다. */
+.facts__note { color: var(--gray); }
 @media (max-width: 700px) {
   .facts__row { grid-template-columns: 1fr; gap: 4px; }
 }

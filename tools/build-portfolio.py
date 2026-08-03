@@ -59,8 +59,10 @@ def card(p: dict) -> str:
     """main.js의 card()와 같은 마크업."""
     e = lambda v: html.escape(str(v), quote=True)
     scale = e(p["scale"])
+    # 층수는 규모와 다른 사실이라 항목을 따로 둔다. 원문에 층수가 없는 건은 줄 자체를 뺀다.
+    floors = ""
     if p.get("up") is not None:
-        scale += f" · 지하 {e(p['down'])}층 / 지상 {e(p['up'])}층"
+        floors = f"\n              <dt>층수</dt><dd>지하 {e(p['down'])}층 / 지상 {e(p['up'])}층</dd>"
     return f"""        <article class="proj rise is-in" data-cat="{e(p['cat'])}" data-no="{e(p['no'])}" tabindex="0" role="button" aria-haspopup="dialog">
           <div>
             <span class="proj__no num">NO. {str(p['no']).zfill(2)}</span>
@@ -69,7 +71,7 @@ def card(p: dict) -> str:
             <dl>
               <dt>발주처</dt><dd>{e(p['client'])}</dd>
               <dt>위치</dt><dd>{e(p['loc'])}</dd>
-              <dt>규모</dt><dd>{scale}</dd>
+              <dt>규모</dt><dd>{scale}</dd>{floors}
               <dt>시공사</dt><dd>{e(p['builder'])}</dd>
               <dt>사업기간</dt><dd>{e(p['period'])}</dd>
             </dl>
