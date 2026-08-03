@@ -8,13 +8,13 @@
 
 /* 200·300 은 히어로의 굵기 대비(가는 첫 줄 ↔ 굵은 둘째 줄)에만 쓴다.
    본문에는 쓰지 않는다 — 작은 글씨에서 가늘면 대비가 떨어진다. */
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=d98a05fa") format("woff2"); font-weight: 200; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=d98a05fa") format("woff2");      font-weight: 300; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=d98a05fa") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=d98a05fa") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=d98a05fa") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=d98a05fa") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=d98a05fa") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=bb60d006") format("woff2"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=bb60d006") format("woff2");      font-weight: 300; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=bb60d006") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=bb60d006") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=bb60d006") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=bb60d006") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=bb60d006") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -955,6 +955,63 @@ html.intro-pending .hero__in > * {
 .card:hover { border-color: var(--navy); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(27,43,53,.08); }
 .card p { margin: 12px 0 0; color: var(--navy-soft); font-size: 15px; }
 
+/* ---------- 사업영역 카드 (business) ----------
+   네 장이 같은 자리에 같은 성격의 정보를 담도록 뼈대를 고정한다.
+   설명 → 항목 목록 → 원칙 한 줄, 이 순서를 넷 다 지킨다.
+   쉼표로 이어 붙인 긴 문장을 항목으로 끊는 것이 이 정리의 핵심이다. */
+.svc { display: flex; flex-direction: column; }
+/* 라벨을 회색(--gray)으로 두면 흰 바탕에서 2.59:1 이라 읽기 힘들다.
+   크기와 자간으로 이미 라벨처럼 보이므로, 색은 본문 계열로 되돌린다. */
+.svc .eyebrow--muted { color: var(--navy-soft); margin-bottom: 10px; }
+.svc .h-card { line-height: 1.3; }
+.svc .svc__desc { margin: 16px 0 0; }
+
+.svc__spec {
+  margin: 24px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--gray-line);
+}
+.svc__spec dt {
+  margin-bottom: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--navy-soft);
+}
+.svc__spec dd {
+  position: relative;
+  margin: 0 0 7px;
+  padding-left: 15px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--navy-soft);
+}
+/* 불릿 대신 짧은 선. 점을 찍으면 본문의 가운뎃점(·)과 섞여 읽힌다. */
+.svc__spec dd::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .68em;
+  width: 7px; height: 1px;
+  background: var(--gray);
+}
+.svc__spec dd:last-child { margin-bottom: 0; }
+.svc__spec b { font-weight: 600; color: var(--navy); }
+
+/* 원칙 한 줄. margin-top:auto 로 바닥에 붙어, 카드마다 내용 길이가 달라도
+   네 장의 마지막 줄이 같은 높이에 앉는다. */
+.svc .svc__line {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--gray-line);
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.svc .svc__line::before { content: "“"; }
+.svc .svc__line::after  { content: "”"; }
+
 /* Project card — spec sheet, not a photo frame */
 .proj {
   display: grid;
@@ -1038,13 +1095,24 @@ html.intro-pending .hero__in > * {
   gap: 32px;
   padding: 28px 0;
   border-top: 1px solid var(--gray-line);
+  /* 번호(28px)와 본문(15px)은 글자 크기가 달라 줄 상자 높이도 다르다.
+     위를 맞추면(stretch) 작은 글씨가 큰 숫자보다 위로 붙어 보인다.
+     둘의 밑선(baseline)을 맞춰야 한 줄로 읽힌다. */
+  align-items: baseline;
 }
 .hist__yr {
   font-size: 28px;
   font-weight: 900;
   letter-spacing: -.02em;
   font-variant-numeric: tabular-nums;
+  /* 본문 줄높이(1.65)를 그대로 쓰면 숫자 아래로 빈 줄만큼 여백이 남아
+     한 줄짜리 행이 필요 이상으로 두꺼워진다. */
+  line-height: 1.2;
 }
+/* 연도 범위("2008 — 2011")는 120px 칸에 한 줄로 안 들어가 두 줄이 된다.
+   그냥 두면 "2008 —" 에서 끊겨 줄표가 허공에 매달린다. 뒷부분을 통째로
+   넘겨 "2008" / "— 2011" 로 끊는다. */
+.hist__yr span { white-space: nowrap; }
 .hist__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
 .hist__list li {
   display: grid;
@@ -1053,6 +1121,10 @@ html.intro-pending .hero__in > * {
   font-size: 15px;
   color: var(--navy-soft);
 }
+/* 라벨 칸 없이 한 줄로만 쓰는 목록(사업영역의 개발 PM 순서).
+   빈 <b></b>로 자리만 잡아두면 48px 유령 여백이 생기고, 그 빈 칸이
+   목록 전체의 밑선 기준이 되어 옆의 번호와 줄이 어긋난다. */
+.hist__list--plain li { grid-template-columns: 1fr; }
 .hist__list b { color: var(--gray); font-weight: 600; font-variant-numeric: tabular-nums; }
 .hist__list li.is-key { color: var(--navy); font-weight: 600; }
 .hist__list li.is-key b { color: var(--red); }
