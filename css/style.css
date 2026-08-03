@@ -558,6 +558,11 @@ html.intro-pending .hero__in > * {
 .sec__head { margin-bottom: 56px; }
 .sec__head .lede { max-width: 62ch; }
 
+/* 섹션을 닫는 권유. 가운데 정렬된 지도를 받아야 하는데 왼쪽 끝에 붙어
+   150px 어긋나 있었고, 좁은 화면에서는 이미 가운데였다 — 같은 버튼이
+   화면 크기에 따라 다른 자리에 앉고 있었다. 어느 폭에서나 가운데로 둔다. */
+.sec__cta { margin-top: 40px; text-align: center; }
+
 /* ============================================================
    SIGNATURE 1 — Scope explorer
    A single site photograph carries the four business lines.
