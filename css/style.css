@@ -8,13 +8,13 @@
 
 /* 200·300 은 히어로의 굵기 대비(가는 첫 줄 ↔ 굵은 둘째 줄)에만 쓴다.
    본문에는 쓰지 않는다 — 작은 글씨에서 가늘면 대비가 떨어진다. */
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=d5fd6a0f") format("woff2"); font-weight: 200; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=d5fd6a0f") format("woff2");      font-weight: 300; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=d5fd6a0f") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=d5fd6a0f") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=d5fd6a0f") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=d5fd6a0f") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=d5fd6a0f") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=1750bf75") format("woff2"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=1750bf75") format("woff2");      font-weight: 300; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=1750bf75") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=1750bf75") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=1750bf75") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=1750bf75") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=1750bf75") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -1254,8 +1254,30 @@ html.intro-pending .hero__in > * {
 }
 .reach a:hover { border-color: var(--navy); background: var(--paper); }
 .reach dt { font-size: 12px; font-weight: 700; letter-spacing: .14em; color: var(--red); }
-.reach b { font-size: clamp(24px, 2.6vw, 34px); font-weight: 900; letter-spacing: -.02em; }
+/* 이메일 주소는 띄어쓰기가 없어 통째로 한 덩어리다. 굵은 24px 로는 한 줄이
+   250px을 넘어, 320px 화면에서 카드가 화면 밖으로 밀려나갔다(카드 넷이 같은
+   열이라 넷 다 같이 밀렸다). 최후에는 중간에서라도 끊게 열어 둔다. */
+.reach b {
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 900;
+  letter-spacing: -.02em;
+  overflow-wrap: anywhere;
+}
+/* 이메일은 다른 값보다 길다. HTML 의 <wbr> 로 끊을 자리를 @ 뒤로 정해 두었고,
+   여기 크기는 인라인 style 에 박혀 있던 24px 을 옮겨 온 것이다. */
+.reach b.reach__mail { font-size: 24px; }
 .reach span { font-size: 14px; color: var(--gray); }
+
+/* 좁은 화면에서는 좌우 40px 여백이 글자 쓸 자리를 다 먹어, 전화번호가
+   "0504-191- / 9365" 처럼 단어 중간에서 끊긴다. 여백과 글자를 조금 줄여
+   한 줄에 담는다 — 끊어 쓰는 것보다 읽기 쉽다.
+   ⚠ 이 묶음은 반드시 위의 기본 규칙보다 뒤에 와야 한다. .reach b 는 특정도가
+   같아서, 앞에 두면 뒤따르는 기본값(clamp)에 그대로 덮인다. */
+@media (max-width: 420px) {
+  .reach a { padding: 28px 22px; }
+  .reach b { font-size: 21px; }
+  .reach b.reach__mail { font-size: 19px; }
+}
 
 /* ---------- CTA band ---------- */
 
