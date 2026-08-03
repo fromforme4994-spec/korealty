@@ -8,13 +8,13 @@
 
 /* 200·300 은 히어로의 굵기 대비(가는 첫 줄 ↔ 굵은 둘째 줄)에만 쓴다.
    본문에는 쓰지 않는다 — 작은 글씨에서 가늘면 대비가 떨어진다. */
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=d785db18") format("woff2"); font-weight: 200; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=d785db18") format("woff2");      font-weight: 300; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=d785db18") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=d785db18") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=d785db18") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=d785db18") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=d785db18") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=e70452c0") format("woff2"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=e70452c0") format("woff2");      font-weight: 300; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=e70452c0") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=e70452c0") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=e70452c0") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=e70452c0") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=e70452c0") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -1198,6 +1198,34 @@ html.intro-pending .hero__in > * {
 .quote--plain { grid-template-columns: 1fr; }
 .quote--plain > div { max-width: 920px; }
 .quote--plain blockquote { font-size: clamp(26px, 3.4vw, 46px); line-height: 1.35; }
+
+/* ---------- 나열 (인용이 아닌 것) ----------
+   푸터 위 남색 띠에는 세 페이지가 같은 <figure><blockquote> 를 쓰고 있었는데,
+   실제로 인용문인 것은 문의 페이지 하나뿐이었다. 사업영역은 프로세스,
+   실적은 유형 목록이라 인용이 아니다. 스크린리더가 "인용문"으로 읽고
+   크롤러도 인용으로 가져가던 자리라, 순서 있는 목록(.seq)과 없는 목록(.set)으로
+   나눈다. 보이는 크기·굵기는 blockquote 와 같게 맞춰 모양은 그대로다. */
+.stmt > div { max-width: 920px; }
+.seq, .set {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .2em .45em;
+  font-size: clamp(26px, 3.4vw, 46px);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -.02em;
+}
+.seq li, .set li { display: inline-flex; align-items: baseline; gap: .45em; }
+/* 화살표와 가운뎃점은 읽는 글이 아니라 항목 사이를 나타내는 기호다.
+   본문에 글자로 쳐 넣으면 목록을 복사할 때 같이 딸려 오고, 항목을 더하거나
+   뺄 때 기호를 손으로 맞춰야 한다. CSS 로 그려 항목만 남긴다. */
+.seq li:not(:last-child)::after { content: "→"; }
+.set li:not(:last-child)::after { content: "·"; }
+.seq .is-key { color: var(--red); }
 
 /* ---------- Contact ---------- */
 
