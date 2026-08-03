@@ -18,7 +18,10 @@ const PROJECTS = [
   { no: 4,  cat: "오피스텔", type: "오피스텔 · 근린생활시설", name: "운정푸르지오 파크나인",     client: "엠디엠",                        loc: "파주시 와동동 1500 외 5필지",                          scale: "6개동 오피스텔 664실",               builder: "대우건설",           period: "2025.10 준공",       up: 10, down: 2, img: "assets/img/projects/04.jpg?v=2", status: "분양완료" },
   { no: 5,  cat: "오피스텔", type: "오피스텔 · 공동주택",     name: "까치산역 SJ라벨라",         client: "㈜대양종합건설",                loc: "강서구 화곡동 921-6",                                  scale: "2개동 오피스텔 117실",               builder: "㈜대양종합건설",     period: "2022.07 준공",           up: 15, down: 1, img: "assets/img/projects/05.jpg?v=2", status: "분양완료" },
   { no: 6,  cat: "오피스텔", type: "오피스텔 · 도시형생활주택", name: "영등포 에버그린스타",      client: "㈜세종주택건설",                loc: "영등포구 당산동1가 188-3 외 6필지",                    scale: "오피스텔 44실, 도시형 28세대",       builder: "㈜세종주택건설",     period: "2022.01 준공",           up: 10, down: 2, img: "assets/img/projects/06.jpg?v=2", status: "분양완료" },
-  { no: 7,  cat: "오피스텔", type: "오피스텔 · 공동주택",     name: "화양동 위너스힐",           client: "㈜승리, 조합운영위원회",        loc: "광진구 화양동 111-89",                                 scale: "준주거지역",                         builder: "㈜상조건설",         period: "2022.02 준공",           up: 4,  down: 3, img: "assets/img/projects/07.jpg?v=2", status: "분양완료" },
+  /* 지명원 원문의 규모 칸에는 "준주거지역"(용도지역)이 들어 있었다. 규모가 아니라
+     입지 정보라 다른 27건과 뜻이 맞지 않아, 사용자 확인 자료(오피스텔 27실 ·
+     공동주택 36세대)로 바꾼다. 층수·시공사·사업기간은 원문 그대로 둔다. */
+  { no: 7,  cat: "오피스텔", type: "오피스텔 · 공동주택",     name: "화양동 위너스힐",           client: "㈜승리, 조합운영위원회",        loc: "광진구 화양동 111-89",                                 scale: "오피스텔 27실, 공동주택 36세대",     builder: "㈜상조건설",         period: "2022.02 준공",           up: 4,  down: 3, img: "assets/img/projects/07.jpg?v=2", status: "분양완료" },
   { no: 8,  cat: "상업시설",   type: "상업시설",                name: "DS프라자",                  client: "㈜동서프라임",                  loc: "중랑구 망우동 양원지구 근생3-1블럭",                   scale: "근린생활시설",                       builder: "㈜동서프라임",       period: "2021.08 준공",           up: 5,  down: 2, img: "assets/img/projects/08.jpg?v=2", status: "분양완료" },
   /* 지명원 원문은 NO.07과 동일한 위치·규모를 싣고 있어(복사 오류) 위치·규모·층수만 공개 자료로 대체했다.
      시공사·사업기간은 사용자 결정에 따라 지명원 원문 값을 유지한다. */
