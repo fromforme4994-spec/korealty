@@ -11,7 +11,8 @@ import glob, hashlib, os, re, subprocess, sys
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(SITE, "assets", "fonts", "src")     # 원본 .otf 보관
 OUT = os.path.join(SITE, "assets", "fonts")
-WEIGHTS = ["Regular", "Medium", "SemiBold", "Bold", "Black"]
+# ExtraLight·Light 는 히어로 제목/숫자의 굵기 대비 전용이다.
+WEIGHTS = ["ExtraLight", "Light", "Regular", "Medium", "SemiBold", "Bold", "Black"]
 
 # 한글은 음절 수가 많아 전부 넣으면 폰트가 무거워진다.
 # 사이트에 실제로 등장하는 글자 + 자주 쓰는 기호만 남긴다.
