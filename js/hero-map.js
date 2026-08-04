@@ -23,6 +23,15 @@
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* 카메라가 지나는 세 자리. 지도를 만들 때와 연출할 때가 같은 값을 봐야
+     시작 프레임이 튀지 않으므로 여기 한 곳에만 적는다. */
+  var CAM = {
+    시작: { zoom: 14.35, pitch: 28 },   // 진입 시작 — 높고 멀리
+    기본: { zoom: 15.3,  pitch: 60 },   // 히어로 상단에서의 자리
+    하단: { zoom: 14.55, pitch: 43 },   // 히어로를 다 내려왔을 때
+    진입시간: 2600
+  };
+
   function loadCSS(href) {
     var l = document.createElement("link");
     l.rel = "stylesheet"; l.href = href;
@@ -100,11 +109,17 @@
           ]
         };
 
+        /* 카메라 연출을 쓸 때는 진입 시작 자리(높고 먼 곳)에서 지도를 만든다.
+           기본 자리에서 만들면 첫 프레임에 제자리를 보여준 뒤 곧바로 뒤로
+           물러났다가 다시 내려앉아, 시작하자마자 한 번 튄다.
+           모션 최소화 설정이면 연출이 없으므로 처음부터 기본 자리에 둔다. */
         var map = new maplibregl.Map({
           container: mapEl,
           style: style,
           center: [126.9258, 37.5238], // 여의도
-          zoom: 15.3, pitch: 60, bearing: -20,
+          zoom: reduceMotion ? 15.3 : CAM.시작.zoom,
+          pitch: reduceMotion ? 60 : CAM.시작.pitch,
+          bearing: -20,
           interactive: false,          // 히어로 배경이라 조작 막는다
           attributionControl: { compact: false }, // 출처 표기를 접지 않고 흐리게 항상 노출
           antialias: true, maxPitch: 75
@@ -129,13 +144,67 @@
           map.resize();
           var v = document.querySelector(".hero video");
           if (v) { try { v.pause(); } catch (e) {} }
-          if (!reduceMotion) spin(map);
+          if (!reduceMotion) camera(map);
         });
     })();
   }
 
-  function spin(map) {
-    map.setBearing(map.getBearing() + 0.02);
-    requestAnimationFrame(function () { spin(map); });
+  /* 카메라 연출. 세 가지가 한 루프에서 합쳐진다.
+
+     1) 진입 — 처음 2.6초, 높고 먼 자리에서 여의도로 내려앉는다.
+     2) 회전 — 아주 천천히 계속 돈다(원래 있던 동작).
+     3) 스크롤 — 히어로를 내려갈수록 카메라가 물러나며 각도가 눕는다.
+        다음 섹션으로 넘어가는 순간이 장면 전환처럼 이어진다.
+
+     매 프레임 목표값을 향해 조금씩 따라가게(감쇠) 두었다. 스크롤 값을 그대로
+     쓰면 트랙패드의 거친 입력이 그대로 카메라에 실려 덜컹거린다.
+
+     히어로가 화면에서 완전히 벗어나면 아무것도 하지 않는다. jumpTo 는 매번
+     지도를 다시 그리게 하므로, 보이지도 않는 화면을 계속 그리면 스크롤이
+     무거워진다. */
+  function camera(map) {
+    var 시작 = CAM.시작, 기본 = CAM.기본, 하단 = CAM.하단, 진입시간 = CAM.진입시간;
+
+    var hero = document.querySelector(".hero");
+    var t0 = null, zoom = 시작.zoom, pitch = 시작.pitch, bearing = map.getBearing();
+    var 이전스크롤 = -1;
+
+    function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function frame(now) {
+      requestAnimationFrame(frame);
+      if (t0 === null) t0 = now;
+
+      var box = hero.getBoundingClientRect();
+      // 히어로가 화면 위로 완전히 빠졌으면 쉰다(스크롤 성능).
+      if (box.bottom <= 0) { 이전스크롤 = -1; return; }
+
+      // 0 = 히어로 맨 위, 1 = 히어로의 3/4쯤 지난 지점.
+      // 화면에서 완전히 빠지는 순간을 1로 잡으면, 감쇠 때문에 목표에 닿기 전에
+      // 이미 안 보이는 곳으로 지나가 연출이 끝까지 도달하지 않는다.
+      var p = Math.min(1, Math.max(0, -box.top / (box.height * 0.75)));
+      var 진입 = easeOutCubic(Math.min(1, (now - t0) / 진입시간));
+
+      var 목표줌   = lerp(시작.zoom,  lerp(기본.zoom,  하단.zoom,  p), 진입);
+      var 목표각도 = lerp(시작.pitch, lerp(기본.pitch, 하단.pitch, p), 진입);
+
+      // 진입 중에는 빠르게, 그 뒤에는 느긋하게 따라간다.
+      var 감쇠 = 진입 < 1 ? 0.18 : 0.06;
+      zoom  += (목표줌 - zoom) * 감쇠;
+      pitch += (목표각도 - pitch) * 감쇠;
+      bearing += 0.02;
+
+      // 값이 사실상 안 변하고 스크롤도 그대로면 다시 그리지 않는다.
+      var 멈춤 = 진입 >= 1 &&
+                 Math.abs(목표줌 - zoom) < 0.0015 &&
+                 Math.abs(목표각도 - pitch) < 0.02 &&
+                 p === 이전스크롤;
+      이전스크롤 = p;
+      if (멈춤) { map.setBearing(bearing); return; }   // 회전만 이어간다
+
+      map.jumpTo({ zoom: zoom, pitch: pitch, bearing: bearing });
+    }
+    requestAnimationFrame(frame);
   }
 })();
