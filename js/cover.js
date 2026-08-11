@@ -25,6 +25,9 @@
 
   var 개수 = 현장.length;
   var 모션최소 = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // 좁은 화면 전용으로 쓰일 때는 넓은 화면에서 숨어 있다. 그때는 사진을
+  // 한 장도 미리 받지 않는다 — 보이지도 않을 이미지에 데이터를 쓰지 않는다.
+  var 숨음 = wrap.offsetParent === null;
 
   /* ---------- 뼈대 ---------- */
   wrap.classList.add("cover");
@@ -38,7 +41,7 @@
           return '<button type="button" class="cover__card" data-proj-open="' + p.no + '" ' +
                  'aria-label="' + p.name + ' 사진 크게 보기">' +
                    '<img src="' + p.img + '" alt="' + p.name + ' 현장" ' +
-                   'loading="' + (i < 2 ? "eager" : "lazy") + '" decoding="async">' +
+                   'loading="' + (숨음 || i >= 2 ? "lazy" : "eager") + '" decoding="async">' +
                  '</button>';
         }).join("") +
       '</div>' +

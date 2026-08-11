@@ -26,7 +26,7 @@
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png?v=def091a5">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png?v=a17d6f32">
-<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Pretendard-Bold.woff2?v=fb03898d" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Pretendard-Bold.woff2?v=136c3ac0" crossorigin>
 <script>
 document.documentElement.classList.add("js");
 /* 히어로 인트로: 방문할 때마다 재생한다. 페인트 전에 미리 정해야
@@ -168,8 +168,12 @@ try {
       <div class="sec__head rise">
         <p class="eyebrow">Track Record</p>
         <h2 class="h-section">프로젝트 현황</h2>
-        <p class="lede">서울 25개 자치구 가운데 <b data-gu-count>10</b>개 구에서 20개 현장을 수행했습니다. 색이 진한 구일수록 현장이 많습니다. 나머지 8개는 포항에서 보령까지 분포합니다.</p>
+        <p class="lede">서울 25개 자치구 가운데 <b data-gu-count>10</b>개 구에서 20개 현장을 수행했습니다. <span class="only-map">색이 진한 구일수록 현장이 많습니다.</span> 나머지 8개는 포항에서 보령까지 분포합니다.</p>
       </div>
+
+      <!-- 좁은 화면에서는 지도 대신 이 커버플로우가 뜬다. 지도의 핀은 14px 이라
+           손가락으로 짚기 어렵고, 작은 화면에서는 구 경계도 잘 안 읽힌다. -->
+      <div class="cover--only-narrow rise" data-cover="1,2,3,13,18,19"></div>
 
       <div class="map__wrap rise" data-map-wrap>
         <div class="map" data-map></div>
@@ -273,5 +277,6 @@ try {
 <script src="js/main.js"></script>
 <script src="js/hero-intro.js" defer></script>
 <script src="js/hero-map.js" defer></script>
+<script src="js/cover.js" defer></script>
 </body>
 </html>

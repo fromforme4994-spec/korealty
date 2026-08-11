@@ -8,13 +8,13 @@
 
 /* 200·300 은 히어로의 굵기 대비(가는 첫 줄 ↔ 굵은 둘째 줄)에만 쓴다.
    본문에는 쓰지 않는다 — 작은 글씨에서 가늘면 대비가 떨어진다. */
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=fb03898d") format("woff2"); font-weight: 200; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=fb03898d") format("woff2");      font-weight: 300; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=fb03898d") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=fb03898d") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=fb03898d") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=fb03898d") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=fb03898d") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=136c3ac0") format("woff2"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=136c3ac0") format("woff2");      font-weight: 300; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=136c3ac0") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=136c3ac0") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=136c3ac0") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=136c3ac0") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=136c3ac0") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -1083,6 +1083,17 @@ html.intro-pending .hero__in > * {
   transition: opacity .2s var(--ease);
 }
 .cover__dot[aria-selected="true"] { opacity: 1; }
+
+/* 홈의 프로젝트 현황: 넓은 화면은 지도, 좁은 화면은 사진.
+   지도의 핀은 14px 이라 손가락으로 짚기 어렵고, 작은 화면에서는 구 경계도
+   잘 안 읽힌다. 좁은 화면에서 지도가 하던 몫은 이 사진 여섯 장이 대신한다.
+   "색이 진한 구일수록…" 은 지도를 설명하는 문장이라 같이 숨긴다. */
+.cover--only-narrow { display: none; }
+@media (max-width: 720px) {
+  .cover--only-narrow { display: block; }
+  .sec--paper .map__wrap { display: none; }
+  .only-map { display: none; }
+}
 
 /* 모션 최소화 설정: 3D 를 켜지 않고 가로로 훑는 평범한 목록으로 둔다. */
 .cover.is-plain .cover__frame { overflow-x: auto; scroll-snap-type: x mandatory; perspective: none; }

@@ -297,7 +297,18 @@
       return Object.keys(count).length;
     }
 
+    /* 구 개수는 핀 좌표가 어느 구 도형 안에 있는지(isPointInFill)로 센다.
+       그런데 그 판정은 화면에 그려져 있을 때만 답을 준다 — 좁은 화면에서
+       지도를 display:none 으로 감추면 전부 '바깥'이 되어 0개 구가 된다.
+       재는 동안만 잠깐 되살린다. 그 사이 화면은 그려지지 않으므로(한 번의
+       동기 실행) 사용자에게는 보이지 않는다. display:none 을 유지해야
+       숨은 지도의 핀들이 키보드 탭 순서에 끼어들지 않는다. */
+    const mapWrap = $("[data-map-wrap]");
+    const 숨어있음 = mapWrap && getComputedStyle(mapWrap).display === "none";
+    if (숨어있음) mapWrap.style.display = "block";
     const covered = shadeDistricts();
+    if (숨어있음) mapWrap.style.removeProperty("display");
+
     const guCount = $("[data-gu-count]");
     if (guCount) guCount.textContent = covered;
 
