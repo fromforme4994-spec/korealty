@@ -185,6 +185,19 @@
     if (performance.now() < 클릭막기) { e.preventDefault(); e.stopPropagation(); }
   }, true);
 
+  /* 옆 카드를 누르면 그 카드가 가운데로 온다. 마우스로는 끌기보다 클릭이
+     자연스럽고, 옆 카드는 기울어져 있어 사진을 보려고 누른 것이 아니다.
+     가운데 카드를 눌렀을 때만 사진을 크게 연다(그건 그대로 통과시킨다). */
+  frame.addEventListener("click", function (e) {
+    var card = e.target.closest(".cover__card");
+    if (!card) return;
+    var i = 카드들.indexOf(card);
+    if (i < 0 || i === 고름) return;
+    e.preventDefault();
+    e.stopPropagation();   // main.js 의 사진 모달까지 가지 않게 여기서 끊는다
+    이동(i);
+  });
+
   frame.addEventListener("pointerup", 놓기);
   frame.addEventListener("pointercancel", 놓기);
 

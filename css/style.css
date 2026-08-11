@@ -1045,7 +1045,12 @@ html.intro-pending .hero__in > * {
   height: calc(var(--cover-card) * 0.625);   /* 현장 사진이 16:10 */
   transform-style: preserve-3d;
   user-select: none;
+  /* 옆 카드는 Z축으로 물러나 있는데 이 트랙은 z=0 평면이라, 그대로 두면
+     트랙이 물러난 카드 앞을 가로막아 클릭이 카드까지 닿지 않는다(가운데
+     카드만 눌렸던 이유). 트랙은 통과시키고 카드만 받는다. */
+  pointer-events: none;
 }
+.cover__card { pointer-events: auto; }
 .cover__card {
   position: absolute;
   left: 50%; top: 0;
