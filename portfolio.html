@@ -22,7 +22,7 @@
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png?v=def091a5">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png?v=a17d6f32">
-<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Pretendard-Bold.woff2?v=1750bf75" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Pretendard-Bold.woff2?v=fb03898d" crossorigin>
 <script>document.documentElement.classList.add("js")</script>
 <link rel="stylesheet" href="css/style.css">
 
@@ -66,6 +66,10 @@
         <h1 class="h-section">프로젝트 현황</h1>
         <p class="lede">서울 25개 자치구 가운데 <b data-gu-count>10</b>개 구에서 20개 현장을 수행했습니다. 나머지 8개는 포항에서 보령까지 분포합니다.</p>
       </div>
+
+      <!-- 대표 현장. 숫자는 js/data.js 의 NO. 다 — 이름 · 사진 · 위치를 거기서
+           끌어오므로 실적을 고치면 여기도 같이 따라온다. js/cover.js 가 그린다. -->
+      <div class="rise" data-cover="1,2,3,13,18,19"></div>
 
       <div class="map__wrap rise" data-map-wrap>
         <div class="map" data-map></div>
@@ -618,5 +622,6 @@
 <script src="js/map.js"></script>
 <script src="js/main.js"></script>
 <script src="js/portfolio-map.js" defer></script>
+<script src="js/cover.js" defer></script>
 </body>
 </html>

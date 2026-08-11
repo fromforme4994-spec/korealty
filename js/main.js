@@ -445,6 +445,15 @@
       openModal(p);
     });
 
+    /* 실적 목록 밖(대표 현장 커버플로우)에서도 같은 사진 모달을 연다.
+       목록은 필터를 걸면 다시 그려지므로, 그 바깥 요소는 여기서 따로 받는다. */
+    document.addEventListener("click", (e) => {
+      const el = e.target.closest("[data-proj-open]");
+      if (!el) return;
+      const p = PROJECTS.find((x) => x.no === Number(el.dataset.projOpen));
+      if (p) openModal(p);
+    });
+
     modal.addEventListener("click", (e) => {
       if (e.target.closest("[data-proj-close]")) closeModal();
     });

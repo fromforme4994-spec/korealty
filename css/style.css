@@ -8,13 +8,13 @@
 
 /* 200·300 은 히어로의 굵기 대비(가는 첫 줄 ↔ 굵은 둘째 줄)에만 쓴다.
    본문에는 쓰지 않는다 — 작은 글씨에서 가늘면 대비가 떨어진다. */
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=1750bf75") format("woff2"); font-weight: 200; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=1750bf75") format("woff2");      font-weight: 300; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=1750bf75") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=1750bf75") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=1750bf75") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=1750bf75") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=1750bf75") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=fb03898d") format("woff2"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=fb03898d") format("woff2");      font-weight: 300; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=fb03898d") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=fb03898d") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=fb03898d") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=fb03898d") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=fb03898d") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -1019,6 +1019,76 @@ html.intro-pending .hero__in > * {
 }
 .svc .svc__line::before { content: "“"; }
 .svc .svc__line::after  { content: "”"; }
+
+/* ---------- 대표 현장 커버플로우 (실적 페이지 위쪽) ----------
+   스펙 목록이 답하지 못하는 것 — "그래서 어떻게 생겼는가" — 만 맡는다.
+   목록·필터·지도는 아래에 그대로 있다. */
+.cover {
+  --cover-card: clamp(230px, 64vw, 360px);
+  margin-bottom: clamp(36px, 5vw, 60px);
+}
+.cover__frame {
+  perspective: calc(var(--cover-card) * 3);
+  overflow: hidden;
+  padding: 26px 0;              /* 카드 그림자가 잘리지 않게 */
+  cursor: grab;
+  outline: none;
+  /* 가로 끌기는 우리가 받고, 세로 스크롤은 페이지에 넘긴다. 이게 없으면
+     모바일에서 카드를 넘기려다 페이지가 같이 움직인다. */
+  touch-action: pan-y;
+}
+.cover__frame:active { cursor: grabbing; }
+.cover__frame:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; border-radius: 10px; }
+
+.cover__track {
+  position: relative;
+  height: calc(var(--cover-card) * 0.625);   /* 현장 사진이 16:10 */
+  transform-style: preserve-3d;
+  user-select: none;
+}
+.cover__card {
+  position: absolute;
+  left: 50%; top: 0;
+  width: var(--cover-card);
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--paper);
+  box-shadow: 0 18px 44px rgba(27, 43, 53, .3);
+  cursor: pointer;
+  will-change: transform;
+}
+.cover__card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;   /* 끌 때 브라우저 기본 이미지 드래그가 끼어들지 않게 */
+}
+
+.cover__cap { margin: 20px 0 0; text-align: center; }
+.cover__name { display: block; font-size: 17px; font-weight: 700; color: var(--navy); }
+.cover__loc { display: block; margin-top: 5px; font-size: 13px; color: #5C6C77; }
+
+.cover__dots { display: flex; justify-content: center; gap: 9px; margin-top: 16px; }
+.cover__dot {
+  width: 8px; height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--navy);
+  opacity: .22;
+  cursor: pointer;
+  transition: opacity .2s var(--ease);
+}
+.cover__dot[aria-selected="true"] { opacity: 1; }
+
+/* 모션 최소화 설정: 3D 를 켜지 않고 가로로 훑는 평범한 목록으로 둔다. */
+.cover.is-plain .cover__frame { overflow-x: auto; scroll-snap-type: x mandatory; perspective: none; }
+.cover.is-plain .cover__track { display: flex; gap: 14px; height: auto; }
+.cover.is-plain .cover__card { position: static; flex: none; scroll-snap-align: center; }
+.cover.is-plain .cover__dots { display: none; }
 
 /* Project card — spec sheet, not a photo frame */
 .proj {
