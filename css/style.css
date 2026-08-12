@@ -8,13 +8,13 @@
 
 /* 200·300 은 히어로의 굵기 대비(가는 첫 줄 ↔ 굵은 둘째 줄)에만 쓴다.
    본문에는 쓰지 않는다 — 작은 글씨에서 가늘면 대비가 떨어진다. */
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=136c3ac0") format("woff2"); font-weight: 200; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=136c3ac0") format("woff2");      font-weight: 300; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=136c3ac0") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=136c3ac0") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=136c3ac0") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=136c3ac0") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=136c3ac0") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=8df834df") format("woff2"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=8df834df") format("woff2");      font-weight: 300; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=8df834df") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=8df834df") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=8df834df") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=8df834df") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=8df834df") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -201,10 +201,27 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 
 .burger { display: none; }
 
+/* 좁은 화면 전용 전화 버튼. 넓은 화면에는 번호가 적힌 .head__call 이 있으므로
+   여기서는 숨긴다(격자에서도 빠진다). */
+.head__tel { display: none; }
+
 @media (max-width: 900px) {
-  /* 메뉴와 전화번호가 빠지므로 격자도 로고 + 햄버거 두 칸으로 줄인다. */
-  .head__in { grid-template-columns: 1fr auto; }
+  /* 좁은 화면에서는 메뉴와 번호 상자가 빠지고, 전화 버튼과 햄버거가 남는다.
+     헤더가 화면 맨 위에 계속 붙어 있으므로(sticky) 스크롤 어디에서든
+     한 번에 전화가 걸린다 — 전에는 햄버거를 열고 문의로 들어가야 했다. */
+  .head__in { grid-template-columns: 1fr auto auto; }
   .nav, .head__call { display: none; }
+  .head__tel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px; height: 44px;   /* 손가락으로 누를 수 있는 최소 크기 */
+    margin-right: 2px;
+    color: var(--navy);
+    border-radius: 50%;
+  }
+  .head__tel svg { width: 21px; height: 21px; }
+  .head__tel:active { background: var(--paper); }
   .nav.is-open {
     display: flex;
     /* 격자 안에서 절대배치하면 가운데 칸 폭에 갇힌다. 전체 열을 차지하게 해
@@ -1504,6 +1521,41 @@ html.intro-pending .hero__in > * {
 .foot__links a:hover { color: var(--white); }
 .foot__bot { padding-top: 28px; display: flex; flex-wrap: wrap; gap: 8px 24px; }
 .foot b { color: rgba(255,255,255,.85); font-weight: 600; }
+
+/* ---------- 맨 위로 ----------
+   실적 페이지는 5,700px 이라 아래에서 위로 돌아갈 방법이 없었다.
+   화면에 고정되는 것은 헤더와 이 버튼 둘뿐이니, 본문을 가리지 않게
+   오른쪽 아래 구석에만 둔다. z-index 는 사진 모달(100)보다 낮춰
+   모달이 열리면 그 뒤로 가려지게 한다. */
+.to-top {
+  position: fixed;
+  right: 20px; bottom: 20px;
+  z-index: 70;
+  width: 48px; height: 48px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--white);
+  box-shadow: 0 8px 24px rgba(27, 43, 53, .28);
+  cursor: pointer;
+  /* 처음에는 없는 셈 친다. visibility 까지 꺼야 보이지 않는 동안
+     손가락·마우스가 걸리지 않는다. */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease), visibility .25s;
+}
+.to-top.is-on { opacity: 1; visibility: visible; transform: none; }
+.to-top:hover { background: var(--navy-deep); }
+.to-top svg { width: 22px; height: 22px; }
+@media (max-width: 720px) {
+  /* 아이폰 홈 인디케이터에 걸치지 않게 한 뼘 띄운다. */
+  .to-top { right: 14px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (prefers-reduced-motion: reduce) { .to-top { transition: none; } }
 
 /* ---------- Reveal ---------- */
 

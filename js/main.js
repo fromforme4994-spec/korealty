@@ -542,4 +542,37 @@
       }
     });
   }
+
+  /* ---------- 맨 위로 ----------
+     페이지가 길어(실적은 5,700px) 아래에서 위로 돌아갈 방법이 없었다.
+     여섯 페이지에 같은 마크업을 붙이지 않고 여기서 한 번 만들어 붙인다.
+     스크롤은 rAF 로 한 번만 읽는다 — 스크롤 이벤트마다 위치를 물으면
+     그때마다 배치 계산이 일어나 손가락이 무거워진다. */
+  (function () {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "to-top";
+    btn.setAttribute("aria-label", "맨 위로");
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+    document.body.appendChild(btn);
+
+    const 부드럽게 = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    btn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: 부드럽게 ? "smooth" : "auto" });
+    });
+
+    let 대기 = false;
+    const 보이기 = () => {
+      대기 = false;
+      btn.classList.toggle("is-on", window.scrollY > 600);
+    };
+    window.addEventListener("scroll", () => {
+      if (대기) return;
+      대기 = true;
+      requestAnimationFrame(보이기);
+    }, { passive: true });
+    보이기();
+  })();
 })();
