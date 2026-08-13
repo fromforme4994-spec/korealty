@@ -8,13 +8,13 @@
 
 /* 200·300 은 히어로의 굵기 대비(가는 첫 줄 ↔ 굵은 둘째 줄)에만 쓴다.
    본문에는 쓰지 않는다 — 작은 글씨에서 가늘면 대비가 떨어진다. */
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=8df834df") format("woff2"); font-weight: 200; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=8df834df") format("woff2");      font-weight: 300; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=8df834df") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=8df834df") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=8df834df") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=8df834df") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=8df834df") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=b0ee63ec") format("woff2"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=b0ee63ec") format("woff2");      font-weight: 300; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=b0ee63ec") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=b0ee63ec") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=b0ee63ec") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=b0ee63ec") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=b0ee63ec") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -508,7 +508,9 @@ html.intro-pending .hero__in > * {
   color: rgba(255,255,255,.72);
 }
 .hero .hero__cta { margin-top: clamp(28px, 4.5vh, 48px); gap: 14px; }
-.hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+/* 버튼을 나란히 놓는 자리. 히어로와 404 가 같은 모양을 쓴다 — 404 에는
+   히어로가 없으므로 히어로용 이름을 빌려 쓰지 않는다. */
+.hero__cta, .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
 
 /* 히어로의 버튼만 조금 더 크고 여유 있게. 배경이 영상이라 유령 버튼은
    테두리만으로는 약해서, 아주 옅은 유리판을 깔아 형태를 잡아준다. */
