@@ -21,6 +21,10 @@
   --navy-deep:  #1B2B35;
   --navy-soft:  #3B5566;
   --red:        #E23D2C;
+  /* 글자용 빨강. CI 레드는 흰 배경에서 4.25:1 이라 15px 글자 기준(4.5)에
+     못 미친다. 눈으로는 거의 같고 5.01:1 로 기준을 넘는 값을 따로 둔다.
+     선 · 아이콘 같은 그래픽에는 CI 레드를 그대로 쓴다. */
+  --red-ink:    #D0341F;
   --gray:       #95A3AB;
   --gray-line:  #DDE3E7;
   --paper:      #F3F5F6;
@@ -175,14 +179,20 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   color: var(--navy);
   transition: background .2s var(--ease), box-shadow .2s var(--ease);
 }
+/* 마우스를 올리면 글자만 빨강으로 바뀐다. 배경 알약은 지금 그대로 둔다.
+   hover:hover 로 감싸는 이유 — 터치 기기에서는 탭한 뒤 :hover 가 그대로
+   눌어붙어, 손을 뗀 뒤에도 한 항목만 계속 빨갛게 남는다. */
 .nav a:hover { background: rgba(255, 255, 255, .55); }
+@media (hover: hover) {
+  .nav a:hover { color: var(--red-ink); }
+}
 .nav a[aria-current="page"] {
   background: var(--white);
   box-shadow: 0 1px 3px rgba(27, 43, 53, .16), 0 0 0 .5px rgba(27, 43, 53, .06);
 }
 
 /* 지명원 PDF. 페이지 이동이 아니라 문서를 여는 링크라 색으로 구분한다. */
-.nav a.nav__doc { color: var(--red); }
+.nav a.nav__doc { color: var(--red-ink); }
 .nav a.nav__doc svg { width: 13px; height: 13px; margin-left: 5px; vertical-align: -1px; }
 
 .head__call {
