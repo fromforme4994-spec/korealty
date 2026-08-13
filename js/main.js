@@ -33,6 +33,53 @@
     }, { passive: true });
   }
 
+  /* ---------- 메뉴의 움직이는 알약 ----------
+     흰 알약 하나가 마우스를 따라 옮겨 다니고, 손을 떼면 현재 페이지 자리로
+     돌아간다. 항목마다 배경을 켜면 현재 위치 표시와 호버 표시가 동시에 떠서
+     지금 어디에 있는지가 흐려진다.
+
+     좁은 화면(900px 이하)의 메뉴는 세로 목록이라 알약을 쓰지 않는다. 그때는
+     CSS 의 원래 표시(옅은 바탕 + 빨간 세로선)가 그대로 산다. */
+  (function () {
+    const nav = $(".nav");
+    if (!nav) return;
+
+    const 넓은화면 = window.matchMedia("(min-width: 901px)");
+    const links = $$("a", nav);
+    const pill = document.createElement("span");
+    pill.className = "nav__pill";
+    pill.setAttribute("aria-hidden", "true");
+    nav.insertBefore(pill, nav.firstChild);
+
+    const 현재 = () => $('a[aria-current="page"]', nav);
+
+    function 옮기기(el) {
+      if (!넓은화면.matches || !el) { pill.style.opacity = "0"; return; }
+      // offsetLeft/Top 은 .nav 기준이다(.nav 가 position:relative).
+      pill.style.width = el.offsetWidth + "px";
+      pill.style.height = el.offsetHeight + "px";
+      pill.style.transform = `translate(${el.offsetLeft}px, ${el.offsetTop}px)`;
+      pill.style.opacity = "1";
+    }
+
+    const 돌아가기 = () => 옮기기(현재());
+
+    links.forEach((a) => {
+      a.addEventListener("mouseenter", () => 옮기기(a));
+      a.addEventListener("focus", () => 옮기기(a));   // 키보드로 옮겨 다닐 때도 따라온다
+    });
+    nav.addEventListener("mouseleave", 돌아가기);
+    nav.addEventListener("focusout", (e) => {
+      if (!nav.contains(e.relatedTarget)) 돌아가기();
+    });
+
+    /* 폰트가 늦게 오면 글자 폭이 바뀌어 알약이 어긋난다. 다 온 뒤 한 번 더 맞춘다. */
+    돌아가기();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(돌아가기);
+    window.addEventListener("resize", 돌아가기);
+    넓은화면.addEventListener("change", 돌아가기);
+  })();
+
   /* ---------- Scroll reveal ---------- */
   const rise = $$(".rise");
   if (rise.length) {

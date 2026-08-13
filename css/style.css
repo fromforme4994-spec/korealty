@@ -163,6 +163,7 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 /* 아주 옅은 통 위에 현재 페이지만 흰 알약으로 떠오른다.
    색으로 강하게 칠하지 않고 빛과 그림자로만 구분해 헤더를 가볍게 둔다. */
 .nav {
+  position: relative;   /* 아래 알약이 이 안에서 자리를 잡는다 */
   display: flex;
   align-items: center;
   justify-self: center;
@@ -170,6 +171,28 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   padding: 4px 5px;
   background: rgba(41, 62, 75, .05);
   border-radius: 999px;
+}
+
+/* 흰 알약 하나가 커서를 따라 옮겨 다닌다. 항목마다 배경을 따로 켜면
+   현재 페이지의 알약은 그 자리에 멈춰 있고 호버는 다른 알약이 겹쳐 떠서,
+   "무엇이 지금 위치인가"가 흐려진다. 알약은 하나만 두고 움직인다.
+   마우스가 메뉴를 떠나면 현재 페이지 자리로 돌아간다(js/main.js). */
+.nav__pill {
+  position: absolute;
+  left: 0; top: 0;
+  z-index: 0;
+  border-radius: 999px;
+  background: var(--white);
+  box-shadow: 0 1px 3px rgba(27, 43, 53, .16), 0 0 0 .5px rgba(27, 43, 53, .06);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .26s var(--ease), width .26s var(--ease),
+              height .26s var(--ease), opacity .2s var(--ease);
+}
+.nav a { position: relative; z-index: 1; }   /* 글자가 알약 위로 오게 */
+
+@media (prefers-reduced-motion: reduce) {
+  .nav__pill { transition: none; }
 }
 .nav a {
   padding: 8px 15px;
@@ -182,13 +205,20 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
 /* 마우스를 올리면 글자만 빨강으로 바뀐다. 배경 알약은 지금 그대로 둔다.
    hover:hover 로 감싸는 이유 — 터치 기기에서는 탭한 뒤 :hover 가 그대로
    눌어붙어, 손을 뗀 뒤에도 한 항목만 계속 빨갛게 남는다. */
-.nav a:hover { background: rgba(255, 255, 255, .55); }
 @media (hover: hover) {
   .nav a:hover { color: var(--red-ink); }
 }
 .nav a[aria-current="page"] {
   background: var(--white);
   box-shadow: 0 1px 3px rgba(27, 43, 53, .16), 0 0 0 .5px rgba(27, 43, 53, .06);
+}
+/* 배경은 이제 움직이는 알약이 맡는다. 세로로 펼치는 좁은 화면(900px 이하)의
+   메뉴는 알약을 쓰지 않으므로 위 규칙이 그대로 살아 있어야 한다.
+   ⚠ 이 묶음은 반드시 위 기본 규칙보다 뒤에 와야 한다. 특정도가 같아서,
+   앞에 두면 뒤따르는 기본값(흰 배경)에 그대로 덮인다. */
+@media (min-width: 901px) {
+  .nav a:hover { background: transparent; }
+  .nav a[aria-current="page"] { background: transparent; box-shadow: none; }
 }
 
 /* 지명원 PDF. 페이지 이동이 아니라 문서를 여는 링크라 색으로 구분한다. */
