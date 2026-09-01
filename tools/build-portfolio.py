@@ -13,6 +13,7 @@ data.js를 고친 뒤 이 스크립트를 다시 돌리면 HTML이 갱신된다.
 """
 
 import html
+import json
 import re
 import sys
 from pathlib import Path
@@ -28,6 +29,8 @@ COUNT_PAGES = ["index.html", "portfolio.html", "about.html", "404.html"]
 
 BEGIN = "<!-- build-portfolio: 아래는 tools/build-portfolio.py가 생성한다. 직접 고치지 말 것. -->"
 END = "<!-- /build-portfolio -->"
+LD_BEGIN = "<!-- build-portfolio-jsonld: 아래는 tools/build-portfolio.py가 생성한다. 직접 고치지 말 것. -->"
+LD_END = "<!-- /build-portfolio-jsonld -->"
 
 
 def parse_projects(src: str) -> list[dict]:
@@ -78,6 +81,40 @@ def card(p: dict) -> str:
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5 12 5s9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           </div>
         </article>"""
+
+
+def jsonld(projects: list[dict]) -> str:
+    """실적 28건을 ItemList 로 내보낸다.
+
+    화면의 카드와 같은 자료(js/data.js)에서 나오므로 손으로 맞출 것이 없다.
+    각 항목은 Place 다 — 우리가 분양대행을 맡았던 '현장'이라서다. 주소는
+    원문이 한 덩어리 문자열이라 쪼개지 않고 그대로 넣는다(스키마가 허용한다).
+    검색 결과 모양이 바뀌는 종류의 표시는 아니고, 이 페이지가 무엇의 목록인지
+    검색엔진이 알아보게 하는 용도다.
+    """
+    items = []
+    for i, p in enumerate(projects, 1):
+        img = str(p.get("img", "")).split("?")[0]
+        items.append({
+            "@type": "ListItem",
+            "position": i,
+            "item": {
+                "@type": "Place",
+                "name": p["name"],
+                "address": p["loc"],
+                **({"image": f"https://korealty.co.kr/{img}"} if img else {}),
+            },
+        })
+    data = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "분양대행 실적",
+        "numberOfItems": len(projects),
+        "itemListOrder": "https://schema.org/ItemListOrderDescending",
+        "itemListElement": items,
+    }
+    body = json.dumps(data, ensure_ascii=False, indent=1)
+    return f'{LD_BEGIN}\n<script type="application/ld+json">\n{body}\n</script>\n{LD_END}'
 
 
 def sync_counts(total: int, seoul: int) -> list[str]:
@@ -166,8 +203,17 @@ def main() -> None:
             sys.exit("컨테이너가 비어 있지 않은데 생성 마커도 없다. 수동 확인 필요.")
         post = post.lstrip()[len("</div>"):]
         updated = f"{open_tag}{anchor}\n{block}\n      </div>{post}"
+    # 구조화 데이터도 같은 자료에서 만들어 <head> 끝에 넣는다.
+    ld = jsonld(projects)
+    if LD_BEGIN in updated and LD_END in updated:
+        pre, rest = updated.split(LD_BEGIN, 1)
+        _, post = rest.split(LD_END, 1)
+        updated = f"{pre}{ld}{post}"
+    else:
+        updated = updated.replace("</head>", f"{ld}\n</head>", 1)
+
     PAGE.write_text(updated, encoding="utf-8")
-    print(f"portfolio.html에 프로젝트 {len(projects)}건을 써 넣었다.")
+    print(f"portfolio.html에 프로젝트 {len(projects)}건을 써 넣었다(카드 + 구조화 데이터).")
 
     # 서울 건수 = 지도 좌표(SITE_XY)가 있는 현장 수. 화면의 지도 로직과 같은 기준이다.
     m = re.search(r"const SITE_XY\s*=\s*\{(.*?)\n\};", MAPJS.read_text(encoding="utf-8"), re.S)
