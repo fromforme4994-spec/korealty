@@ -469,9 +469,12 @@ html.intro-pending .hero__in > * {
    화면 전체에서 색은 남색 계열 + 이 빨강 하나로 끝난다. */
 /* flex 로 붙이면 안쪽의 <br class="br-narrow">(좁은 화면 줄바꿈)가 죽는다.
    인라인 블록으로 두어야 줄바꿈도 가운데 정렬도 그대로 산다. */
+/* 히어로 eyebrow 는 이 사이트에서 유일하게 한글이다(회사가 무엇을 하는지
+   첫 줄에서 말해야 해서). 대문자 영문에 맞춰 잡은 .3em 자간을 한글에 그대로
+   쓰면 글자가 흩어져 읽기 어렵다. 자간을 줄이고 크기를 조금 키운다. */
 .hero .eyebrow {
-  font-size: 11px;
-  letter-spacing: .3em;
+  font-size: 12px;
+  letter-spacing: .16em;
   margin-bottom: clamp(18px, 3vh, 32px);
 }
 .hero .eyebrow::before {

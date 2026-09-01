@@ -8,7 +8,20 @@
 - `main` 에 push 하면 Vercel 이 배포한다. 별도 명령 없음.
 - `vercel.json` 의 `cleanUrls: true` — `card.html` 을 올리면 주소는 `/card` 다.
 - HTML 은 `max-age=0, must-revalidate` 라 새로고침하면 항상 최신이다.
-  반면 `assets/fonts/` 는 1년 immutable 이다. 아래 폰트 항목을 볼 것.
+
+### 캐시 (vercel.json)
+
+| 대상 | 기간 | 이유 |
+|---|---|---|
+| `assets/fonts/` · `assets/vendor/` | 1년 immutable | 파일명 뒤 `?v=` 로 버전이 바뀐다 |
+| `assets/img/` | 7일 + stale-while-revalidate | 사진을 같은 이름으로 갈아 끼워도 일주일이면 따라잡는다 |
+| `assets/video/` · `assets/docs/` | 30일 | 거의 바뀌지 않고, 무겁다(영상 6.5MB · 지명원 12MB) |
+| `css/` · `js/` | **캐시하지 않음** | 주소에 버전이 없다. 길게 캐시하면 사용자가 옛 코드에 갇힌다 |
+
+**CSS·JS 를 길게 캐시하려면 먼저 주소에 `?v=` 를 붙이는 장치가 있어야 한다.**
+지금은 없으므로 must-revalidate 로 둔다(304 만 오가므로 실제 전송은 없다).
+예전에 `/assets/*` 전체를 1년 immutable 로 돌렸다가, 사진이 없던 시절의 404
+응답까지 1년 박힌 사고가 있었다(js/data.js 주석 참고). 그래서 보수적으로 간다.
 - 배포는 되돌리기 쉽지만 외부에 나가는 일이다. 지시가 없으면 push 전에 확인받는다.
 
 ## 폰트 — 가장 흔한 함정
