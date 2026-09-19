@@ -348,6 +348,12 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   opacity: 0;
 }
 .hero .hero__map.is-on { opacity: 1; }
+/* html.heromap-pending은 첫 페인트 전에(<head> 인라인 스크립트) 이미 걸려
+   있다. 지도가 뜰 환경이라는 뜻이므로, 그 자리를 미리 어둡게 깔아 밝은
+   영상이 한 번 번쩍였다 지도로 바뀌는 깜빡임을 없앤다. defer인
+   hero-map.js의 is-on을 기다리면 이미 늦다. */
+html.heromap-pending .hero .hero__map { opacity: 1; }
+html.heromap-pending .hero__media video { visibility: hidden; }
 /* 배경 지도라 조작 흔적(포커스 외곽선 등)과 출처 표기는 최대한 눈에 안 띄게.
    출처는 OSM 라이선스상 표기 의무가 있어 지우지 않고, 아주 작고 흐리게만 둔다. */
 .hero .hero__map .maplibregl-ctrl-attrib {

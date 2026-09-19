@@ -39,6 +39,22 @@ try {
     setTimeout(function () { document.documentElement.classList.remove("intro-pending"); }, 4000);
   }
 } catch (e) {}
+/* 히어로 3D 지도가 뜰 환경인지도 페인트 전에 미리 판단한다. 지도가 뜰
+   환경이면 영상을 아예 처음부터 감춰야 한다 — js/hero-map.js는 defer라
+   <video autoplay>가 이미 그려진 뒤에 실행되고, 거기서 어두운 층을
+   덮으면 그 사이 밝은 영상이 한 번 번쩍인다. 조건(데스크톱·WebGL)은
+   hero-map.js가 쓰는 것과 같은 값이어야 한다. 지도가 실패하면
+   hero-map.js의 revert()가 이 클래스를 걷어 영상을 되살린다. */
+try {
+  var wide = !window.matchMedia("(max-width: 820px)").matches;
+  var webgl = false;
+  try {
+    var c = document.createElement("canvas");
+    webgl = !!(window.WebGLRenderingContext &&
+      (c.getContext("webgl") || c.getContext("experimental-webgl")));
+  } catch (e) {}
+  if (wide && webgl) document.documentElement.classList.add("heromap-pending");
+} catch (e) {}
 </script>
 <link rel="stylesheet" href="css/style.css">
 <script type="application/ld+json">

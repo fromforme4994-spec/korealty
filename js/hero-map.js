@@ -45,14 +45,17 @@
     });
   }
 
-  /* 처음부터 어두운 지도 층으로 영상을 덮는다. 그래야 밝은 영상이 잠깐 떴다
-     지도로 바뀌는 깜빡임이 없다(실적 지도와 같은 방식). 지도가 실패하면
-     revert()로 층을 걷어 영상이 폴백으로 다시 보인다. */
+  /* 어두운 지도 층은 이미 첫 페인트부터 깔려 있다(<head> 인라인 스크립트가
+     건 html.heromap-pending). 이 파일은 defer라 여기서 덮기 시작하면 이미
+     늦어서 밝은 영상이 한 번 번쩍인다. 여기서는 그 층을 지도 자신의
+     클래스로 넘겨받기만 한다. 지도가 실패하면 revert()로 둘 다 걷어
+     영상이 폴백으로 다시 보인다. */
   var settled = false;
   mapEl.classList.add("is-on");
   function revert() {
     if (settled) return;
     mapEl.classList.remove("is-on");
+    document.documentElement.classList.remove("heromap-pending");
     var v = document.querySelector(".hero video");
     if (v) { try { v.play(); } catch (e) {} }
   }
