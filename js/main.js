@@ -13,6 +13,8 @@
     const setOpen = (open) => {
       nav.classList.toggle("is-open", open);
       burger.setAttribute("aria-expanded", String(open));
+      // 화면낭독기는 이 이름을 읽는다. 열린 뒤에도 "열기"면 거꾸로 안내하게 된다.
+      burger.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
     };
 
     burger.addEventListener("click", () => {

@@ -8,13 +8,13 @@
 
 /* 200·300 은 히어로의 굵기 대비(가는 첫 줄 ↔ 굵은 둘째 줄)에만 쓴다.
    본문에는 쓰지 않는다 — 작은 글씨에서 가늘면 대비가 떨어진다. */
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=1fcec2d1") format("woff2"); font-weight: 200; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=1fcec2d1") format("woff2");      font-weight: 300; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=1fcec2d1") format("woff2");  font-weight: 400; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=1fcec2d1") format("woff2");   font-weight: 500; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=1fcec2d1") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=1fcec2d1") format("woff2");     font-weight: 700; font-display: swap; }
-@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=1fcec2d1") format("woff2");    font-weight: 900; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-ExtraLight.woff2?v=ff42c8d3") format("woff2"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Light.woff2?v=ff42c8d3") format("woff2");      font-weight: 300; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Regular.woff2?v=ff42c8d3") format("woff2");  font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Medium.woff2?v=ff42c8d3") format("woff2");   font-weight: 500; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-SemiBold.woff2?v=ff42c8d3") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Bold.woff2?v=ff42c8d3") format("woff2");     font-weight: 700; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("../assets/fonts/Pretendard-Black.woff2?v=ff42c8d3") format("woff2");    font-weight: 900; font-display: swap; }
 
 :root {
   --navy:       #293E4B;
@@ -83,6 +83,23 @@ a { color: inherit; text-decoration: none; }
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* 본문 바로가기. 키보드로 들어온 사람이 매 페이지 메뉴 여섯 개를 다 지나지
+   않고 본문으로 건너뛰게 한다. Tab으로 초점이 올 때만 화면에 나타난다. */
+.skip {
+  position: absolute;
+  left: 16px; top: -80px;
+  z-index: 100;
+  padding: 12px 18px;
+  border-radius: 6px;
+  background: var(--navy-deep);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+}
+.skip:focus { top: 12px; }
+/* 헤더가 위에 붙어 다니므로(sticky) 그 높이만큼 비워야 본문 첫 줄이 안 가린다. */
+main { scroll-margin-top: 80px; }
 
 /* ---------- Type scale ---------- */
 
@@ -340,24 +357,23 @@ h1, h2, h3 { margin: 0; font-weight: 900; letter-spacing: -.02em; line-height: 1
   object-fit: cover;
   filter: saturate(.42) contrast(1.06) brightness(.88);
 }
-/* 3D 지도 층. 기본은 숨김(영상이 보임). 지도가 다 뜨면 is-on으로 서서히 나타나
-   영상을 덮는다. 지도가 실패하면 계속 숨은 채라 영상이 폴백으로 남는다.
+/* 3D 지도 층. 기본은 숨김(영상이 보임).
    ⚠ MapLibre가 컨테이너에 .maplibregl-map(position:relative)을 붙여, 나중에 로드되는
    그 CSS가 같은 특정도의 .hero__map을 덮어써 높이가 0으로 찌그러진다. 그래서 반드시
    더 높은 특정도(.hero .hero__map)로 절대배치를 고정해야 한다. */
 .hero .hero__map {
   position: absolute; inset: 0;
-  /* 불투명한 어두운 바닥. 처음부터(is-on) 이 층이 영상을 덮어, 밝은 영상이
-     잠깐 떴다 지도로 바뀌는 깜빡임이 없다. 페이드 없이 즉시 어둡게 덮는다.
-     지도가 실패하면 is-on이 걷혀(opacity 0) 영상이 폴백으로 다시 보인다. */
+  /* 불투명한 어두운 바닥. 타일이 오기 전에도 이 색이 깔려 있어, 지도가
+     빈 화면에서 갑자기 나타나지 않고 어두운 바탕 위에 건물이 채워진다. */
   background: var(--navy-deep);
   opacity: 0;
 }
 .hero .hero__map.is-on { opacity: 1; }
 /* html.heromap-pending은 첫 페인트 전에(<head> 인라인 스크립트) 이미 걸려
-   있다. 지도가 뜰 환경이라는 뜻이므로, 그 자리를 미리 어둡게 깔아 밝은
-   영상이 한 번 번쩍였다 지도로 바뀌는 깜빡임을 없앤다. defer인
-   hero-map.js의 is-on을 기다리면 이미 늦다. */
+   있다. "이 화면은 지도로 간다"는 뜻이라, 그 자리를 처음부터 어둡게 깐다.
+   이 상태에서는 영상에 주소가 붙지 않는다(index.html). 아래 visibility는
+   그 약속이 깨졌을 때를 위한 이중 잠금이다. 지도가 실패하면 hero-map.js의
+   revert()가 이 클래스를 걷고 영상을 붙인다. */
 html.heromap-pending .hero .hero__map { opacity: 1; }
 html.heromap-pending .hero__media video { visibility: hidden; }
 /* 배경 지도라 조작 흔적(포커스 외곽선 등)과 출처 표기는 최대한 눈에 안 띄게.
@@ -785,6 +801,37 @@ html.intro-pending .hero__in > * {
   .scope__wrap { border-radius: 8px; overflow: hidden; box-shadow: 0 16px 40px rgba(27,43,53,.16); }
   .pin { display: none; }
   .scope__tabs { bottom: 20px; }
+}
+/* 태블릿 가로·작은 노트북 폭. 사진이 좁아져 떠 있는 카드가 핀 3·4번을
+   덮는다(눌러도 카드가 받는다). 이 구간에서만 카드를 사진 아래로 내려
+   핀을 전부 드러낸다. 카드가 가로로 길어지므로 설명과 흐름을 두 칸으로 나눈다.
+   1200px부터는 카드가 핀을 가리지 않아 원래대로 사진 위에 뜬다. */
+@media (min-width: 861px) and (max-width: 1199px) {
+  .scope__wrap { border-radius: 8px; overflow: hidden; box-shadow: 0 16px 40px rgba(27,43,53,.16); }
+  /* 사진이 낮아지면 맨 아래 핀(4번)이 탭 줄에 반쯤 깔린다. 탭을 바닥 쪽으로
+     붙이고, 더 좁은 폭에서는 사진을 세로로 조금 늘려 사이를 벌린다. */
+  .scope__tabs { bottom: 12px; }
+  .scope__card {
+    position: static;
+    width: auto;
+    border-radius: 0 0 8px 8px;
+    box-shadow: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto 1fr;
+    column-gap: 48px;
+  }
+  .scope__card .h-card, .scope__card p, .scope__cost { grid-column: 1; }
+  .scope__cost { align-self: end; }
+  .scope__flow {
+    grid-column: 2; grid-row: 1 / -1;
+    margin: 0; padding: 0 0 0 48px;
+    border-top: 0; border-left: 1px solid var(--gray-line);
+    align-content: start;
+  }
+}
+@media (min-width: 861px) and (max-width: 1000px) {
+  .scope { aspect-ratio: 4 / 3; }
 }
 
 /* ============================================================
